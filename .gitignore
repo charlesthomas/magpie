@@ -50,6 +50,3 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
-
-bootstrap.min.css
-bootstrap.min.js

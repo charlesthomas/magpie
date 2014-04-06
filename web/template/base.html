@@ -4,13 +4,16 @@
 <title>{% block title %}{% end block %} :: clevernote</title>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
 </script>
-<script src="{{ static_url("bootstrap.min.js") }}"></script>
-<link rel=stylesheet href="{{ static_url("bootstrap.min.css") }}" />
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
+</script>
+<link rel=stylesheet
+href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
 </head>
 
 <body>
 <br>
 <ul class='nav nav-tabs'>
+<li><a href=#>+ New Notebook +</a>
 {% for notebook in notebooks %}
   {% if notebook != '.git' %}
   <li
@@ -24,6 +27,7 @@
 <br>
 <div class='col-md-2'>
   <ul class='nav nav-pills nav-stacked'>
+  <li><a href=#>+ New Note +</a></li>
   {% for note in notes %}
     <li
     {% if note == note_name %}

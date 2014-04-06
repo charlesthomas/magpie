@@ -7,15 +7,20 @@ from base import BaseHandler
 
 class NoteHandler(BaseHandler):
     def get(self, notebook_name, note_name):
-        edit = self.get_argument('edit', False)
-        path = join(self.settings.repo_root, notebook_name, note_name)
-        note_contents = open(path).read()
-        if not edit:
-            note_contents = note_contents.replace('[ ]', '<input type=checkbox>')
-            note_contents = note_contents.replace('[x]', '<input type=checkbox checked=true>')
-            note_contents = markdown(note_contents)
-        self.render('note.html', notebook_name=notebook_name,
-                    note_name=note_name, note_contents=note_contents, edit=edit)
+        delete = self.get_argument('delete', False)
+        if delete:
+            self.render('delete.html', notebook_name=notebook_name,
+                        note_name=note_name)
+        else:
+            edit = self.get_argument('edit', False)
+            path = join(self.settings.repo_root, notebook_name, note_name)
+            note_contents = open(path).read()
+            if not edit:
+                note_contents = note_contents.replace('[ ]', '<input type=checkbox>')
+                note_contents = note_contents.replace('[x]', '<input type=checkbox checked=true>')
+                note_contents = markdown(note_contents)
+            self.render('note.html', notebook_name=notebook_name,
+                        note_name=note_name, note_contents=note_contents, edit=edit)
 
     def post(self, notebook_name, note_name):
         if bool(self.get_argument('save', False)):
@@ -31,3 +36,13 @@ class NoteHandler(BaseHandler):
                 if 'nothing to commit' not in e.message:
                     raise
         self.redirect(note_name)
+
+    def delete(self, notebook_name, note_name):
+        # TODO apparently method=DELETE in html form doesn't call this method
+        # have to rethink deleting / confirmation
+        delete = self.get_argument('delete', False)
+        if delete:
+            path = join(self.settings.repo_root, notebook_name, note_name)
+            self.application.git.remove(path)
+            self.application.git.commit('-m', 'removing %s' % path)
+        self.redirect('/' + notebook_name)
