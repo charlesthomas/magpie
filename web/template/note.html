@@ -1,0 +1,21 @@
+{% extends base.html %}
+{% block title %}{{ title }}{% end block %}
+
+{% block body %}
+  {% if edit %}
+    <br>
+    <form method=POST>
+    <input type=submit class="btn btn-success" value=Save name=save>
+    <input type=submit class="btn btn-danger" value=Cancel name=cancel>
+    <br>
+    <br>
+    <textarea cols=150 rows=25 name=note>{{ note }}</textarea>
+  {% else %}
+    <br>
+    <button class="btn btn-primary" onclick="window.location='{{ title }}?edit=True'">
+    Edit</button>
+    <br>
+    <br>
+    {% raw note %}
+  {% end if %}
+{% end block %}
