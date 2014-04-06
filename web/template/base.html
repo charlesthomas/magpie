@@ -7,8 +7,24 @@
 
 <body>
 <div class=container>
-{% block body %}
-{% end block %}
+  <div class=row>
+    <div class=col-md-2>
+        {% for notebook in notebooks %}
+          {% if notebook != '.git' %}
+            <a href=#>{{ notebook }}</a><br>
+          {% end if %}
+        {% end for %}
+    </div>
+    <div class=col-md-2>
+        {% for note in notes %}
+          <a href=/{{ notebook }}/{{ note }}>{{ note }}</a><br>
+        {% end for %}
+    </div>
+    <div class=col-md-8>
+    {% block body %}
+    {% end block %}
+    </div>
+  </div>
 </div>
 </body>
 </html>

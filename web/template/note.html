@@ -1,5 +1,5 @@
 {% extends base.html %}
-{% block title %}{{ title }}{% end block %}
+{% block title %}{{ note_name }}{% end block %}
 
 {% block body %}
   {% if edit %}
@@ -9,13 +9,13 @@
     <input type=submit class="btn btn-danger" value=Cancel name=cancel>
     <br>
     <br>
-    <textarea cols=150 rows=25 name=note>{{ note }}</textarea>
+    <textarea cols=100 rows=25 name=note>{{ note_contents }}</textarea>
   {% else %}
     <br>
-    <button class="btn btn-primary" onclick="window.location='{{ title }}?edit=True'">
+    <button class="btn btn-primary" onclick="window.location='{{ note_name }}?edit=True'">
     Edit</button>
     <br>
     <br>
-    {% raw note %}
+    {% raw note_contents %}
   {% end if %}
 {% end block %}

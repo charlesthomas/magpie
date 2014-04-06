@@ -1,32 +1,33 @@
-import logging
 from os.path import join
-from pprint import pformat
 
 from markdown2 import markdown
+from sh import ErrorReturnCode_1
 
 from base import BaseHandler
 
 class NoteHandler(BaseHandler):
-    def get(self, dirname, filename):
-        logging.info('dirname: %s' % dirname)
-        logging.info('filename: %s' % filename)
+    def get(self, notebook, note_name):
         edit = self.get_argument('edit', False)
-        path = join(self.settings.repo_root, dirname, filename)
-        note = open(path).read()
+        path = join(self.settings.repo_root, notebook, note_name)
+        note_contents = open(path).read()
         if not edit:
-            note = note.replace('[ ]', '<input type=checkbox>')
-            note = note.replace('[x]', '<input type=checkbox checked=true>')
-            note = markdown(note)
-        self.render('note.html', title=filename, note=note, edit=edit)
+            note_contents = note_contents.replace('[ ]', '<input type=checkbox>')
+            note_contents = note_contents.replace('[x]', '<input type=checkbox checked=true>')
+            note_contents = markdown(note_contents)
+        self.render('note.html', notebook=notebook, note_name=note_name,
+                    note_contents=note_contents, edit=edit)
 
-    def post(self, dirname, filename):
+    def post(self, notebook, note_name):
         if bool(self.get_argument('save', False)):
-            path = join(self.settings.repo_root, dirname, filename)
+            path = join(self.settings.repo_root, notebook, note_name)
             f = open(path, 'w')
             f.write(self.get_argument('note'))
             f.close()
 
             self.application.git.add(path)
-            # TODO this freaks out if there weren't any changes (add a try/except)
-            self.application.git.commit('-m', 'updating %s' % path)
-        self.redirect(filename)
+            try:
+                self.application.git.commit('-m', 'updating %s' % path)
+            except ErrorReturnCode_1 as e:
+                if 'nothing to commit' not in e.message:
+                    raise
+        self.redirect(note_name)
