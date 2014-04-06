@@ -1,0 +1,18 @@
+{% extends base.html %}
+{% block title %}
+{% if notebook_name is None %}
+  Home
+{% else %}
+  {{ notebook_name }}
+{% end if %}
+{% end block %}
+
+{% block body %}
+  {% for note_name in notebook_contents %}
+    {% if notebook_name is None %}
+      <a href=/{{ note_name }}>{{ note_name }}</a><br>
+    {% else %}
+      <a href=/{{ notebook_name }}/{{ note_name }}>{{ note_name }}</a><br>
+    {% end if %}
+  {% end for %}
+{% end block %}

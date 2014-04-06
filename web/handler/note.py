@@ -3,9 +3,11 @@ from os.path import join
 from markdown2 import markdown
 from sh import ErrorReturnCode_1
 
-from base import BaseHandler
+from tornado.web import RequestHandler
+# from base import BaseHandler
 
-class NoteHandler(BaseHandler):
+# class NoteHandler(BaseHandler):
+class NoteHandler(RequestHandler):
     def get(self, notebook, note_name):
         edit = self.get_argument('edit', False)
         path = join(self.settings.repo_root, notebook, note_name)
