@@ -52,3 +52,4 @@ coverage.xml
 docs/_build/
 
 bootstrap.min.css
+bootstrap.min.js

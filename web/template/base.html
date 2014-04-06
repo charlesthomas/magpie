@@ -2,10 +2,37 @@
 <html>
 <head>
 <title>{% block title %}{% end block %} :: clevernote</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+</script>
+<script src="{{ static_url("bootstrap.min.js") }}"></script>
 <link rel=stylesheet href="{{ static_url("bootstrap.min.css") }}" />
 </head>
 
 <body>
+<br>
+<ul class='nav nav-tabs'>
+{% for notebook in notebooks %}
+  {% if notebook != '.git' %}
+  <li
+  {% if notebook_name == notebook %}
+    class=active
+  {% end if %}
+  ><a href=/{{ notebook }}>{{ notebook }}</a></li>
+  {% end if %}
+{% end for %}
+</ul>
+<br>
+<div class='col-md-2'>
+  <ul class='nav nav-pills nav-stacked'>
+  {% for note in notes %}
+    <li
+    {% if note == note_name %}
+      class=active
+    {% end if %}
+    ><a href=/{{ notebook_name}}/{{ note }}>{{ note }}</a></li>
+  {% end for %}
+  </ul>
+</div>
 <div class=container>
   <div class=row>
     <div class='col-md-10'>
