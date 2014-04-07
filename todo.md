@@ -8,7 +8,9 @@
 
 
 ### ``web/handler/note.py``
-(line 34) this should say "creating" if 'note' == ''
+(line 9) need to escape strings, b/c somewhere, spaces are breaking stuff
+
+(line 35) this should say "creating" if 'note' == ''
 
 
 ### ``web/server.py``

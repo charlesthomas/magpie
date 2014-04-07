@@ -6,6 +6,7 @@ from sh import ErrorReturnCode_1
 from base import BaseHandler
 
 class NoteHandler(BaseHandler):
+    # TODO need to escape strings, b/c somewhere, spaces are breaking stuff
     def get(self, notebook_name, note_name):
         delete = self.get_argument('delete', False)
         if delete:
