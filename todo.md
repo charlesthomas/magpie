@@ -7,10 +7,6 @@
 (line 11) get rid of control chars
 
 
-### ``web/handler/note.py``
-(line 41) apparently method=DELETE in html form doesn't call this method
-
-
 ### ``web/server.py``
 (line 26) this should be a file, not cli options
 

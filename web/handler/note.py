@@ -35,14 +35,12 @@ class NoteHandler(BaseHandler):
             except ErrorReturnCode_1 as e:
                 if 'nothing to commit' not in e.message:
                     raise
-        self.redirect(note_name)
+            self.redirect(note_name)
 
-    def delete(self, notebook_name, note_name):
-        # TODO apparently method=DELETE in html form doesn't call this method
-        # have to rethink deleting / confirmation
-        delete = self.get_argument('delete', False)
-        if delete:
+        elif bool(self.get_argument('delete', False)):
             path = join(self.settings.repo_root, notebook_name, note_name)
-            self.application.git.remove(path)
+            self.application.git.rm(path)
             self.application.git.commit('-m', 'removing %s' % path)
-        self.redirect('/' + notebook_name)
+            self.redirect('/' + notebook_name)
+        else:
+            self.redirect(note_name)
