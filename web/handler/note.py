@@ -31,6 +31,7 @@ class NoteHandler(BaseHandler):
 
             self.application.git.add(path)
             try:
+                # TODO this should say "creating" if 'note' == ''
                 self.application.git.commit('-m', 'updating %s' % path)
             except ErrorReturnCode_1 as e:
                 if 'nothing to commit' not in e.message:

@@ -13,7 +13,22 @@ href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
 <body>
 <br>
 <ul class='nav nav-tabs'>
-<li><a href=#>+ New Notebook +</a>
+<!-- new notebook button exposes new notebook form -->
+<li><a href=# onclick="document.getElementById('new_notebook_form').className=''">
++ New Notebook +</a></li>
+<!-- hidden new notebook form -->
+<li class=hidden id=new_notebook_form><a href=#>
+<input type=text name=new_notebook_name id=new_notebook_name>
+<input
+onclick="var new_notebook='/'+document.getElementById('new_notebook_name').value
+$.post(new_notebook).done(window.location=new_notebook)"
+type=button class='btn btn-primary' value=Create>
+<input type=button class='btn btn-danger' value=Cancel
+onclick="this.parentElement.className='hidden'">
+<!-- TODO this causes the newbook note button to not work again until a page refresh -->
+</a></li>
+
+<!-- iterate though existing notebooks -->
 {% for notebook in notebooks %}
   {% if notebook != '.git' %}
   <li
@@ -27,7 +42,20 @@ href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
 <br>
 <div class='col-md-2'>
   <ul class='nav nav-pills nav-stacked'>
-  <li><a href=#>+ New Note +</a></li>
+  <!-- new note button exposes new note form -->
+  <li><a href=# onclick="document.getElementById('new_note_form').className=''">
+  + New Note +</a></li>
+  <!-- hidden note form -->
+  <li class=hidden id=new_note_form><a href=#>
+  <input type=text name=new_note_name id=new_note_name><br><br>
+  <input type=button class='btn btn-primary' value=Create
+  onclick="var new_note='/{{ notebook_name }}/'+document.getElementById('new_note_name').value
+  $.post(new_note,data={'save': true, 'note': ''}).done(window.location=new_note)">
+  <input type=button class='btn btn-danger' value=Cancel id=cancel
+  onclick="this.parentElement.className='hidden'"></a></li>
+  <!-- TODO this causes the new note button to not work again until a page refresh -->
+
+  <!-- iterate through existing notes -->
   {% for note in notes %}
     <li
     {% if note == note_name %}

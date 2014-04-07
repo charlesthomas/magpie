@@ -1,4 +1,4 @@
-from os import listdir
+from os import listdir, makedirs
 from os.path import join
 
 from base import BaseHandler
@@ -16,3 +16,8 @@ class NotebookHandler(BaseHandler):
             notebook_contents.remove('.git')
         self.render('notebook.html', notebook_name=notebook_name,
                     note_name=None, notebook_contents=notebook_contents)
+
+    def post(self, notebook_name):
+        path = join(self.settings.repo_root, notebook_name)
+        makedirs(path)
+        self.finish()

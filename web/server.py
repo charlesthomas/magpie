@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 import logging
-from copy import deepcopy
 from os import path
 
 from sh import git
 from tornado.ioloop import IOLoop
-from tornado.options import define, options, parse_command_line
+from tornado.options import define, options, parse_config_file
 from tornado.web import Application
 
 from handler import urls
@@ -23,13 +22,17 @@ template_path = path.join(root, 'template')
 app_config = dict(static_path=static_path,
                   template_path=template_path)
 
-# TODO this should be a file, not cli options
 # TODO add username/password
 # TODO have default username/password in config file, create reset-password functionality
 define('port', default='8080', type=int)
 define('testing', default=False, type=bool)
 define('repo', default=None, type=str)
-parse_command_line()
+try:
+    parse_config_file(path.join(root, 'clevernote.cfg'))
+except IOError:
+    raise Exception('clevernote.cfg file is REQUIRED\nTry renaming '
+                    'clevernote_example.cfg to clevernote.cfg and editing it '
+                    'as appropriate')
 
 assert options.repo is not None, "--repo is required!"
 
