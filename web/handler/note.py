@@ -17,11 +17,15 @@ class NoteHandler(BaseHandler):
             path = join(self.settings.repo_root, notebook_name, note_name)
             note_contents = open(path).read()
             if not edit:
+                note_contents = markdown(note_contents)
+                highlight = self.get_argument('hl', None)
+                if highlight is not None:
+                    note_contents = self._highlight(note_contents, highlight)
                 note_contents = note_contents.replace('[ ]', '<input type=checkbox>')
                 note_contents = note_contents.replace('[x]', '<input type=checkbox checked=true>')
-                note_contents = markdown(note_contents)
             self.render('note.html', notebook_name=notebook_name,
-                        note_name=note_name, note_contents=note_contents, edit=edit)
+                        note_name=note_name, note_contents=note_contents,
+                        edit=edit)
 
     def post(self, notebook_name, note_name):
         if bool(self.get_argument('save', False)):
@@ -32,8 +36,11 @@ class NoteHandler(BaseHandler):
 
             self.application.git.add(path)
             try:
-                # TODO this should say "creating" if 'note' == ''
-                self.application.git.commit('-m', 'updating %s' % path)
+                if note == '':
+                    message = 'creating %s' % path
+                else:
+                    message = 'updating %s' % path
+                self.application.git.commit('-m', message)
             except ErrorReturnCode_1 as e:
                 if 'nothing to commit' not in e.message:
                     raise

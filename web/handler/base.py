@@ -5,7 +5,16 @@ from tornado.web import RequestHandler
 
 class BaseHandler(RequestHandler):
     def render(self, template, **kwargs):
-        path = join(self.settings.repo_root, kwargs['notebook_name'])
-        kwargs['notes'] = sorted(listdir(path))
+        if kwargs.get('notebook_name', None) is not None:
+            path = join(self.settings.repo_root, kwargs['notebook_name'])
+            kwargs['notes'] = sorted(listdir(path))
+        else:
+            kwargs['notebook_name'] = ''
+            kwargs['notes'] = []
         kwargs['notebooks'] = sorted(listdir(self.settings.repo_root))
         super(BaseHandler, self).render(template, **kwargs)
+
+    def _highlight(self, text, highlight):
+        return text.replace(highlight,
+                            "<font style=background-color:yellow>%s</font>" % \
+                            highlight)

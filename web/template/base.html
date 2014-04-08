@@ -1,3 +1,5 @@
+{% from itertools import groupby %}
+{% from operator import itemgetter %}
 <!doctype html>
 <html>
 <head>
@@ -42,6 +44,16 @@ onclick="this.parentElement.className='hidden'">
 <br>
 <div class='col-md-2'>
   <ul class='nav nav-pills nav-stacked'>
+  <!-- search -->
+  <li>
+    <form method=GET action=/search>
+      <input type=text name=q id=search>
+      <button class='btn btn-link'>
+        <span class="glyphicon glyphicon-search"></span>
+      </button>
+    </form>
+  </li>
+
   <!-- new note button exposes new note form -->
   <li><a href=# onclick="document.getElementById('new_note_form').className=''">
   + New Note +</a></li>

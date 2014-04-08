@@ -1,0 +1,15 @@
+{% extends base.html %}
+{% block title %}Search Results for: {{ query }}{% end block %}
+
+{% block body %}
+<ul>
+{% for filename, items in groupby(results, key=itemgetter('filename')) %}
+<li><a target=_blank href={{ filename }}?hl={{ query }}>{{ filename }}</a>
+<ol>
+    {% for item in items %}
+        <li>{% raw item['string'] %}</li>
+    {% end for %}
+</ol>
+{% end for %}
+</li>
+{% end block %}
