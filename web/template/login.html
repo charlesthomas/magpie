@@ -1,0 +1,22 @@
+{% extends base.html %}
+{% block title %}login{% end block %}
+
+{% block body %}
+<center>
+{% if error is not None %}
+  <p class=bg-danger>
+    {{ error }}
+  </p>
+<H1>Login</H1>
+<form method=POST>
+<input type=text name=username placeholder=username>
+<br>
+<br>
+<input type=password name=password placeholder=password>
+<br>
+<br>
+<input type=submit class='btn btn-primary' value=Login>
+</form>
+</center>
+{% end if %}
+{% end block %}

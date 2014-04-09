@@ -1,0 +1,20 @@
+{% extends base.html %}
+{% block title %}config{% end block %}
+
+{% block body %}
+<form method=POST>
+<table border=0>
+<tr><th>Repo:</th><td>
+<input type=text name=repo placeholder=" {{ config['repo'] or "/path/to/repo/" }}">
+</td></tr><tr><th>Port:</th><td>
+<input type=text name=port placeholder=" {{ config['port'] or "8080" }}">
+</td></tr><tr><th>Username:</th><td>
+<input type=text name=username
+placeholder=" {{ config['username'] or "username" }}">
+</td></tr><tr><th>Password:</th><td>
+<input type=password name=pwdhash placeholder=" password">
+</td></tr><tr><td>
+<input type=submit value=Save class='btn btn-primary'>
+</td></tr></table>
+</form>
+{% end block %}

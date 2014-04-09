@@ -11,10 +11,10 @@ class SearchHandler(BaseHandler):
         query = unquote(self.get_argument('q'))
         try:
             results = str(grep('-R', '--exclude-dir', '.git', query,
-                               self.settings.repo_root))
+                               self.settings.repo))
         except ErrorReturnCode_1 as e:
             results = ''
-        results = results.replace(self.settings.repo_root, '').split('\n')[:-1]
+        results = results.replace(self.settings.repo, '').split('\n')[:-1]
         formatted_results = []
         for result in results:
             stuff = result.split(':')

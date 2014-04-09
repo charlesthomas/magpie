@@ -15,6 +15,7 @@ href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
 <body>
 <br>
 <ul class='nav nav-tabs'>
+<li><a href=/><span class='glyphicon glyphicon-home'></span></a></li>
 <!-- new notebook button exposes new notebook form -->
 <li><a href=# onclick="document.getElementById('new_notebook_form').className=''">
 + New Notebook +</a></li>
@@ -48,7 +49,7 @@ onclick="this.parentElement.className='hidden'">
   <li>
     <form method=GET action=/search>
     <div class=form-group>
-      <input type=search name=q id=search size=15 placeholder=search>
+      <input type=search name=q id=search size=15 placeholder=" search">
         <button class='btn btn-link'>
         <span class="glyphicon glyphicon-search">
         </span>

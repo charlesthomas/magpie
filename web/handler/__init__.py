@@ -1,13 +1,16 @@
 from index import IndexHandler
-from history import HistoryHandler
+from config import ConfigHandler
+from login import LoginHandler
 from note import NoteHandler
 from notebook import NotebookHandler
 from search import SearchHandler
 
 urls = []
 urls.append((r'/?', IndexHandler))
-# urls.append((r'/?', NotebookHandler))
+urls.append((r'/config/?', ConfigHandler))
+urls.append((r'/login/?', LoginHandler))
 urls.append((r'/search/?', SearchHandler))
-urls.append((r'/(.*)/(.*)/history/?', HistoryHandler))
+
+# do regex ones last so the others get routed properly
 urls.append((r'/(.+)/(.+)', NoteHandler))
 urls.append((r'/(.+)/?', NotebookHandler))
