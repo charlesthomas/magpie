@@ -28,10 +28,10 @@ define('port', default='8080', type=int)
 define('testing', default=False, type=bool)
 define('repo', default=None, type=str)
 try:
-    parse_config_file(path.join(root, 'clevernote.cfg'))
+    parse_config_file(path.join(root, 'magpie.cfg'))
 except IOError:
-    raise Exception('clevernote.cfg file is REQUIRED\nTry renaming '
-                    'clevernote_example.cfg to clevernote.cfg and editing it '
+    raise Exception('magpie.cfg file is REQUIRED\nTry renaming '
+                    'magpie_example.cfg to magpie.cfg and editing it '
                     'as appropriate')
 
 assert options.repo is not None, "--repo is required!"
