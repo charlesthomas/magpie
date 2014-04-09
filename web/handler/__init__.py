@@ -6,6 +6,7 @@ from search import SearchHandler
 
 urls = []
 urls.append((r'/?', IndexHandler))
+# urls.append((r'/?', NotebookHandler))
 urls.append((r'/search/?', SearchHandler))
 urls.append((r'/(.*)/(.*)/history/?', HistoryHandler))
 urls.append((r'/(.+)/(.+)', NoteHandler))

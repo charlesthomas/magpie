@@ -6,8 +6,9 @@ from sh import ErrorReturnCode_1
 from base import BaseHandler
 
 class NoteHandler(BaseHandler):
-    # TODO need to escape strings, b/c somewhere, spaces are breaking stuff
     def get(self, notebook_name, note_name):
+        notebook_name = notebook_name.replace('+', ' ')
+        note_name = note_name.replace('+', ' ')
         delete = self.get_argument('delete', False)
         if delete:
             self.render('delete.html', notebook_name=notebook_name,
@@ -21,6 +22,7 @@ class NoteHandler(BaseHandler):
                 highlight = self.get_argument('hl', None)
                 if highlight is not None:
                     note_contents = self._highlight(note_contents, highlight)
+                # TODO checking / unchecking a checkbox should save the note
                 note_contents = note_contents.replace('[ ]', '<input type=checkbox>')
                 note_contents = note_contents.replace('[x]', '<input type=checkbox checked=true>')
             self.render('note.html', notebook_name=notebook_name,
@@ -28,10 +30,13 @@ class NoteHandler(BaseHandler):
                         edit=edit)
 
     def post(self, notebook_name, note_name):
+        notebook_name = notebook_name.replace('+', ' ')
+        note_name = note_name.replace('+', ' ')
         if bool(self.get_argument('save', False)):
             path = join(self.settings.repo_root, notebook_name, note_name)
+            note = self.get_argument('note')
             f = open(path, 'w')
-            f.write(self.get_argument('note'))
+            f.write(note)
             f.close()
 
             self.application.git.add(path)

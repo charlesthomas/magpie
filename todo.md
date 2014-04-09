@@ -8,7 +8,7 @@
 
 
 ### ``web/handler/note.py``
-(line 9) need to escape strings, b/c somewhere, spaces are breaking stuff
+(line 25) checking / unchecking a checkbox should save the note
 
 
 ### ``web/server.py``
@@ -20,6 +20,6 @@
 ### ``web/template/base.html``
 (line 30) this causes the newbook note button to not work again until a page refresh -->
 
-(line 68) this causes the new note button to not work again until a page refresh -->
+(line 72) this causes the new note button to not work again until a page refresh -->
 
 ######Generated using [todo.md](https://github.com/charlesthomas/todo.md)

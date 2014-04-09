@@ -1,15 +1,20 @@
 {% extends base.html %}
-{% block title %}Search Results for: {{ query }}{% end block %}
+{% block title %}Search Results for: "{{ query }}"{% end block %}
 
 {% block body %}
-<ul>
-{% for filename, items in groupby(results, key=itemgetter('filename')) %}
-<li><a target=_blank href={{ filename }}?hl={{ query }}>{{ filename }}</a>
-<ol>
+{% if len(results) == 0 %}
+  <h1>No results for "{{ query }}"</h1>
+{% else %}
+  <ul>
+  {% for filename, items in groupby(results, key=itemgetter('filename')) %}
+    <li><a target=_blank href={{ url_escape(filename).replace('%2F', '/') }}?hl={{ query }}>
+    {{ filename }}</a>
+    <ol>
     {% for item in items %}
-        <li>{% raw item['string'] %}</li>
+      <li>{% raw item['string'] %}</li>
     {% end for %}
-</ol>
-{% end for %}
+    </ol>
+  {% end for %}
 </li>
+{% end if %}
 {% end block %}
