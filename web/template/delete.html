@@ -3,7 +3,7 @@
 
 {% block body %}
 <H2>Are you sure you want to delete {{ notebook_name}}/{{ note_name }}?</H2>
-<form action=/{{ notebook_name }}/{{ note_name }} method=POST>
+<form action=/{{ url_escape(notebook_name) }}/{{ url_escape(note_name) }} method=POST>
 <input type=submit class='btn btn-danger' value=DELETE name=delete>
 <input type=submit class='btn' value=Cancel name=cancel>
 </form>

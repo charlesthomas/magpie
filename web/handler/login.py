@@ -10,9 +10,9 @@ class LoginHandler(BaseHandler):
         self.render('login.html', error=error, hide_notebooks=True)
 
     def post(self):
-        username = self.get_argument('username', None)
-        password = self.get_argument('password', None)
-        if username is None or password is None:
+        username = self.get_argument('username', '')
+        password = self.get_argument('password', '')
+        if username == '' or password == '':
             self.redirect('/login?error=' + quote(("Username and password are "
                                                    "required!")))
         elif username != self.settings.username or \
