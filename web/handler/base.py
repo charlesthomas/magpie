@@ -7,7 +7,8 @@ class BaseHandler(RequestHandler):
     def render(self, template, **kwargs):
         if kwargs.get('notebook_name', None) is not None:
             path = join(self.settings.repo, kwargs['notebook_name'])
-            kwargs['notes'] = sorted(listdir(path))
+            kwargs['notes'] = sorted([n for n in listdir(path) if not \
+                                      n.startswith('.')])
         else:
             kwargs['notebook_name'] = ''
             kwargs['notes'] = []

@@ -1,4 +1,4 @@
-from os.path import join
+from os.path import exists, join
 
 from magic import Magic
 from markdown2 import markdown
@@ -43,8 +43,12 @@ class NoteHandler(BaseHandler):
                     raise
             self.redirect(note_name)
 
-    def _view_plaintext(self, notebook_name, note_name, highlight=None):
-        path = join(self.settings.repo, notebook_name, note_name)
+    def _view_plaintext(self, notebook_name, note_name, highlight=None,
+                        dot=False):
+        if dot:
+            path = join(self.settings.repo, notebook_name, '.' + note_name)
+        else:
+            path = join(self.settings.repo, notebook_name, note_name)
         note_contents = open(path).read()
         note_contents = markdown(note_contents)
         if highlight is not None:
@@ -74,6 +78,7 @@ class NoteHandler(BaseHandler):
             self._edit(notebook_name, note_name, confirmed=False)
         else:
             path = join(self.settings.repo, notebook_name, note_name)
+            dot_path = join(self.settings.repo, notebook_name, '.' + note_name)
             highlight = self.get_argument('hl', None)
             with Magic() as m:
                 mime = m.id_filename(path)
@@ -81,6 +86,11 @@ class NoteHandler(BaseHandler):
                     self._view_plaintext(notebook_name=notebook_name,
                                          note_name=note_name,
                                          highlight=highlight)
+                elif exists(dot_path):
+                    self._view_plaintext(notebook_name=notebook_name,
+                                         note_name=note_name,
+                                         highlight=highlight, dot=True)
+
                 else:
                     self._view_file(notebook_name=notebook_name,
                                     note_name=note_name)

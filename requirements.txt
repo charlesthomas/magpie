@@ -1,5 +1,6 @@
 argparse==1.2.1
 backports.ssl-match-hostname==3.4.0.2
+filemagic==1.6
 markdown2==2.2.1
 py-bcrypt==0.4
 sh==1.09
