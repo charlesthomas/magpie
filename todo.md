@@ -1,12 +1,10 @@
 ## To Do
 ### ``web/handler/config.py``
-(line 17) changing the password doesn't take effect until restarting the server
-
-(line 18) need confirm password field?
+(line 17) need confirm password field?
 
 
 ### ``web/handler/note.py``
-(line 56) checking / unchecking a checkbox should save the note
+(line 59) checking / unchecking a checkbox should save the note
 
 
 ### ``web/template/base.html``

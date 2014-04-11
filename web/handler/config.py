@@ -14,7 +14,6 @@ class ConfigHandler(BaseHandler):
 
     @authenticated
     def post(self):
-        # TODO changing the password doesn't take effect until restarting the server
         # TODO need confirm password field?
         old = self._fetch_existing_config()
         new = dict()

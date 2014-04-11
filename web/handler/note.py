@@ -10,8 +10,11 @@ from base import BaseHandler
 class NoteHandler(BaseHandler):
     def _delete(self, notebook_name, note_name, confirmed=False):
         path = join(self.settings.repo, notebook_name, note_name)
+        dot_path = join(self.settings.repo, notebook_name, '.' + note_name)
         if confirmed:
             self.application.git.rm(path)
+            if exists(dot_path):
+                self.application.git.rm(dot_path)
             self.application.git.commit('-m', 'removing %s' % path)
             self.redirect('/' + notebook_name)
         else:
@@ -58,7 +61,7 @@ class NoteHandler(BaseHandler):
         note_contents = note_contents.replace('[x]', '<input type=checkbox checked=true>')
         self.render('note.html', notebook_name=notebook_name,
                     note_name=note_name, note_contents=note_contents,
-                    edit=False)
+                    edit=False, dot=dot)
 
     def _view_file(self, notebook_name, note_name):
         path = join(self.settings.repo, notebook_name, note_name)

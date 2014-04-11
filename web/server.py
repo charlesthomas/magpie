@@ -5,6 +5,7 @@ from random import choice
 from string import letters, digits
 
 from sh import git
+from tornado import autoreload
 from tornado.ioloop import IOLoop
 from tornado.options import define, options, parse_config_file
 from tornado.web import Application
@@ -55,4 +56,6 @@ server.settings.session = _rand_str()
 server.settings.config_path = config_path
 server.git = git.bake(_cwd=server.settings.repo)
 server.listen(options.port)
+autoreload.start()
+autoreload.watch(config_path)
 IOLoop.instance().start()

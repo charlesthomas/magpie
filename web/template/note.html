@@ -12,7 +12,11 @@
     <textarea cols=100 rows=25 name=note>{{ note_contents }}</textarea>
   {% else %}
     <br>
-    <button class="btn btn-primary" onclick="window.location='{{ note_name }}?a=edit'">
+    {% if dot %}
+      <button class="btn btn-primary" onclick="window.location='.{{ note_name }}?a=edit'">
+    {% else %}
+      <button class="btn btn-primary" onclick="window.location='{{ note_name }}?a=edit'">
+    {% end if %}
     Edit</button>
     <button class='btn btn-danger' onclick="window.location='{{ note_name }}?a=delete'">
     Delete</button>
