@@ -29,8 +29,6 @@ app_config = dict(static_path=static_path,
                   template_path=template_path,
                   login_url='/login')
 
-# TODO add username/password
-# TODO have default username/password in config file, create reset-password functionality
 define('port', default='8080', type=int)
 define('testing', default=False, type=bool)
 define('repo', default=None, type=str)
