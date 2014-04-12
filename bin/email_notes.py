@@ -2,16 +2,18 @@
 from email import message_from_string
 from email.header import decode_header
 from imaplib import IMAP4, IMAP4_SSL
-from os.path import dirname, join
+from os import makedirs
+from os.path import dirname, exists, isdir, join
+import re
 from sys import exit
 
-from sh import git
+import sh
 from tornado.options import define, options, parse_config_file
 
 class EmailNotesError(Exception):
     pass
 
-config_path = join(dirname(__file__), 'email_notes.cfg')
+config_path = join(dirname(__file__), '..', 'config', 'email_notes.cfg')
 
 define('imap_server', default=None, type=str)
 define('username', default=None, type=str)
@@ -19,6 +21,7 @@ define('password', default=None, type=str)
 define('folder', default=None, type=str)
 define('repo', default=None, type=str)
 define('use_ssl', default=True, type=bool)
+define('default_notebook', default='', type=str)
 try:
     parse_config_file(config_path)
 except IOError:
@@ -42,6 +45,7 @@ if result != 'OK':
 if messages[0] == '':
     exit()
 
+git = sh.git.bake(_cwd=options.repo)
 for message_index in messages[0].split(' '):
     junk, data = imap.fetch(message_index, '(RFC822)')
     message = message_from_string(data[0][1])
@@ -51,8 +55,36 @@ for message_index in messages[0].split(' '):
     else:
         subject = subject[0].decode(subject[1])
 
-    subject = subject.replace('*Note*', '')
-    # TODO make a regex for @notebook @.*$
-    # TODO append if subject.endswith(' +')
     # TODO figure out tags
-    # TODO actually write and `git add` the note
+    append = False
+    with_notebook = r'^\*Note\*\s(.*)\s@(.*)$'
+    without_notebook = r'^\*Note\*\s(.*)$'
+    regex = re.search(with_notebook, subject)
+    if regex is None:
+        regex = re.search(without_notebook, subject)
+        notebook_name = options.default_notebook
+    else:
+        notebook_name = regex.group(2)
+        if notebook_name.endswith(' +'):
+            notebook_name = notebook_name[:-2]
+            append = True
+    if regex is None:
+        continue
+
+    note_name = regex.group(1)
+    if note_name.endswith(' +'):
+        note_name = note_name[:-2]
+        append = True
+
+    path = join(options.repo, notebook_name)
+    if not exists(path):
+        makedirs(path)
+    path = join(path, note_name)
+    if append:
+        note_file = open(path, 'a')
+    else:
+        note_file = open(path, 'w')
+    note_file.write(message.get_payload())
+    note_file.close()
+    git.add(path)
+    git.commit('-m', 'adding %s from email_notes.py' % note_name)

@@ -24,7 +24,7 @@ def _rand_str(length=64):
 root = path.dirname(__file__)
 static_path = path.join(root, 'static')
 template_path = path.join(root, 'template')
-config_path = path.join(root, 'magpie.cfg')
+config_path = path.join(root, '..', 'config', 'magpie.cfg')
 
 app_config = dict(static_path=static_path,
                   template_path=template_path,

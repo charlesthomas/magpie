@@ -1,12 +1,6 @@
 ## To Do
 ### ``bin/email_notes.py``
-(line 55) make a regex for @notebook @.*$
-
-(line 56) append if subject.endswith(' +')
-
-(line 57) figure out tags
-
-(line 58) actually write and `git add` the note
+(line 58) figure out tags
 
 
 ### ``web/handler/config.py``
