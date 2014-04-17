@@ -10,9 +10,10 @@
 </script>
 <link rel=stylesheet
 href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+{% block js %}{% end block %}
 </head>
 
-<body>
+<body {% block bodytag %}{% end block %}>
 <br>
 <ul class='nav nav-tabs'>
 <li><a href=/><span class='glyphicon glyphicon-home'></span></a></li>

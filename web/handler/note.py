@@ -1,4 +1,5 @@
 from os.path import exists, join
+from re import search
 
 from magic import Magic
 from markdown2 import markdown
@@ -22,7 +23,7 @@ class NoteHandler(BaseHandler):
                         note_name=note_name)
 
     def _edit(self, notebook_name, note_name, note_contents=None,
-              confirmed=False):
+              confirmed=False, toggle=False):
         path = join(self.settings.repo, notebook_name, note_name)
         if not confirmed:
             note_contents = open(path).read()
@@ -30,6 +31,23 @@ class NoteHandler(BaseHandler):
                         note_name=note_name, note_contents=note_contents,
                         edit=True)
         else:
+            if toggle:
+                f = open(path)
+                tmp = []
+                search_string = r'(\[.\])\s(%s)' % note_contents
+                for line in f.readlines():
+                    regex = search(search_string, line)
+                    if regex is not None:
+                        old = regex.group(1)
+                        if old == '[x]':
+                            new = '[ ]'
+                        else:
+                            new = '[x]'
+                        line = "%s %s\n" % (new, regex.group(2))
+                    tmp.append(line)
+                f.close()
+                note_contents = ''.join(tmp)
+
             f = open(path, 'w')
             f.write(note_contents)
             f.close()
@@ -56,9 +74,6 @@ class NoteHandler(BaseHandler):
         note_contents = markdown(note_contents)
         if highlight is not None:
             note_contents = self._highlight(note_contents, highlight)
-        # TODO checking / unchecking a checkbox should save the note
-        note_contents = note_contents.replace('[ ]', '<input type=checkbox>')
-        note_contents = note_contents.replace('[x]', '<input type=checkbox checked=true>')
         self.render('note.html', notebook_name=notebook_name,
                     note_name=note_name, note_contents=note_contents,
                     edit=False, dot=dot)
@@ -85,7 +100,7 @@ class NoteHandler(BaseHandler):
             highlight = self.get_argument('hl', None)
             with Magic() as m:
                 mime = m.id_filename(path)
-                if 'text' in mime:
+                if 'text' in mime or 'empty' in mime:
                     self._view_plaintext(notebook_name=notebook_name,
                                          note_name=note_name,
                                          highlight=highlight)
@@ -105,8 +120,9 @@ class NoteHandler(BaseHandler):
         action = self.get_argument('a', 'view')
         if bool(self.get_argument('save', False)):
             note = self.get_argument('note')
+            toggle = self.get_argument('toggle', False)
             self._edit(notebook_name=notebook_name, note_name=note_name,
-                       note_contents=note, confirmed=True)
+                       note_contents=note, confirmed=True, toggle=toggle)
         elif bool(self.get_argument('delete', False)):
             self._delete(notebook_name, note_name, confirmed=True)
         else:

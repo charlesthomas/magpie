@@ -1,6 +1,29 @@
 {% extends base.html %}
 {% block title %}{{ note_name }}{% end block %}
 
+{% block js %}
+  <script type=text/javascript>
+    function checkbox_replace(el) {
+      uncheck_regex=/\[ \](.*)<\/p>/g;
+      checked_regex=/\[x\](.*)<\/p>/g;
+      uncheck_html="<label><input type=checkbox onchange=\"toggle(this)\">$1</label>";
+      checked_html="<label><input type=checkbox onchange=\"toggle(this)\" checked=true>$1</label>";
+      el.innerHTML=el.innerHTML.replace(uncheck_regex, uncheck_html);
+      el.innerHTML=el.innerHTML.replace(checked_regex, checked_html);
+    }
+    function toggle(el) {
+      $.post("{{ note_name }}", data={'note': el.parentNode.textContent,
+                                    'toggle': true, 'save': true}).done(
+                                      window.location="{{ note_name }}"
+                                    );
+    }
+  </script>
+{% end block %}
+
+{% block bodytag %}
+onload="checkbox_replace(document.getElementById('rendered_note'))";
+{% end block %}
+
 {% block body %}
   {% if edit %}
     <br>
@@ -22,6 +45,8 @@
     Delete</button>
     <br>
     <br>
-    {% raw note_contents %}
+    <div id=rendered_note>
+      {% raw note_contents %}
+    </div>
   {% end if %}
 {% end block %}
