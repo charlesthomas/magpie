@@ -45,6 +45,8 @@ if result != 'OK':
 if messages[0] == '':
     exit()
 
+# TODO there seems to be a bug where other notes in other notebooks can be deleted
+# it might be when a folder is created?
 git = sh.git.bake(_cwd=options.repo)
 for message_index in messages[0].split(' '):
     junk, data = imap.fetch(message_index, '(RFC822)')
@@ -87,4 +89,5 @@ for message_index in messages[0].split(' '):
     note_file.write(message.get_payload())
     note_file.close()
     git.add(path)
+    # TODO add try/except like web to prevent this from failing if there's no change
     git.commit('-m', 'adding %s from email_notes.py' % note_name)

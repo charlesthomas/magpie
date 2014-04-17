@@ -1,6 +1,10 @@
 ## To Do
 ### ``bin/email_notes.py``
-(line 58) figure out tags
+(line 48) there seems to be a bug where other notes in other notebooks can be deleted
+
+(line 60) figure out tags
+
+(line 92) add try/except like web to prevent this from failing if there's no change
 
 
 ### ``web/handler/config.py``
