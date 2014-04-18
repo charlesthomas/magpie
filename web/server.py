@@ -24,7 +24,7 @@ def _rand_str(length=64):
 root = path.dirname(__file__)
 static_path = path.join(root, 'static')
 template_path = path.join(root, 'template')
-config_path = path.join(root, '..', 'config', 'magpie.cfg')
+config_path = path.join(root, '..', 'config', 'web.cfg')
 
 app_config = dict(static_path=static_path,
                   template_path=template_path,
@@ -38,8 +38,8 @@ define('pwdhash', default=None, type=str)
 try:
     parse_config_file(config_path)
 except IOError:
-    raise Exception('magpie.cfg file is REQUIRED\nTry renaming '
-                    'magpie_example.cfg to magpie.cfg and editing it '
+    raise Exception('web.cfg file is REQUIRED\nTry renaming '
+                    'web_example.cfg to web.cfg and editing it '
                     'as appropriate')
 
 if options.testing:

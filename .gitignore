@@ -51,5 +51,5 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
-magpie.cfg
+web.cfg
 email_notes.cfg
