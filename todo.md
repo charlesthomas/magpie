@@ -4,7 +4,7 @@
 
 (line 60) figure out tags
 
-(line 92) add try/except like web to prevent this from failing if there's no change
+(line 98) add try/except like web to prevent this from failing if there's no change
 
 
 ### ``web/handler/config.py``

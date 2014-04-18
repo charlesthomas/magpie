@@ -55,7 +55,7 @@ server.settings.pwdhash = options.pwdhash
 server.settings.session = _rand_str()
 server.settings.config_path = config_path
 server.git = git.bake(_cwd=server.settings.repo)
-server.listen(options.port)
+server.listen(options.port, 'localhost')
 autoreload.start()
 autoreload.watch(config_path)
 IOLoop.instance().start()
