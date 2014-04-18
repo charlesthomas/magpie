@@ -86,7 +86,13 @@ for message_index in messages[0].split(' '):
         note_file = open(path, 'a')
     else:
         note_file = open(path, 'w')
-    note_file.write(message.get_payload())
+    payload = message.get_payload()
+    if type(payload) == list:
+        for part in payload:
+            if part.get_content_subtype() == 'plain':
+                payload = part.get_payload()
+                break
+    note_file.write(payload)
     note_file.close()
     git.add(path)
     # TODO add try/except like web to prevent this from failing if there's no change
