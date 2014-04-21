@@ -5,6 +5,14 @@ magpie: [ma]rkdown, [g]it, [pie]thon
 
 Git-backed Evernote replacement
 
+Useful Links
+------------
+
+`magpie on Github`_
+`magpie in PyPI`_
+`Contributing`_
+`To Do`_
+
 Quickstart
 ----------
 
@@ -48,11 +56,9 @@ Features
 
 * Email yourself notes (see `emailing notes`_)
 
-To Do
------
-See `todo.md`_
-
+.. _magpie on Github: https://github.com/charlesthomas/magpie/
+.. _magpie on PyPI: https://pypi.python.org/pypi/magpie/
+.. _Contributing: https://github.com/charlesthomas/magpie/blob/master/contributing.rst
+.. _To Do: https://github.com/charlesthomas/magpie/blob/master/todo.md
 .. _Evernote: https://evernote.com
-.. _contributing: contributing.rst
 .. _emailing notes: emailing_notes.rst
-.. _todo.md: https://github.com/charlesthomas/magpie/blob/master/todo.md
