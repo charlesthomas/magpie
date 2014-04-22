@@ -57,7 +57,8 @@ for message_index in messages[0].split(' '):
     else:
         subject = subject[0].decode(subject[1])
 
-    # TODO figure out tags
+    # TODO figure out tags?
+    # TODO should *Note* be optional?
     append = False
     with_notebook = r'^\*Note\*\s(.*)\s@(.*)$'
     without_notebook = r'^\*Note\*\s(.*)$'

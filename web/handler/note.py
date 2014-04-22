@@ -34,6 +34,7 @@ class NoteHandler(BaseHandler):
             if toggle:
                 f = open(path)
                 tmp = []
+                # TODO () in the text seems to break this
                 search_string = r'(\[.\])\s(%s)' % note_contents
                 for line in f.readlines():
                     regex = search(search_string, line)
