@@ -101,6 +101,10 @@ Features
 
 * Email yourself notes (see `emailing notes`_)
 
+Image Attribution
+-----------------
+Logo/favicon courtesy of `Kieran Palmer`_, as licensed under CC BY-SA 2.0 Generic.
+
 .. _Github: https://help.github.com/articles/create-a-repo
 .. _Bitbucket: https://confluence.atlassian.com/display/BITBUCKET/Create+an+Account+and+a+Git+Repo
 .. _magpie on Github: https://github.com/charlesthomas/magpie/
@@ -109,3 +113,4 @@ Features
 .. _To Do: https://github.com/charlesthomas/magpie/blob/master/todo.md
 .. _Evernote: https://evernote.com
 .. _emailing notes: emailing_notes.rst
+.. _Kieran Palmer: http://www.kpword.net

@@ -18,8 +18,8 @@
 
 
 ### ``web/template/base.html``
-(line 32) this causes the newbook note button to not work again until a page refresh -->
+(line 33) this causes the newbook note button to not work again until a page refresh -->
 
-(line 74) this causes the new note button to not work again until a page refresh -->
+(line 75) this causes the new note button to not work again until a page refresh -->
 
 ######Generated using [todo.md](https://github.com/charlesthomas/todo.md)
