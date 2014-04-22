@@ -1,6 +1,9 @@
 ======
 magpie
 ======
+
+.. image:: https://raw.githubusercontent.com/charlesthomas/magpie/master/web/static/magpie.jpg
+
 magpie: [ma]rkdown, [g]it, [pie]thon
 
 Git-backed Evernote replacement
