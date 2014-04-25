@@ -1,5 +1,5 @@
 import logging
-from os.path import join
+from os import path
 from re import sub
 from sh import grep, ErrorReturnCode_1
 from urllib2 import unquote
@@ -17,8 +17,14 @@ class SearchHandler(BaseHandler):
         results = results.replace(self.settings.repo, '').split('\n')[:-1]
         formatted_results = []
         for result in results:
+            if 'Binary file' in result:
+                continue
+
             stuff = result.split(':')
             filename = stuff[0]
+            if path.basename(filename).startswith('.'):
+                filename = path.join(path.dirname(filename),
+                                     path.basename(filename)[1:])
             string = ''.join(stuff[1:])
             string = self._highlight(string, query)
             formatted_results.append({'filename': filename, 'string': string})

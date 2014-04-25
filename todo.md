@@ -9,6 +9,10 @@
 (line 99) add try/except like web to prevent this from failing if there's no change
 
 
+### ``bin/pdf_scraper.py``
+(line 24) figure out why line breaks don't seem to be rendering
+
+
 ### ``web/handler/config.py``
 (line 17) need confirm password field?
 
