@@ -1,9 +1,12 @@
 from os import listdir, makedirs
 from os.path import isdir, join
 
+from tornado.web import authenticated
+
 from base import BaseHandler
 
 class NotebookHandler(BaseHandler):
+    @authenticated
     def get(self, notebook_name):
         notebook_name = notebook_name.replace('+', ' ')
         if not isdir(join(self.settings.repo, notebook_name)):
@@ -18,6 +21,7 @@ class NotebookHandler(BaseHandler):
             self.render('notebook.html', notebook_name=notebook_name,
                         note_name=None, notebook_contents=notebook_contents)
 
+    @authenticated
     def post(self, notebook_name):
         path = join(self.settings.repo, notebook_name)
         makedirs(path)

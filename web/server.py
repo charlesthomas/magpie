@@ -54,8 +54,13 @@ server.settings.username = options.username
 server.settings.pwdhash = options.pwdhash
 server.settings.session = _rand_str()
 server.settings.config_path = config_path
-server.git = git.bake(_cwd=server.settings.repo)
-server.listen(options.port, 'localhost')
-autoreload.start()
-autoreload.watch(config_path)
-IOLoop.instance().start()
+
+def main():
+    server.git = git.bake(_cwd=server.settings.repo)
+    server.listen(options.port, 'localhost')
+    autoreload.start()
+    autoreload.watch(config_path)
+    IOLoop.instance().start()
+
+if __name__ == '__main__':
+    main()

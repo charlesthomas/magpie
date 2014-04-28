@@ -12,11 +12,13 @@ setup(
     version=VERSION,
     author='Charles Thomas',
     author_email='ch@rlesthom.as',
-    packages=[],
+    packages=['web'],
     url='https://github.com/charlesthomas/%s' % NAME,
     license=LICENSE,
     description=DESCRIPTION,
     long_description=LONG_DESC,
-    scripts=[],
+    scripts=['bin/pdf_scraper.py',
+             'bin/start_magpie_server.py',
+             'bin/email_notes.py'],
     classifiers=[]
 )
