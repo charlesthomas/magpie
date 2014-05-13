@@ -57,11 +57,13 @@ for message_index in messages[0].split(' '):
     else:
         subject = subject[0].decode(subject[1])
 
-    # TODO figure out tags?
-    # TODO should *Note* be optional?
     append = False
-    with_notebook = r'^\*Note\*\s(.*)\s@(.*)$'
-    without_notebook = r'^\*Note\*\s(.*)$'
+    if options.folder is None or options.folder.lower() == 'inbox':
+        with_notebook = r'^\*Note\*\s(.*)\s@(.*)$'
+        without_notebook = r'^\*Note\*\s(.*)$'
+    else:
+        with_notebook = r'^(.*)\s@(.*)$'
+        without_notebook = r'^(.*)$'
     regex = re.search(with_notebook, subject)
     if regex is None:
         regex = re.search(without_notebook, subject)
