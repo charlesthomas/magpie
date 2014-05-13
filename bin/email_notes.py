@@ -91,10 +91,9 @@ for message_index in messages[0].split(' '):
         note_file = open(path, 'w')
     payload = message.get_payload()
     if type(payload) == list:
+        text = ''
         for part in payload:
-            if part.get_content_subtype() == 'plain':
-                payload = part.get_payload()
-                break
+            text += part.get_payload()
     note_file.write(payload)
     note_file.close()
     git.add(path)

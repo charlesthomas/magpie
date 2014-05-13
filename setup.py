@@ -18,7 +18,10 @@ setup(
     description=DESCRIPTION,
     long_description=LONG_DESC,
     scripts=['bin/pdf_scraper.py',
-             'bin/start_magpie_server.py',
              'bin/email_notes.py'],
+    entry_points='''
+    [console_scripts]
+    magpie = magpie.web.server:main
+    ''',
     classifiers=[]
 )
