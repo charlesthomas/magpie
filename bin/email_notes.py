@@ -94,7 +94,7 @@ for message_index in messages[0].split(' '):
         text = ''
         for part in payload:
             text += part.get_payload()
-    note_file.write(payload)
+    note_file.write(text)
     note_file.close()
     git.add(path)
     # TODO add try/except like web to prevent this from failing if there's no change
