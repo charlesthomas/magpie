@@ -56,6 +56,7 @@ for message_index in messages[0].split(' '):
         subject = subject[0]
     else:
         subject = subject[0].decode(subject[1])
+    subject = subject.replace('\r\n','')
 
     append = False
     if options.folder is None or options.folder.lower() == 'inbox':
@@ -94,6 +95,7 @@ for message_index in messages[0].split(' '):
         text = ''
         for part in payload:
             text += part.get_payload()
+    text = text.replace('\r\n', '\n')
     note_file.write(text)
     note_file.close()
     git.add(path)
