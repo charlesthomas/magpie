@@ -2,7 +2,7 @@
 ### ``bin/email_notes.py``
 (line 48) there seems to be a bug where other notes in other notebooks can be deleted
 
-(line 100) add try/except like web to prevent this from failing if there's no change
+(line 102) add try/except like web to prevent this from failing if there's no change
 
 
 ### ``bin/pdf_scraper.py``
@@ -15,6 +15,10 @@
 
 ### ``web/handler/note.py``
 (line 37) () in the text seems to break this
+
+
+### ``web/handler/search.py``
+(line 13) this doesn't search the names of notes/notebooks
 
 
 ### ``web/template/base.html``

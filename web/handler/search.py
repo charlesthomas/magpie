@@ -10,6 +10,7 @@ class SearchHandler(BaseHandler):
     def get(self):
         query = unquote(self.get_argument('q'))
         try:
+            # TODO this doesn't search the names of notes/notebooks
             results = str(grep('-R', '--exclude-dir', '.git', query,
                                self.settings.repo))
         except ErrorReturnCode_1 as e:
