@@ -39,12 +39,6 @@ parse_config_file(config_path.web)
 
 if options.testing:
     app_config.update(debug=True)
-else:
-    app_config.update(xsrf_cookies=True, cookie_secret=_rand_str())
-
-logging.error("DEBUG: %s" % app_config.get('debug'))
-logging.error("xsrf_cookies: %s" % app_config.get('xsrf_cookies'))
-logging.error("cookie_secret: %s" % app_config.get('cookie_secret'))
 
 server = Application(urls, **app_config)
 server.settings = AttrDict(server.settings)

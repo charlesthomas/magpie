@@ -14,7 +14,7 @@
 ### ``magpie/template/base.html``
 (line 33) this causes the newbook note button to not work again until a page refresh -->
 
-(line 76) this causes the new note button to not work again until a page refresh -->
+(line 75) this causes the new note button to not work again until a page refresh -->
 
 
 ### ``utils/email_notes.py``
