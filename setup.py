@@ -3,25 +3,34 @@ from setuptools import setup
 
 NAME = 'magpie'
 DESCRIPTION = 'magpie: [ma]rkdown, [g]it, [pie]thon'
+
 VERSION = open('VERSION').read().strip()
 LONG_DESC = open('README.rst').read()
 LICENSE = open('LICENSE').read()
+REQUIREMENTS = [open('requirements.txt').readlines()]
+
+CLASSIFIERS = []
+PACKAGES=['magpie', 'magpie/config', 'magpie/handler', 'magpie/static',
+          'magpie/template']
+PACKAGE_DATA={'magpie': ['config/*.cfg', 'static/*', 'template/*.html']}
+SCRIPTS=['utils/pdf_scraper.py', 'utils/email_notes.py']
 
 setup(
     name=NAME,
     version=VERSION,
     author='Charles Thomas',
     author_email='ch@rlesthom.as',
-    packages=['web'],
     url='https://github.com/charlesthomas/%s' % NAME,
     license=LICENSE,
     description=DESCRIPTION,
     long_description=LONG_DESC,
-    scripts=['bin/pdf_scraper.py',
-             'bin/email_notes.py'],
+    classifiers=CLASSIFIERS,
+    install_requires=REQUIREMENTS,
+    packages=PACKAGES,
+    package_data=PACKAGE_DATA,
+    scripts=SCRIPTS,
     entry_points='''
     [console_scripts]
-    magpie = magpie.web.server:main
+    magpie = magpie.server:main
     ''',
-    classifiers=[]
 )

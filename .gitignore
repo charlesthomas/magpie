@@ -50,7 +50,3 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
-
-web.cfg
-email_notes.cfg
-pdf_scraper.cfg

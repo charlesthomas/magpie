@@ -28,6 +28,7 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
   {% if edit %}
     <br>
     <form method=POST>
+    {% raw xsrf_form_html() %}
     <input type=submit class="btn btn-success" value=Save name=save>
     <input type=submit class="btn btn-danger" value=Cancel name=cancel>
     <br>

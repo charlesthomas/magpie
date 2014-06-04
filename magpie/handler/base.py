@@ -27,14 +27,17 @@ class BaseHandler(RequestHandler):
     def make_cookie(self, name, value, domain=None, expires=None, path='/',
                    expires_days=None, **kwargs):
         '''
-        Use make_cookie instead of set cookie, so that it automatically sets
+        Use make_cookie instead of set_cookie, so that it automatically sets
         regular cookies in debug mode and secure cookies in production mode
         '''
+        import logging
         if self.settings.get('debug', False):
+            logging.error('setting insecure cookie')
             self.set_cookie(name, value, domain, expires, path, expires_days,
                             **kwargs)
         else:
-            self.set_secure_cookie(name, value, expires_days or 30, **kwargs)
+            logging.error('setting secure cookie')
+            self.set_secure_cookie(name, value, **kwargs)
 
     def fetch_cookie(self, name, default=None):
         '''

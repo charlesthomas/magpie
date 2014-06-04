@@ -29,7 +29,7 @@ class ConfigHandler(BaseHandler):
                 new[key] = int(val)
             elif self.ALLOWED[key] == bool:
                 new[key] = bool(val)
-        config_file = open(self.settings.config_path, 'w')
+        config_file = open(self.settings.config_path.web, 'w')
         for key, val in new.items():
             if self.ALLOWED[key] == str:
                 config_file.write("%s='%s'\n" % (key, val))
@@ -40,7 +40,7 @@ class ConfigHandler(BaseHandler):
 
     def _fetch_existing_config(self):
         existing = dict()
-        for config in open(self.settings.config_path).readlines():
+        for config in open(self.settings.config_path.web).readlines():
             key, val = config.strip().replace(' = ', '=').split('=')
             existing[key] = val.replace("'", "")
         return existing

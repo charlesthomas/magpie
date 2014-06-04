@@ -50,6 +50,7 @@ onclick="this.parentElement.className='hidden'">
   <!-- search -->
   <li>
     <form method=GET action=/search>
+    {% raw xsrf_form_html() %}
     <div class=form-group>
       <input type=search name=q id=search size=15 placeholder=" search">
         <button class='btn btn-link'>

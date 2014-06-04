@@ -10,7 +10,8 @@ from tornado.ioloop import IOLoop
 from tornado.options import define, options, parse_config_file
 from tornado.web import Application
 
-from handler import urls
+from magpie.config import config_path
+from magpie.handler import urls
 
 class AttrDict(dict):
     def __getattr__(self, key):
@@ -24,7 +25,6 @@ def _rand_str(length=64):
 root = path.dirname(__file__)
 static_path = path.join(root, 'static')
 template_path = path.join(root, 'template')
-config_path = path.join(root, '..', 'config', 'web.cfg')
 
 app_config = dict(static_path=static_path,
                   template_path=template_path,
@@ -35,17 +35,16 @@ define('testing', default=False, type=bool)
 define('repo', default=None, type=str)
 define('username', default=None, type=str)
 define('pwdhash', default=None, type=str)
-try:
-    parse_config_file(config_path)
-except IOError:
-    raise Exception('web.cfg file is REQUIRED\nTry renaming '
-                    'web_example.cfg to web.cfg and editing it '
-                    'as appropriate')
+parse_config_file(config_path.web)
 
 if options.testing:
     app_config.update(debug=True)
 else:
     app_config.update(xsrf_cookies=True, cookie_secret=_rand_str())
+
+logging.error("DEBUG: %s" % app_config.get('debug'))
+logging.error("xsrf_cookies: %s" % app_config.get('xsrf_cookies'))
+logging.error("cookie_secret: %s" % app_config.get('cookie_secret'))
 
 server = Application(urls, **app_config)
 server.settings = AttrDict(server.settings)
@@ -59,7 +58,7 @@ def main():
     server.git = git.bake(_cwd=server.settings.repo)
     server.listen(options.port, 'localhost')
     autoreload.start()
-    autoreload.watch(config_path)
+    autoreload.watch(config_path.web)
     IOLoop.instance().start()
 
 if __name__ == '__main__':

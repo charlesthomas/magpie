@@ -10,6 +10,7 @@
 {% end if %}
 <H1>Login</H1>
 <form method=POST>
+{% raw xsrf_form_html() %}
 <input type=text name=username placeholder=" username" tabindex="1">
 <br>
 <br>

@@ -3,6 +3,7 @@
 
 {% block body %}
 <form method=POST>
+{% raw xsrf_form_html() %}
 <table border=0>
 <tr><th>Repo:</th><td>
 <input type=text name=repo placeholder=" {{ config['repo'] or "/path/to/repo/" }}">

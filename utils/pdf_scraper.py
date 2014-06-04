@@ -5,17 +5,11 @@ from sys import argv
 from pyPdf import PdfFileReader
 from tornado.options import define, options, parse_config_file
 
-config_path = path.join(path.dirname(__file__), '..', 'config', 'pdf_scraper.cfg')
+from magpie.config import config_path
 
 define('repo', default=None, type=str)
 define('default_notebook', default='', type=str)
-
-try:
-    parse_config_file(config_path)
-except IOError:
-    raise Exception('pdf_scraper.cfg file is REQUIRED\nTry renaming '
-                    'pdf_scraper_example.cfg to pdf_scraper.cfg and editing it '
-                    'as appropriate')
+parse_config_file(config_path.pdf_scraper)
 
 def scrape(file_path):
     pdf = PdfFileReader(file(file_path, 'rb'))

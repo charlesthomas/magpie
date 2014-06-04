@@ -3,17 +3,17 @@ from email import message_from_string
 from email.header import decode_header
 from imaplib import IMAP4, IMAP4_SSL
 from os import makedirs
-from os.path import dirname, exists, isdir, join
+from os.path import exists, join
 import re
 from sys import exit
 
 import sh
 from tornado.options import define, options, parse_config_file
 
+from magpie.config import config_path
+
 class EmailNotesError(Exception):
     pass
-
-config_path = join(dirname(__file__), '..', 'config', 'email_notes.cfg')
 
 define('imap_server', default=None, type=str)
 define('username', default=None, type=str)
@@ -22,12 +22,7 @@ define('folder', default=None, type=str)
 define('repo', default=None, type=str)
 define('use_ssl', default=True, type=bool)
 define('default_notebook', default='', type=str)
-try:
-    parse_config_file(config_path)
-except IOError:
-    raise Exception('email_notes.cfg file is REQUIRED\nTry renaming '
-                    'email_notes_example.cfg to email_notes.cfg and editing it '
-                    'as appropriate')
+parse_config_file(config_path.email_notes)
 
 if options.use_ssl:
     imap = IMAP4_SSL(options.imap_server)
