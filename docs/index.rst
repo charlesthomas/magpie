@@ -1,10 +1,9 @@
-Welcome to magpie's documentation!
-==================================
+.. include:: ../README.rst
 
-Contents:
+----
 
 .. toctree::
     contributing
-    emailing_notes
-
-.. include:: ../README.rst
+    utils
+    utils/emailing_notes
+    utils/pdf_scraper
