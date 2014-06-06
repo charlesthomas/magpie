@@ -106,9 +106,14 @@ class NoteHandler(BaseHandler):
                                          note_name=note_name,
                                          highlight=highlight)
                 elif exists(dot_path):
-                    self._view_plaintext(notebook_name=notebook_name,
-                                         note_name=note_name,
-                                         highlight=highlight, dot=True)
+                    download = self.get_argument('dl', False)
+                    if download:
+                        self._view_file(notebook_name=notebook_name,
+                                        note_name=note_name)
+                    else:
+                        self._view_plaintext(notebook_name=notebook_name,
+                                             note_name=note_name,
+                                             highlight=highlight, dot=True)
 
                 else:
                     self._view_file(notebook_name=notebook_name,

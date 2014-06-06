@@ -5,16 +5,18 @@
 <form method=POST>
 <table border=0>
 <tr><th>Repo:</th><td>
-<input type=text name=repo placeholder=" {{ config['repo'] or "/path/to/repo/" }}">
+<input type=text name=repo placeholder=" {{ config['repo'] or "/path/to/repo/" }}"
+tabindex=1>
 </td></tr><tr><th>Port:</th><td>
-<input type=text name=port placeholder=" {{ config['port'] or "8080" }}">
+<input type=text name=port placeholder=" {{ config['port'] or "8080" }}"
+tabindex=2>
 </td></tr><tr><th>Username:</th><td>
 <input type=text name=username
-placeholder=" {{ config['username'] or "username" }}">
+placeholder=" {{ config['username'] or "username" }}" tabindex=3>
 </td></tr><tr><th>Password:</th><td>
-<input type=password name=pwdhash placeholder=" password">
+<input type=password name=pwdhash placeholder=" password" tabindex=4>
 </td></tr><tr><td>
-<input type=submit value=Save class='btn btn-primary'>
+<input type=submit value=Save class='btn btn-primary' tabindex=5>
 </td></tr></table>
 </form>
 {% end block %}

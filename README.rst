@@ -59,6 +59,7 @@ above should be entered here.
 Useful Links
 ============
 
+* `magpie documentation`_
 * `magpie on Github`_
 * `magpie in PyPI`_
 * `Contributing`_
@@ -104,7 +105,7 @@ Features
 
 * Email yourself notes (see `emailing notes`_)
 
-* Scrape PDFs to make them searchable in magpie (see `pdf_scraper`)
+* Scrape PDFs to make them searchable in magpie (see `pdf_scraper`_)
 
 Image Attribution
 =================
@@ -112,9 +113,10 @@ Logo/favicon courtesy of `Kieran Palmer`_, as licensed under CC BY-SA 2.0 Generi
 
 .. _Github: https://help.github.com/articles/create-a-repo
 .. _Bitbucket: https://confluence.atlassian.com/display/BITBUCKET/Create+an+Account+and+a+Git+Repo
+.. _magpie documentation: https://magpie-notes.readthedocs.org/en/latest/
 .. _magpie on Github: https://github.com/charlesthomas/magpie/
 .. _magpie in PyPI: https://pypi.python.org/pypi/magpie/
-.. _Contributing: https://github.com/charlesthomas/magpie/blob/master/contributing.rst
+.. _Contributing: docs/contributing.rst
 .. _To Do: https://github.com/charlesthomas/magpie/blob/master/todo.md
 .. _Evernote: https://evernote.com
 .. _emailing notes: docs/utils/emailing_notes.rst

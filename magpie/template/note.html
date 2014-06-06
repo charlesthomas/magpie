@@ -43,6 +43,12 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
     Edit</button>
     <button class='btn btn-danger' onclick="window.location='{{ note_name }}?a=delete'">
     Delete</button>
+    {% if dot %}
+      <br>
+      <br>
+      <button class="btn btn-primary" onclick="window.location='{{note_name}}?dl=True'">
+      Download Original</button>
+    {% end if %}
     <br>
     <br>
     <div id=rendered_note>
