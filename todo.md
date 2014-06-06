@@ -8,7 +8,9 @@
 
 
 ### ``magpie/handler/search.py``
-(line 13) this doesn't search the names of notes/notebooks
+(line 18) filter out duplicates if the filename is already in the search results
+
+(line 31) this doesn't play well with colons in filenames
 
 
 ### ``magpie/template/base.html``
