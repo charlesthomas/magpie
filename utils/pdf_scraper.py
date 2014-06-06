@@ -27,4 +27,5 @@ def scrape(file_path):
     f.close()
 
 if __name__ == '__main__':
-    scrape(argv[1])
+    for file_name in argv[1:]:
+        scrape(file_name)

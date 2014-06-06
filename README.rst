@@ -2,16 +2,16 @@
 magpie
 ======
 
-.. image:: https://raw.githubusercontent.com/charlesthomas/magpie/master/web/static/magpie.jpg
+.. image:: ../magpie/static/magpie.jpg
 
 magpie: [ma]rkdown, [g]it, [pie]thon
 
 Git-backed Evernote replacement
 
 Quickstart
-----------
+==========
 Pre-requisites
-==============
+--------------
 
 (outside of PyPI):
 
@@ -20,13 +20,13 @@ Pre-requisites
 * Git
 
 Installing magpie
-=================
+-----------------
 ::
 
     pip install magpie
 
 Init Git Repo
-=============
+-------------
 Locally::
 
     mkdir -p /path/to/notes/repo/
@@ -38,17 +38,17 @@ On `Github`_
 On `Bitbucket`_
 
 Launch magpie
-=============
+-------------
 ::
 
-    start_magpie_server.py
+    magpie
 
 Connect
-=======
+-------
 In browser, go to http://localhost:8080
 
 Configure
-=========
+---------
 On the main page, there should be a link to configure magpie. (Alternatively,
 http://localhost:8080/config)
 
@@ -57,7 +57,7 @@ recommended. The only required field is repo. The path from "Init Git Repo"
 above should be entered here.
 
 Useful Links
-------------
+============
 
 * `magpie on Github`_
 * `magpie in PyPI`_
@@ -65,10 +65,10 @@ Useful Links
 * `To Do`_
 
 What is magpie?
----------------
+===============
 I *love* `Evernote`_, but I no longer trust my data to cloud providers. Magpie
 is an attempt to make a reasonably sufficient Evernote replacement where the
-user controls their data.
+users control their data.
 
 Basically, magpie is just a web tool for managing text files in a git repo. In
 it, you can create notebooks (which are just folders); create, edit, and delete
@@ -76,7 +76,7 @@ notes (which are just files). That's pretty much it. However, when you make any
 of these changes, they are automatically committed to git.
 
 What isn't magpie?
-------------------
+==================
 
 * Complete (see `contributing`_)
 
@@ -88,13 +88,13 @@ What isn't magpie?
   person. It's never going to be as good or as useable as Evernote.)
 
 Features
---------
+========
 
-* Markdown notes are rendered on the page
+* Markdown & HTML notes are rendered on the page
 
 * Uses git as a backend
 
-    * Easy backups (if you know git): clone once, then pull to backup notes
+    * Easy backups (if you know git): clone once, then push/pull to backup notes
 
     * track history, etc, just like with git (using git, not via magpie's web
       interface ... yet?)
@@ -104,8 +104,10 @@ Features
 
 * Email yourself notes (see `emailing notes`_)
 
+* Scrape PDFs to make them searchable in magpie (see `pdf_scraper`)
+
 Image Attribution
------------------
+=================
 Logo/favicon courtesy of `Kieran Palmer`_, as licensed under CC BY-SA 2.0 Generic.
 
 .. _Github: https://help.github.com/articles/create-a-repo
@@ -115,5 +117,6 @@ Logo/favicon courtesy of `Kieran Palmer`_, as licensed under CC BY-SA 2.0 Generi
 .. _Contributing: https://github.com/charlesthomas/magpie/blob/master/contributing.rst
 .. _To Do: https://github.com/charlesthomas/magpie/blob/master/todo.md
 .. _Evernote: https://evernote.com
-.. _emailing notes: emailing_notes.rst
+.. _emailing notes: docs/utils/emailing_notes.rst
+.. _pdf_scraper: docs/utils/pdf_scraper.rst
 .. _Kieran Palmer: http://www.kpword.net
