@@ -25,8 +25,11 @@ Installing magpie
 
     pip install magpie
 
-Init Git Repo
--------------
+Setup Git Repo
+--------------
+
+git init
+~~~~~~~~
 Locally::
 
     mkdir -p /path/to/notes/repo/
@@ -36,6 +39,14 @@ Locally::
 On `Github`_
 
 On `Bitbucket`_
+
+git config
+~~~~~~~~~~
+Depending on what your environment is like, you may get a nasty error the first
+time you try to do something useful. This happened to me when I setup magpie to
+work with supervisor. In order to resolve this, I had to set the ``user.name``
+and ``user.email`` fields in git config. The error message on the magpie page
+will tell you the syntax.
 
 Launch magpie
 -------------

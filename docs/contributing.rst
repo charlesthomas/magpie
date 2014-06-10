@@ -12,6 +12,12 @@ New Features
 There are a few features that magpie could use to make it really great, and even
 better competition for Evernote.
 
+Git Setup
+=========
+In order to use magpie right now, you have to know enough about git to init the
+repo, and set the user name and email. It would be nice if magpie was smart
+enough to do this through the web application.
+
 Web Scraper
 ===========
 Evernote has a Javascript bookmarklet that will scrape a webpage and add it as a
