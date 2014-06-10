@@ -15,6 +15,7 @@ Pre-requisites
 
 (outside of PyPI):
 
+* libmagic
 * Python
 * Pip/Easy Install
 * Git
