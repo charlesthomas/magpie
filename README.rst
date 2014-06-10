@@ -2,7 +2,7 @@
 magpie
 ======
 
-.. image:: ../magpie/static/magpie.jpg
+.. image:: https://dl.dropboxusercontent.com/u/402325/dontdelete/magpie.jpg
 
 magpie: [ma]rkdown, [g]it, [pie]thon
 
