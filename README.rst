@@ -127,9 +127,9 @@ Logo/favicon courtesy of `Kieran Palmer`_, as licensed under CC BY-SA 2.0 Generi
 .. _magpie documentation: https://magpie-notes.readthedocs.org/en/latest/
 .. _magpie on Github: https://github.com/charlesthomas/magpie/
 .. _magpie in PyPI: https://pypi.python.org/pypi/magpie/
-.. _Contributing: docs/contributing.rst
+.. _Contributing: https://github.com/charlesthomas/magpie/blob/master/docs/contributing.rst
 .. _To Do: https://github.com/charlesthomas/magpie/blob/master/todo.md
 .. _Evernote: https://evernote.com
-.. _emailing notes: docs/utils/emailing_notes.rst
-.. _pdf_scraper: docs/utils/pdf_scraper.rst
+.. _emailing notes: https://magpie-notes.readthedocs.org/en/latest/utils/emailing_notes.html
+.. _pdf_scraper: https://magpie-notes.readthedocs.org/en/latest/utils/pdf_scraper.html
 .. _Kieran Palmer: http://www.kpword.net
