@@ -88,6 +88,10 @@ it, you can create notebooks (which are just folders); create, edit, and delete
 notes (which are just files). That's pretty much it. However, when you make any
 of these changes, they are automatically committed to git.
 
+Demo
+----
+`A demo of magpie is available here`_
+
 What isn't magpie?
 ==================
 
@@ -131,6 +135,7 @@ Logo/favicon courtesy of `Kieran Palmer`_, as licensed under CC BY-SA 2.0 Generi
 .. _Contributing: https://github.com/charlesthomas/magpie/blob/master/docs/contributing.rst
 .. _To Do: https://github.com/charlesthomas/magpie/blob/master/todo.md
 .. _Evernote: https://evernote.com
+.. _A demo of magpie is available here: http://magpie.sknkwrks.net/
 .. _emailing notes: https://magpie-notes.readthedocs.org/en/latest/utils/emailing_notes.html
 .. _pdf_scraper: https://magpie-notes.readthedocs.org/en/latest/utils/pdf_scraper.html
 .. _Kieran Palmer: http://www.kpword.net
