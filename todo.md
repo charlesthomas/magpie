@@ -8,9 +8,11 @@
 
 
 ### ``magpie/handler/search.py``
-(line 18) filter out duplicates if the filename is already in the search results
+(line 21) filter out duplicates if the filename is already in the search results
 
-(line 31) this doesn't play well with colons in filenames
+(line 22) this doesn't exclude the .git folder
+
+(line 35) this doesn't play well with colons in filenames
 
 
 ### ``magpie/template/base.html``

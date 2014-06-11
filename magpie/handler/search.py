@@ -4,9 +4,12 @@ from re import sub
 from sh import find, grep, ErrorReturnCode_1
 from urllib2 import unquote
 
+from tornado.web import authenticated
+
 from base import BaseHandler
 
 class SearchHandler(BaseHandler):
+    @authenticated
     def get(self):
         query = unquote(self.get_argument('q'))
         try:
@@ -16,6 +19,7 @@ class SearchHandler(BaseHandler):
             results = ''
 
         # TODO filter out duplicates if the filename is already in the search results
+        # TODO this doesn't exclude the .git folder
         try:
             results += str(find(self.settings.repo, '-type', 'f', '-name',
                                 '*' + query + '*'))
