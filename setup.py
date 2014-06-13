@@ -9,6 +9,7 @@ LONG_DESC = open('README.rst').read()
 LICENSE = open('LICENSE').read()
 REQUIREMENTS = [open('requirements.txt').readlines()]
 
+# TODO add classifiers
 CLASSIFIERS = []
 PACKAGES=['magpie', 'magpie/config', 'magpie/handler', 'magpie/static',
           'magpie/template']

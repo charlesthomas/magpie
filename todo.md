@@ -21,6 +21,10 @@
 (line 76) this causes the new note button to not work again until a page refresh -->
 
 
+### ``setup.py``
+(line 12) add classifiers
+
+
 ### ``utils/email_notes.py``
 (line 43) there seems to be a bug where other notes in other notebooks can be deleted
 
