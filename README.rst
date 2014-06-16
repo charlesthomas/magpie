@@ -15,16 +15,20 @@ Pre-requisites
 
 (outside of PyPI):
 
-* libmagic
+* [libmagic](https://pypi.python.org/pypi/filemagic/1.6)
 * Python
 * Pip/Easy Install
 * Git
 
 Installing magpie
 -----------------
-::
+If you're a Python person, and you are using virtual environments, just::
 
     pip install magpie
+
+If you don't know what Python virtual environments are::
+
+    sudo pip install magpie
 
 Setup Git Repo
 --------------
@@ -51,9 +55,13 @@ will tell you the syntax.
 
 Launch magpie
 -------------
-::
+In a Python virtualenv::
 
     magpie
+
+If you installed magpie with ``sudo``::
+
+    sudo magpie
 
 Connect
 -------
@@ -61,12 +69,21 @@ In browser, go to http://localhost:8080
 
 Configure
 ---------
+
 On the main page, there should be a link to configure magpie. (Alternatively,
 http://localhost:8080/config)
 
 Enter as much info here as you want. Username / Password are not required, but
 recommended. The only required field is repo. The path from "Init Git Repo"
 above should be entered here.
+
+Home Dir Config
+~~~~~~~~~~~~~~~
+As of version 0.0.4, if you have a ".magpie" directory in your home directory,
+you can store config files there, instead of the default path. You'll need to
+make this directory after installing magpie and before running it.
+Alternatively, you can create the directory and move the config files there
+manually.
 
 Useful Links
 ============
@@ -91,6 +108,9 @@ of these changes, they are automatically committed to git.
 Demo
 ----
 `A demo of magpie is available here`_
+
+(If you make changes and they disappear, it's because the demo resets itself
+every 15 minutes.)
 
 What isn't magpie?
 ==================

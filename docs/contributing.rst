@@ -2,6 +2,11 @@
 Contributing
 ============
 
+Thanks!
+-------
+Thanks to [looper](https://github.com/looperhacks) for adding the [home
+directory config functionality](https://github.com/charlesthomas/magpie/pull/5).
+
 Bug Fixes / Minor Changes
 -------------------------
 magpie uses `todo.md`_ to track TODO items in its code. If you're looking to fix
