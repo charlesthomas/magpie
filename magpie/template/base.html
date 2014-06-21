@@ -26,7 +26,7 @@ href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
 <input type=text name=new_notebook_name id=new_notebook_name>
 <input
 onclick="var new_notebook='/'+document.getElementById('new_notebook_name').value
-$.post(new_notebook).done(window.location=new_notebook)"
+$.post(new_notebook).done(function(){window.location=new_notebook})"
 type=button class='btn btn-primary' value=Create>
 <input type=button class='btn btn-danger' value=Cancel
 onclick="this.parentElement.className='hidden'">
@@ -70,7 +70,7 @@ onclick="this.parentElement.className='hidden'">
     <input type=text name=new_note_name id=new_note_name><br><br>
     <input type=button class='btn btn-primary' value=Create
     onclick="var new_note='/{{ url_escape(notebook_name) }}/'+document.getElementById('new_note_name').value
-    $.post(new_note,data={'save': true, 'note': ''}).done(window.location=new_note)">
+    $.post(new_note,data={'save': true, 'note': ''}).done(function(){window.location=new_note})">
     <input type=button class='btn btn-danger' value=Cancel id=cancel
     onclick="this.parentElement.className='hidden'"></a></li>
     <!-- TODO this causes the new note button to not work again until a page refresh -->
