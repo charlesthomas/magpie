@@ -9,8 +9,9 @@ class NotebookHandler(BaseHandler):
     @authenticated
     def get(self, notebook_name):
         notebook_name = notebook_name.replace('+', ' ')
-        print self.application.repo.working_dir
-        if not isdir(join(self.application.repo.working_dir, notebook_name)):
+        if self.application.repo is None:
+            self.redirect('/')
+        elif not isdir(join(self.application.repo.working_dir, notebook_name)):
             self.redirect('/')
         else:
             if notebook_name.endswith('/'):
