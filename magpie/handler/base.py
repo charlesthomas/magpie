@@ -12,7 +12,8 @@ class BaseHandler(RequestHandler):
         else:
             kwargs['notebook_name'] = ''
             kwargs['notes'] = []
-        if self.settings.repo is not None and isdir(self.settings.repo) and \
+        #if self.settings.repo is not None and isdir(self.settings.repo) and \
+        if self.application.repo is not None and \
         not kwargs.get('hide_notebooks', False):
             kwargs['notebooks'] = sorted(listdir(self.settings.repo))
         else:

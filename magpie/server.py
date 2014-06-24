@@ -50,6 +50,7 @@ server.settings.config_path = config_path
 
 def main():
     server.git = git.bake(_cwd=server.settings.repo)
+    server.repo = None
     server.listen(options.port, 'localhost')
     autoreload.start()
     autoreload.watch(config_path.web)
