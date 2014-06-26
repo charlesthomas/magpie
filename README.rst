@@ -16,10 +16,14 @@ Pre-requisites
 (outside of PyPI):
 
 * Python 2.7
+
 * Pip/Easy Install
+
 * Git
+
 * [libmagic](https://pypi.python.org/pypi/filemagic/1.6) (OS X specific issue;
   it's already installed on most Linux distros)
+
 * cygwin (Windows only requirement; see
   [issue #4](https://github.com/charlesthomas/magpie/issues/4))
 
