@@ -6,14 +6,11 @@ Thanks!
 -------
 Thanks to:
 
-* [Erwyn](https://github.com/Erwyn) for fixing [the write/reload race
-  condition](https://github.com/charlesthomas/magpie/pull/15)
+* Erwyn for fixing the write/reload race condition (`#15`_)
 
-* [tomleo](https://github.com/tomleo) for fixing the [home dir config
-bug](https://github.com/charlesthomas/magpie/pull/10)
+* tomleo for fixing the home dir config bug (`#10`_)
 
-* [looper](https://github.com/looperhacks) for adding the [home directory config
-functionality](https://github.com/charlesthomas/magpie/pull/5).
+* looper for adding the home directory config functionality (`#5`_)
 
 Bug Fixes / Minor Changes
 -------------------------
@@ -77,6 +74,9 @@ Documentation
 Hopefully this documentation is good enough to get people using magpie, but
 documentation can always be more thorough.
 
+.. _#15: https://github.com/charlesthomas/magpie/pull/15
+.. _#10: https://github.com/charlesthomas/magpie/pull/10
+.. _#5: https://github.com/charlesthomas/magpie/pull/5
 .. _todo.md: https://github.com/charlesthomas/todo.md
 .. _magpie's todo.md: https://github.com/charlesthomas/magpie/blob/master/todo.md
 .. _OCR: https://en.wikipedia.org/wiki/Optical_character_recognition
