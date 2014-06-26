@@ -10,8 +10,8 @@ from tornado.ioloop import IOLoop
 from tornado.options import define, options, parse_config_file
 from tornado.web import Application
 
-from magpie.config import config_path
-from magpie.handler import urls
+from config import config_path
+from handler import urls
 
 class AttrDict(dict):
     def __getattr__(self, key):
