@@ -32,7 +32,7 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
     <input type=submit class="btn btn-danger" value=Cancel name=cancel>
     <br>
     <br>
-    <textarea cols=100 rows=25 name=note>{{ note_contents }}</textarea>
+    <textarea cols=100 rows=25 name=note tabindex=1>{{ note_contents }}</textarea>
   {% else %}
     <br>
     {% if dot %}
