@@ -4,8 +4,13 @@ Contributing
 
 Thanks!
 -------
-Thanks to [looper](https://github.com/looperhacks) for adding the [home
-directory config functionality](https://github.com/charlesthomas/magpie/pull/5).
+Thanks to:
+* [Erwyn](https://github.com/Erwyn) for fixing [the write/reload race
+  condition](https://github.com/charlesthomas/magpie/pull/15)
+* [tomleo](https://github.com/tomleo) for fixing the [home dir config
+bug](https://github.com/charlesthomas/magpie/pull/10)
+* [looper](https://github.com/looperhacks) for adding the [home directory config
+functionality](https://github.com/charlesthomas/magpie/pull/5).
 
 Bug Fixes / Minor Changes
 -------------------------
