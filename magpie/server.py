@@ -35,6 +35,7 @@ define('testing', default=False, type=bool)
 define('repo', default=None, type=str)
 define('username', default=None, type=str)
 define('pwdhash', default=None, type=str)
+define('listen_localhost_only', default=True, type=bool)
 parse_config_file(config_path.web)
 
 if options.testing:
@@ -50,7 +51,10 @@ server.settings.config_path = config_path
 
 def main():
     server.git = git.bake(_cwd=server.settings.repo)
-    server.listen(options.port, 'localhost')
+    if options.listen_localhost_only:
+        server.listen(options.port, 'localhost')
+    else:
+        server.listen(options.port)
     autoreload.start()
     autoreload.watch(config_path.web)
     IOLoop.instance().start()
