@@ -21,11 +21,12 @@ Pip/Easy Install
 
 Git
 
-[libmagic](https://pypi.python.org/pypi/filemagic/1.6) (OS X specific issue;
-it's already installed on most Linux distros)
+[libmagic](https://pypi.python.org/pypi/filemagic/1.6)
+OS X specific issue; it's already installed on most Linux distros
 
-cygwin (Windows only requirement; see
-[issue #4](https://github.com/charlesthomas/magpie/issues/4))
+cygwin
+Windows only requirement; see [issue
+#4](https://github.com/charlesthomas/magpie/issues/4)
 
 Installing magpie
 -----------------
