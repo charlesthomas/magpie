@@ -2,97 +2,125 @@
 {% from operator import itemgetter %}
 <!doctype html>
 <html>
-<head>
-<title>{% block title %}{% end block %} :: magpie</title>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
-</script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
-</script>
-<link rel=stylesheet
-href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-<link rel=icon type=image/jpeg href="{{ static_url('magpie.jpg') }}" />
-{% block js %}{% end block %}
-</head>
+  <head>
+    <title>
+      {% block title %}{% end block %} :: magpie
+    </title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+    <link rel="icon" type="image/jpeg" href="{{ static_url('magpie.jpg') }}" />
+  </head>
+  <body {% block bodytag %}{% end block %}>
+    <br>
+    <ul class="nav nav-tabs">
+      <li>
+        <a href="/">
+          <span class="glyphicon glyphicon-home"></span>
+        </a>
+      </li>
+      <!-- new notebook button exposes new notebook form -->
+      <li>
+        <a href="#" onclick="$('#new_notebook_form').removeClass('hidden')">
+          + New Notebook +
+        </a>
+      </li>
+      <!-- hidden new notebook form -->
+      <li class="hidden" id="new_notebook_form">
+        <a href="#">
+          <input type="text" name="new_notebook_name" id="new_notebook_name" />
+          <input onclick="new_notebook(this);" type="button" class="btn btn-primary" value="Create" />
+          <input type="button" class="btn btn-danger" value="Cancel" onclick="uitoggler(this)" />
+          <!-- TODO this causes the newbook note button to not work again until a page refresh -->
+        </a>
+      </li>
 
-<body {% block bodytag %}{% end block %}>
-<br>
-<ul class='nav nav-tabs'>
-<li><a href=/><span class='glyphicon glyphicon-home'></span></a></li>
-<!-- new notebook button exposes new notebook form -->
-<li><a href=# onclick="document.getElementById('new_notebook_form').className=''">
-+ New Notebook +</a></li>
-<!-- hidden new notebook form -->
-<li class=hidden id=new_notebook_form><a href=#>
-<input type=text name=new_notebook_name id=new_notebook_name>
-<input
-onclick="var new_notebook='/'+document.getElementById('new_notebook_name').value
-$.post(new_notebook).done(function(){window.location=new_notebook})"
-type=button class='btn btn-primary' value=Create>
-<input type=button class='btn btn-danger' value=Cancel
-onclick="this.parentElement.className='hidden'">
-<!-- TODO this causes the newbook note button to not work again until a page refresh -->
-</a></li>
-
-<!-- iterate though existing notebooks -->
+      <!-- iterate though existing notebooks -->
 {% for notebook in notebooks %}
   {% if notebook != '.git' %}
-  <li
-  {% if notebook_name == notebook %}
-    class=active
-  {% end if %}
-  ><a href=/{{ url_escape(notebook) }}>{{ notebook }}</a></li>
+        <li {% if notebook_name == notebook %}class="active"{% end if %}>
+          <a href="/{{ url_escape(notebook) }}">
+            {{ notebook }}
+          </a>
+        </li>
   {% end if %}
 {% end for %}
-</ul>
-<br>
-<div class='col-sm-2'>
-  <ul class='nav nav-pills nav-stacked'>
-  <!-- search -->
-  <li>
-    <form method=GET action=/search>
-    <div class=form-group>
-      <input type=search name=q id=search size=15 placeholder=" search"
-      tabindex=10>
-        <button class='btn btn-link'>
-        <span class="glyphicon glyphicon-search">
-        </span>
-        </button>
+      </ul>
+      <br>
+      <div class="col-sm-2">
+        <ul class="nav nav-pills nav-stacked">
+        <!-- search -->
+        <li>
+          <form method="GET" action="/search">
+            <div class="form-group">
+              <input type="search" name="q" id="search" size="15" placeholder="search" tabindex="10">
+              <button class="btn btn-link">
+                <span class="glyphicon glyphicon-search">
+                </span>
+              </button>
+            </div>
+          </form>
+        </li>
+
+{% if notebook_name != '' %}
+        <!-- new note button exposes new note form -->
+        <li>
+          <a href="#" onclick="$('#new_note_form').removeClass('hidden');">
+            + New Note +
+          </a>
+        </li>
+        <!-- hidden note form -->
+        <li class="hidden" id="new_note_form">
+          <a href="#">
+            <input type="text" name="new_note_name" id="new_note_name" />
+            <br><br>
+            <input type="button" class="btn btn-primary" value="Create" onclick="new_note(this);" />
+            <input type="button" class="btn btn-danger" value="Cancel" id="cancel" onclick="uitoggler(this);">
+            <!-- TODO this causes the new note button to not work again until a page refresh -->
+          </a>
+        </li>
+{% end if %}
+
+{# iterate through existing notes #}
+{% for note in notes %}
+        <li {% if note == note_name %}class="active"{% end if %}>
+          <a href="/{{ url_escape(notebook_name) }}/{{ url_escape(note) }}">
+            {{ note }}
+          </a>
+        </li>
+{% end for %}
+      </ul>
     </div>
-    </form>
-  </li>
-
-  {% if notebook_name != '' %}
-    <!-- new note button exposes new note form -->
-    <li><a href=# onclick="document.getElementById('new_note_form').className=''">
-    + New Note +</a></li>
-    <!-- hidden note form -->
-    <li class=hidden id=new_note_form><a href=#>
-    <input type=text name=new_note_name id=new_note_name><br><br>
-    <input type=button class='btn btn-primary' value=Create
-    onclick="var new_note='/{{ url_escape(notebook_name) }}/'+document.getElementById('new_note_name').value
-    $.post(new_note,data={'save': true, 'note': ''}).done(function(){window.location=new_note})">
-    <input type=button class='btn btn-danger' value=Cancel id=cancel
-    onclick="this.parentElement.className='hidden'"></a></li>
-    <!-- TODO this causes the new note button to not work again until a page refresh -->
-  {% end if %}
-
-  <!-- iterate through existing notes -->
-  {% for note in notes %}
-    <li
-    {% if note == note_name %}
-      class=active
-    {% end if %}
-    ><a href=/{{ url_escape(notebook_name) }}/{{ url_escape(note) }}>{{ note }}</a></li>
-  {% end for %}
-  </ul>
-</div>
-<div class=container>
-  <div class=row>
-    <div class='col-sm-10'>
-    {% block body %}
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-10">
+          {% block body %}
+          {% end block %}
+        </div>
+      </div>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script>
+      //helpers
+      var uitoggler = function(self){
+        $(self).parents("li").first().addClass("hidden");
+      };
+      var new_notebook = function(self){
+        var name = '/'+$("#new_notebook_name").val();
+        $.post(name).done(function(){
+          window.location = name;
+        });
+      };
+      var new_note = function(self){
+        var name = '/{{ url_escape(notebook_name) }}/' + $("#new_note_name").val();
+        $.post(name, data = {
+           save: true
+          ,note: ''
+        }).done(function(){
+          window.location = name;
+        });
+      };
+    </script>
+    {% block js %}
     {% end block %}
-    </div>
-  </div>
-</div>
-</body>
+  </body>
 </html>
