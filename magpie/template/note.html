@@ -25,6 +25,7 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
 {% end block %}
 
 {% block body %}
+<!-- TODO it would be awesome if edit mode had some JS that auto-saved after ... 3? seconds or so, but stayed in edit mode -->
   {% if edit %}
     <br>
     <form method=POST>
