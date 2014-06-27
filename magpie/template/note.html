@@ -34,6 +34,19 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
     <br>
     <br>
     <textarea cols=100 rows=25 name=note tabindex=1>{{ note_contents }}</textarea>
+    <script>
+      var autosave = function(){
+        $.ajax({
+           url:  "{{ note_name }}?a=edit"
+          ,type: "POST"
+          ,data: {
+             save: "Save"
+            ,note: $("textarea").val()
+          }
+        });
+      };
+      setInterval(autosave, 5000);
+    </script>
   {% else %}
     <br>
     {% if dot %}
