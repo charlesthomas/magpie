@@ -21,6 +21,10 @@
 (line 76) this causes the new note button to not work again until a page refresh -->
 
 
+### ``magpie/template/note.html``
+(line 28) it would be awesome if edit mode had some JS that auto-saved after ... 3? seconds or so, but stayed in edit mode -->
+
+
 ### ``utils/email_notes.py``
 (line 43) there seems to be a bug where other notes in other notebooks can be deleted
 
