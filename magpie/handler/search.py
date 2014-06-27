@@ -18,18 +18,19 @@ class SearchHandler(BaseHandler):
         except ErrorReturnCode_1 as e:
             results = ''
 
-        # TODO filter out duplicates if the filename is already in the search results
-        # TODO this doesn't exclude the .git folder
+        results = "\n".join(list(set(results.split("\n"))))
+
         try:
             results += str(find(self.settings.repo, '-type', 'f', '-name',
-                                '*' + query + '*'))
+                                '*' + query + '*', '-not', '(', '-path',
+                                '%s/%s/*' % (self.settings.repo, '.git') ))
         except ErrorReturnCode_1 as e:
             pass
 
         results = results.replace(self.settings.repo, '').split('\n')[:-1]
         formatted_results = []
         for result in results:
-            if 'Binary file' in result:
+            if 'Binary file' in result or result == '':
                 continue
 
             # TODO this doesn't play well with colons in filenames
