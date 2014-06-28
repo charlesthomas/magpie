@@ -90,6 +90,8 @@ for message_index in messages[0].split(' '):
         text = ''
         for part in payload:
             text += part.get_payload()
+    else:
+        text = payload
     text = text.replace('\r\n', '\n')
     note_file.write(text)
     note_file.close()
