@@ -1,24 +1,16 @@
 ## To Do
-### ``magpie/handler/config.py``
-(line 17) need confirm password field?
-
-
 ### ``magpie/handler/note.py``
 (line 37) () in the text seems to break this
 
 
 ### ``magpie/handler/search.py``
-(line 34) this doesn't play well with colons in filenames
+(line 33) this doesn't play well with colons in filenames
 
 
 ### ``magpie/template/base.html``
 (line 32) this causes the newbook note button to not work again until a page refresh -->
 
 (line 77) this causes the new note button to not work again until a page refresh -->
-
-
-### ``magpie/template/note.html``
-(line 28) it would be awesome if edit mode had some JS that auto-saved after ... 3? seconds or so, but stayed in edit mode -->
 
 
 ### ``utils/email_notes.py``

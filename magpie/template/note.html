@@ -25,7 +25,6 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
 {% end block %}
 
 {% block body %}
-<!-- TODO it would be awesome if edit mode had some JS that auto-saved after ... 3? seconds or so, but stayed in edit mode -->
   {% if edit %}
     <br>
     <form method=POST>
@@ -34,19 +33,21 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
     <br>
     <br>
     <textarea cols=100 rows=25 name=note tabindex=1>{{ note_contents }}</textarea>
-    <script>
-      var autosave = function(){
-        $.ajax({
-           url:  "{{ note_name }}?a=edit"
-          ,type: "POST"
-          ,data: {
-             save: "Save"
-            ,note: $("textarea").val()
-          }
-        });
-      };
-      setInterval(autosave, 5000);
-    </script>
+    {% if autosave %}
+        <script>
+          var autosave = function(){
+            $.ajax({
+               url:  "{{ note_name }}?a=edit"
+              ,type: "POST"
+              ,data: {
+                 save: "Save"
+                ,note: $("textarea").val()
+              }
+            });
+          };
+          setInterval(autosave, 5000);
+        </script>
+    {% end if %}
   {% else %}
     <br>
     {% if dot %}

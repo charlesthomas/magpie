@@ -29,7 +29,7 @@ class NoteHandler(BaseHandler):
             note_contents = open(path).read()
             self.render('note.html', notebook_name=notebook_name,
                         note_name=note_name, note_contents=note_contents,
-                        edit=True)
+                        edit=True, autosave=self.settings['autosave'])
         else:
             if toggle:
                 f = open(path)

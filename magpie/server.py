@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import logging
 from os import path
 from random import choice
 from string import letters, digits
@@ -36,6 +35,7 @@ define('repo', default=None, type=str)
 define('username', default=None, type=str)
 define('pwdhash', default=None, type=str)
 define('listen_localhost_only', default=True, type=bool)
+define('autosave', default=False, type=bool)
 parse_config_file(config_path.web)
 
 if options.testing:
@@ -48,6 +48,7 @@ server.settings.username = options.username
 server.settings.pwdhash = options.pwdhash
 server.settings.session = _rand_str()
 server.settings.config_path = config_path
+server.settings.autosave = options.autosave
 
 def main():
     server.git = git.bake(_cwd=server.settings.repo)

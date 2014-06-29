@@ -1,4 +1,3 @@
-import logging
 from os import path
 from re import sub
 from sh import find, grep, ErrorReturnCode_1
