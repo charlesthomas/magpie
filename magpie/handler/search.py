@@ -18,8 +18,6 @@ class SearchHandler(BaseHandler):
         except ErrorReturnCode_1 as e:
             results = ''
 
-        results = "\n".join(list(set(results.split("\n"))))
-
         try:
             results += str(find(self.settings.repo, '-type', 'f', '-name',
                                 '*' + query + '*', '-not', '(', '-path',
