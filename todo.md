@@ -12,9 +12,9 @@
 
 
 ### ``magpie/template/base.html``
-(line 33) this causes the newbook note button to not work again until a page refresh -->
+(line 32) this causes the newbook note button to not work again until a page refresh -->
 
-(line 76) this causes the new note button to not work again until a page refresh -->
+(line 77) this causes the new note button to not work again until a page refresh -->
 
 
 ### ``magpie/template/note.html``
