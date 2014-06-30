@@ -1,16 +1,6 @@
 ## To Do
-### ``magpie/handler/note.py``
-(line 37) () in the text seems to break this
-
-
 ### ``magpie/handler/search.py``
-(line 33) this doesn't play well with colons in filenames
-
-
-### ``magpie/template/base.html``
-(line 37) this causes the newbook note button to not work again until a page refresh -->
-
-(line 83) this causes the new note button to not work again until a page refresh -->
+(line 35) this doesn't play well with colons in filenames
 
 
 ### ``utils/email_notes.py``
