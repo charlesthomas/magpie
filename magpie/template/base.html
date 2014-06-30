@@ -34,7 +34,6 @@
           <input type="text" name="new_notebook_name" id="new_notebook_name" />
           <input onclick="new_notebook(this);" type="button" class="btn btn-primary" value="Create" />
           <input type="button" class="btn btn-danger" value="Cancel" onclick="uitoggler(this)" />
-          <!-- TODO this causes the newbook note button to not work again until a page refresh -->
         </a>
       </li>
 
@@ -80,7 +79,6 @@
             <br><br>
             <input type="button" class="btn btn-primary" value="Create" onclick="new_note(this);" />
             <input type="button" class="btn btn-danger" value="Cancel" id="cancel" onclick="uitoggler(this);">
-            <!-- TODO this causes the new note button to not work again until a page refresh -->
           </a>
         </li>
 {% end if %}
