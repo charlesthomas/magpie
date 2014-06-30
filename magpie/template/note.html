@@ -4,18 +4,24 @@
 {% block js %}
   <script type=text/javascript>
     function checkbox_replace(el) {
-      uncheck_regex=/\[ \](.*)<\/p>/g;
-      checked_regex=/\[x\](.*)<\/p>/g;
-      uncheck_html="<label><input type=checkbox onchange=\"toggle(this)\">$1</label>";
-      checked_html="<label><input type=checkbox onchange=\"toggle(this)\" checked=true>$1</label>";
-      el.innerHTML=el.innerHTML.replace(uncheck_regex, uncheck_html);
-      el.innerHTML=el.innerHTML.replace(checked_regex, checked_html);
+      var checkbox_regex = /\[([x| ])\](.*)<\/p>/g;
+      var replace_html   = "<label><input type=checkbox onchange=\"toggle(this)\" zindex=\"$$INDEX$$\"$$CHECKED$$>$$TEXT$$</label>";
+      var index          = 0;
+      $(el).html($(el).html().replace(checkbox_regex, function(a,b,c){
+        return replace_html.replace("$$INDEX$$", index++).replace("$$TEXT$$", c).replace("$$CHECKED$$", b == " " ? "" : " checked=\"true\"");
+      }));
     }
     function toggle(el) {
-      $.post("{{ note_name }}", data={'note': el.parentNode.textContent,
-                                    'toggle': true, 'save': true}).done(
-                                      window.location="{{ note_name }}"
-                                    );
+      $.post(
+         "{{ note_name }}"
+        ,data={
+           note:  $(el).attr("zindex")
+          ,toggle: true
+          ,save:   true
+        }
+      ).done(function(){
+        window.location="{{ note_name }}"
+      });
     }
   </script>
 {% end block %}
