@@ -17,11 +17,7 @@
   </div>
   <div class="form-group">
     <label class="control-label" for="pwdhash">Password</label>
-    <input type="password" name="pwdhash" placeholder="Password" tabindex="4" onchange="flagpass();" class="form-control" />
-  </div>
-  <div class="form-group vpass hidden">
-    <label class="control-label" for="pwdhash">Verify Password</label>
-    <input type="password" placeholder="Verify Password" tabindex="5" onchange="checkpass();" class="form-control" />
+    <input type="password" name="pwdhash" placeholder="Password" tabindex="4" class="form-control" />
   </div>
   <div class="form-group">
     <label>
@@ -29,8 +25,9 @@
     </label>
   </div>
   <input type="hidden" name="save" value="Save" />
-  <button type="submit" class="btn btn-primary btn-block" tabindex="6">Save</button>
-  <h2>Advanced Settings</h2>
+  <button type="submit" class="btn btn-primary" tabindex="6">Save</button>
+  <hr>
+  <div class=lead>Advanced Settings</div>
   <div class="form-group">
     <label>
       <input type="checkbox" name="testing"{% if config.get('testing', 'False') == 'True' %} checked="on"{% end if %} /> Test Mode - <span class="small">Enables logging, you probably want to leave this off.</span>
@@ -41,20 +38,5 @@
       <input type="checkbox" name="listen_localhost_only"{% if config.get('listen_localhost_only', 'False') == 'True' %} checked="on"{% end if %} /> Localhost Only - <span class="small">Prevents access to magpie from other computers on the network if enabled.</span>
     </label>
   </div>
-
-
 </form>
-<script>
-  var passflagged = 0;
-  var flagpass    = function(){ passflagged = 1; $(".vpass").removeClass("hidden") };
-  var checkpass   = function(){
-    if(!passflagged){ return; };
-    var passes = $("input[type='password']");
-    if(passes[0].value != passes[1].value){
-      $(passes).parent().addClass("has-error");
-    }else{
-      $(passes).parent().removeClass("has-error");
-    }
-  };
-</script>
 {% end block %}
