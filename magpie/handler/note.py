@@ -35,16 +35,19 @@ class NoteHandler(BaseHandler):
                 f = open(path)
                 tmp = []
                 # TODO () in the text seems to break this
-                search_string = r'(\[.\])\s(%s)' % note_contents
+                search_string = r'^(\s*?)(\[.\])\s(.*)$'
+                index = 0
                 for line in f.readlines():
                     regex = search(search_string, line)
                     if regex is not None:
-                        old = regex.group(1)
-                        if old == '[x]':
-                            new = '[ ]'
-                        else:
-                            new = '[x]'
-                        line = "%s %s\n" % (new, regex.group(2))
+                        if int(index) == int(note_contents):
+                            old = regex.group(2)
+                            if old == '[x]':
+                                new = '[ ]'
+                            else:
+                                new = '[x]'
+                            line = "%s%s %s\n" % (regex.group(1), new, regex.group(3))
+                        index = index + 1
                     tmp.append(line)
                 f.close()
                 note_contents = ''.join(tmp)
