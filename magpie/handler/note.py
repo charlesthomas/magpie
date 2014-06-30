@@ -23,7 +23,7 @@ class NoteHandler(BaseHandler):
                         note_name=note_name)
 
     def _edit(self, notebook_name, note_name, note_contents=None,
-              confirmed=False, toggle=False):
+              confirmed=False, toggle=-1):
         path = join(self.settings.repo, notebook_name, note_name)
         if not confirmed:
             note_contents = open(path).read()
@@ -31,16 +31,16 @@ class NoteHandler(BaseHandler):
                         note_name=note_name, note_contents=note_contents,
                         edit=True, autosave=self.settings['autosave'])
         else:
-            if toggle:
+            print toggle
+            if toggle > -1:
                 f = open(path)
                 tmp = []
-                # TODO () in the text seems to break this
                 search_string = r'^(\s*?)(\[.\])\s(.*)$'
                 index = 0
                 for line in f.readlines():
                     regex = search(search_string, line)
                     if regex is not None:
-                        if int(index) == int(note_contents):
+                        if int(index) == int(toggle):
                             old = regex.group(2)
                             if old == '[x]':
                                 new = '[ ]'
@@ -129,7 +129,7 @@ class NoteHandler(BaseHandler):
         action = self.get_argument('a', 'view')
         if bool(self.get_argument('save', False)):
             note = self.get_argument('note')
-            toggle = self.get_argument('toggle', False)
+            toggle = self.get_argument('toggle', -1)
             self._edit(notebook_name=notebook_name, note_name=note_name,
                        note_contents=note, confirmed=True, toggle=toggle)
         elif bool(self.get_argument('delete', False)):
