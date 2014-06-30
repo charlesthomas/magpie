@@ -31,7 +31,6 @@ class NoteHandler(BaseHandler):
                         note_name=note_name, note_contents=note_contents,
                         edit=True, autosave=self.settings['autosave'])
         else:
-            print toggle
             if toggle > -1:
                 f = open(path)
                 tmp = []
