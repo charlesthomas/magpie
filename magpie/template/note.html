@@ -12,15 +12,22 @@
       }));
     }
     function toggle(el) {
+      var sindex = $(el).attr("zindex");
+      var ostate = !$(el).is(":checked");
       $.post(
          "{{ note_name }}"
         ,data={
            note:   ''
-          ,toggle: $(el).attr("zindex")
+          ,toggle: sindex
           ,save:   true
         }
-      ).done(function(){
-        window.location="{{ note_name }}"
+      ).error(function(){
+        if(ostate){
+          $("input[zindex='" + sindex + "']").prop("checked", true);
+        }else{
+          $("input[zindex='" + sindex + "']").removeAttr("checked");
+        }
+        $("#savefail").removeClass("hidden");
       });
     }
   </script>
@@ -76,6 +83,10 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
     <br>
     <br>
     <div id=rendered_note>
+      <div id="savefail" class="alert alert-danger fade in hidden" data-dismiss="alert">
+        <span onclick="$(this).parent().addClass('hidden');">×</span>
+        There was a failure saving the change, please refresh and try again.
+      </div>
       {% raw note_contents %}
     </div>
   {% end if %}
