@@ -15,8 +15,8 @@
       $.post(
          "{{ note_name }}"
         ,data={
-           note:  $(el).attr("zindex")
-          ,toggle: true
+           note:   ''
+          ,toggle: $(el).attr("zindex")
           ,save:   true
         }
       ).done(function(){
