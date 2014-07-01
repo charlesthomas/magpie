@@ -63,6 +63,15 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
     {% end if %}
   {% else %}
     <br>
+    <button class='btn btn-primary'
+      {% if '%s/%s' % (notebook_name, note_name) in starred_notes %}
+          onclick="window.location='{{ note_name }}?a=unstar'">
+          <span class="glyphicon glyphicon-star"></span>
+      {% else %}
+          onclick="window.location='{{ note_name }}?a=star'">
+          <span class="glyphicon glyphicon-star-empty"></span>
+      {% end if %}
+    </button>
     {% if dot %}
       <button class="btn btn-primary" onclick="window.location='.{{ note_name }}?a=edit'">
     {% else %}

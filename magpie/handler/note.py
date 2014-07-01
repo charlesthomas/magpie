@@ -9,6 +9,17 @@ from tornado.web import authenticated
 from base import BaseHandler
 
 class NoteHandler(BaseHandler):
+    def _star(self, notebook_name, note_name, star):
+        starred = self.get_starred()
+        full_name = '%s/%s' % (notebook_name, note_name)
+        if star == 'set' and full_name not in starred:
+            starred.append(full_name)
+            self.set_cookie('starred_notes', ','.join(starred))
+        elif star == 'unset' and full_name in starred:
+            starred.remove(full_name)
+            self.set_cookie('starred_notes', ','.join(starred))
+        self.redirect('/%s/%s' % (notebook_name, note_name))
+
     def _delete(self, notebook_name, note_name, confirmed=False):
         path = join(self.settings.repo, notebook_name, note_name)
         dot_path = join(self.settings.repo, notebook_name, '.' + note_name)
@@ -45,7 +56,8 @@ class NoteHandler(BaseHandler):
                                 new = '[ ]'
                             else:
                                 new = '[x]'
-                            line = "%s%s %s\n" % (regex.group(1), new, regex.group(3))
+                            line = "%s%s %s\n" % \
+                            (regex.group(1), new, regex.group(3))
                         index = index + 1
                     tmp.append(line)
                 f.close()
@@ -97,6 +109,10 @@ class NoteHandler(BaseHandler):
             self._delete(notebook_name, note_name, confirmed=False)
         elif action == 'edit':
             self._edit(notebook_name, note_name, confirmed=False)
+        elif action == 'star':
+            self._star(notebook_name, note_name, star='set')
+        elif action == 'unstar':
+            self._star(notebook_name, note_name, star='unset')
         else:
             path = join(self.settings.repo, notebook_name, note_name)
             dot_path = join(self.settings.repo, notebook_name, '.' + note_name)
