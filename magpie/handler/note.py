@@ -92,7 +92,6 @@ class NoteHandler(BaseHandler):
 
     @authenticated
     def get(self, notebook_name, note_name):
-        notebook_name = self._encode_notename(notebook_name)
         note_name = self._encode_notename(note_name)
         action = self.get_argument('a', 'view')
         if action == 'delete':
@@ -125,7 +124,6 @@ class NoteHandler(BaseHandler):
 
     @authenticated
     def post(self, notebook_name, note_name):
-        notebook_name = self._encode_notename(notebook_name)
         note_name = self._encode_notename(note_name)
         action = self.get_argument('a', 'view')
         if bool(self.get_argument('save', False)):
