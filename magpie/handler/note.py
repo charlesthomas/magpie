@@ -53,7 +53,7 @@ class NoteHandler(BaseHandler):
                 note_contents = ''.join(tmp)
 
             f = open(path, 'w')
-            f.write(note_contents)
+            f.write(note_contents.encode('utf8'))
             f.close()
 
             self.application.git.add(path)
