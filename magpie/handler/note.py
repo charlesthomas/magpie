@@ -24,6 +24,7 @@ class NoteHandler(BaseHandler):
 
     def _edit(self, notebook_name, note_name, note_contents=None,
               confirmed=False, toggle=-1):
+
         path = join(self.settings.repo, notebook_name, note_name)
         if not confirmed:
             note_contents = open(path).read()
@@ -69,6 +70,7 @@ class NoteHandler(BaseHandler):
 
     def _view_plaintext(self, notebook_name, note_name, highlight=None,
                         dot=False):
+
         if dot:
             path = join(self.settings.repo, notebook_name, '.' + note_name)
         else:
@@ -90,8 +92,8 @@ class NoteHandler(BaseHandler):
 
     @authenticated
     def get(self, notebook_name, note_name):
-        notebook_name = notebook_name.replace('+', ' ')
-        note_name = note_name.replace('+', ' ')
+        notebook_name = self._encode_notename(notebook_name)
+        note_name = self._encode_notename(note_name)
         action = self.get_argument('a', 'view')
         if action == 'delete':
             self._delete(notebook_name, note_name, confirmed=False)
@@ -123,8 +125,8 @@ class NoteHandler(BaseHandler):
 
     @authenticated
     def post(self, notebook_name, note_name):
-        notebook_name = notebook_name.replace('+', ' ')
-        note_name = note_name.replace('+', ' ')
+        notebook_name = self._encode_notename(notebook_name)
+        note_name = self._encode_notename(note_name)
         action = self.get_argument('a', 'view')
         if bool(self.get_argument('save', False)):
             note = self.get_argument('note')

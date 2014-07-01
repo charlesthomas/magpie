@@ -2,6 +2,7 @@ from os import listdir
 from os.path import isdir, join
 
 from tornado.web import RequestHandler
+from urllib import quote_plus, unquote_plus
 
 class BaseHandler(RequestHandler):
     def render(self, template, **kwargs):
@@ -17,6 +18,14 @@ class BaseHandler(RequestHandler):
             kwargs['notebooks'] = sorted(listdir(self.settings.repo))
         else:
             kwargs['notebooks'] = []
+        notebookclean = []
+        for n in kwargs['notebooks']:
+            notebookclean.append(self._decode_notename(n))
+        kwargs['notebooks'] = notebookclean
+        noteclean = []
+        for n in kwargs['notes']:
+            noteclean.append(self._decode_notename(n))
+        kwargs['notes'] = noteclean
         super(BaseHandler, self).render(template, **kwargs)
 
     def _highlight(self, text, highlight):
@@ -29,3 +38,10 @@ class BaseHandler(RequestHandler):
             return True
 
         return self.get_cookie('session', '') == self.settings.session
+
+    def _encode_notename(self, name):
+        name = name.replace(' ', '+')
+        return quote_plus(name.encode('utf8'), '+')
+
+    def _decode_notename(self, name):
+        return unquote_plus(name.encode('utf8'))
