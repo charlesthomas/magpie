@@ -18,18 +18,18 @@ class BaseHandler(RequestHandler):
             kwargs['notebooks'] = sorted(listdir(self.settings.repo))
         else:
             kwargs['notebooks'] = []
-        notebookclean = []
-        for n in kwargs['notebooks']:
-            notebookclean.append(self._decode_notename(n))
-        kwargs['notebooks'] = notebookclean
-        noteclean = []
-        for n in kwargs['notes']:
-            noteclean.append(self._decode_notename(n))
-        kwargs['notes'] = noteclean
+        cleanbooks = []
+        cleannotes = []
+        for s in kwargs['notebooks']:
+            cleanbooks.append(self._decode_notename(s))
+        for s in kwargs['notes']:
+            cleannotes.append(self._decode_notename(s))
+        kwargs['notebooks'] = cleanbooks
+        kwargs['notes']     = cleannotes
         super(BaseHandler, self).render(template, **kwargs)
 
     def _notes_list(self, notebook_name):
-        path = join(self.settings.repo, notebook_name)
+        path = join(self.settings.repo, self._encode_notename(notebook_name))
         notes = sorted([n.split('/')[1] for n in self.get_starred() if
                         n.startswith(notebook_name)])
         notes += sorted([n for n in listdir(path) if not n.startswith('.') and \
