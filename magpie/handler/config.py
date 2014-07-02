@@ -6,8 +6,9 @@ from tornado.web import authenticated
 from base import BaseHandler
 
 class ConfigHandler(BaseHandler):
-    ALLOWED = {'testing': bool, 'port': int, 'pwdhash': str, 'repo': str,
-               'username': str, 'autosave': bool, 'listen_localhost_only': bool}
+    ALLOWED = { 'testing': bool, 'port': int, 'pwdhash': str, 'repo': str, 'repo_user' : str, 
+                'repo_mail' : str, 'username': str, 'autosave': bool, 'listen_localhost_only': bool}
+    
     @authenticated
     def get(self):
         self.render('config.html', config=self._fetch_existing_config())
