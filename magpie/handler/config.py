@@ -8,7 +8,7 @@ from os.path import exists
 from base import BaseHandler
 
 class ConfigHandler(BaseHandler):
-    ALLOWED = {'testing': bool, 'port': int, 'pwdhash': str, 'repo': str, 'repo_user': str, 'repo_mail': str,
+    ALLOWED = {'testing': bool, 'port': int, 'pwdhash': str, 'repo': str, 'repo_user': str, 'repo_email': str,
                'username': str, 'autosave': bool, 'listen_localhost_only': bool}
     @authenticated
     def get(self):
@@ -47,7 +47,7 @@ class ConfigHandler(BaseHandler):
                 config_file.write("%s=%s\n" % (key, val))
             if key == 'repo_user' and un != val:
                 git.config('--global', 'user.name',  val)
-            elif key == 'repo_mail' and ue != val:
+            elif key == 'repo_email' and ue != val:
                 git.config('--global', 'user.email', val)
             elif key == 'repo' and not exists(val):
                 git.init(val)
