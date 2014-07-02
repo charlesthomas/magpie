@@ -1,34 +1,40 @@
 from os.path import exists, join
 from re import search
-
 from magic import Magic
 from markdown2 import markdown
 from sh import ErrorReturnCode_1
 from tornado.web import authenticated
+from tornado.escape import url_escape
+from base64 import b64encode, b64decode
 
 from base import BaseHandler
 
 class NoteHandler(BaseHandler):
-    def _star(self, notebook_name, note_name, star):
+    def _star(self, notebook_name, note_name, star, redir=True):
         starred = self.get_starred()
-        full_name = '%s/%s' % (notebook_name, note_name)
-        print repr(full_name)
+        full_name = u'%s/%s' % (notebook_name, note_name)
         if star == 'set' and full_name not in starred:
             starred.append(full_name)
         elif star == 'unset' and full_name in starred:
             starred.remove(full_name)
-        self.set_cookie('starred_notes', ','.join(starred))
-        self.redirect('/%s/%s' % (notebook_name, note_name))
+        self.set_cookie('starred_notes', b64encode(','.join(starred).encode('utf8')))
+        if redir:
+            self.redirect('/%s/%s' % (url_escape(notebook_name).replace('#', '%23'), url_escape(note_name).replace('#', '%23')))
 
     def _delete(self, notebook_name, note_name, confirmed=False):
-        path = join(self.settings.repo, notebook_name, note_name)
+        notebook_enc = self._encode_notename(notebook_name)
+        note_enc = self._encode_notename(note_name)
+        path = join(self.settings.repo, notebook_enc, note_enc)
         dot_path = join(self.settings.repo, notebook_name, '.' + note_name)
         if confirmed:
             self.application.git.rm(path)
             if exists(dot_path):
                 self.application.git.rm(dot_path)
             self.application.git.commit('-m', 'removing %s' % path)
-            self.redirect('/' + notebook_name)
+
+            self._star(notebook_name, note_name, 'unset', False)
+
+            self.redirect('/' + notebook_name.replace('#', '%23'))
         else:
             self.render('delete.html', notebook_name=notebook_name,
                         note_name=note_name)
@@ -80,7 +86,7 @@ class NoteHandler(BaseHandler):
             except ErrorReturnCode_1 as e:
                 if 'nothing to commit' not in e.message:
                     raise
-            self.redirect(note_name)
+            self.redirect(note_name.replace('#', '%23'))
 
     def _view_plaintext(self, notebook_name, note_name, highlight=None,
                         dot=False):
@@ -153,4 +159,4 @@ class NoteHandler(BaseHandler):
         elif bool(self.get_argument('delete', False)):
             self._delete(notebook_name, note_name, confirmed=True)
         else:
-            self.redirect(note_name)
+            self.redirect(note_name.replace('#', '%23'))

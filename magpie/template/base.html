@@ -40,7 +40,7 @@
       <!-- iterate though existing notebooks -->
 {% for notebook in notebooks %}
   {% if notebook != '.git' %}
-        <li {% if notebook_name == notebook %}class="active"{% end if %}>
+        <li {% if notebook_name == unicode(notebook.decode('utf8')) %}class="active"{% end if %}>
           <a href="/{{ url_escape(notebook) }}">
             {{ notebook }}
           </a>
@@ -65,7 +65,7 @@
           </form>
         </li>
 
-{% if notebook_name != '' %}
+{% if notebook_name != u'' %}
         <!-- new note button exposes new note form -->
         <li>
           <a href="#" onclick="$('#new_note_form').removeClass('hidden');">
@@ -85,9 +85,9 @@
 
 {# iterate through existing notes #}
 {% for note in notes %}
-        <li {% if note == note_name %}class="active"{% end if %}>
+        <li {% if unicode(note.decode('utf8')) == note_name %}class="active"{% end if %}>
             <a href="/{{ url_escape(notebook_name) }}/{{ url_escape(note) }}">
-            {% if '%s/%s' % (notebook, note) in starred_notes %}
+            {% if u'%s/%s' % (notebook_name, note.decode('utf8').replace(' ', '+')) in starred_notes %}
               <span class='glyphicon glyphicon-star'></span>
             {% else %}
               <span class='glyphicon glyphicon-star-empty'></span>
@@ -114,13 +114,13 @@
         $(self).parents("li").first().addClass("hidden");
       };
       var new_notebook = function(self){
-        var name = '/'+$("#new_notebook_name").val();
+        var name = '/' + encodeURIComponent($("#new_notebook_name").val());
         $.post(name).done(function(){
           window.location = name;
         });
       };
       var new_note = function(self){
-        var name = '/{{ url_escape(notebook_name) }}/' + $("#new_note_name").val();
+        var name = '/{{ url_escape(notebook_name) }}/' + $("#new_note_name").val().replace(/#/g, '%23');
         $.post(name, data = {
            save: true
           ,note: ''
