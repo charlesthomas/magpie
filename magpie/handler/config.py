@@ -2,13 +2,14 @@ from os.path import join
 
 import bcrypt
 from tornado.web import authenticated
+from sh import git
+from os.path import exists
 
 from base import BaseHandler
 
 class ConfigHandler(BaseHandler):
-    ALLOWED = { 'testing': bool, 'port': int, 'pwdhash': str, 'repo': str, 'repo_user' : str, 
-                'repo_mail' : str, 'username': str, 'autosave': bool, 'listen_localhost_only': bool}
-    
+    ALLOWED = {'testing': bool, 'port': int, 'pwdhash': str, 'repo': str, 'repo_user': str, 'repo_mail': str,
+               'username': str, 'autosave': bool, 'listen_localhost_only': bool}
     @authenticated
     def get(self):
         self.render('config.html', config=self._fetch_existing_config())
@@ -17,6 +18,12 @@ class ConfigHandler(BaseHandler):
     def post(self):
         old = self._fetch_existing_config()
         new = dict()
+        try:
+                un=git('config','--get','user.name')
+                ue=git('config','--get','user.email')
+        except Exception, e:
+                un=''
+                ue=''
         for key in self.ALLOWED.keys():
             if self.ALLOWED[key] == bool:
                 val = self.get_argument(key, False)
@@ -38,6 +45,14 @@ class ConfigHandler(BaseHandler):
                 config_file.write("%s='%s'\n" % (key, val))
             else:
                 config_file.write("%s=%s\n" % (key, val))
+            if key == 'repo_user' and un != val:
+                git.config('--global', 'user.name',  val)
+            elif key == 'repo_mail' and ue != val:
+                git.config('--global', 'user.email', val)
+            elif key == 'repo' and not exists(val):
+                git.init(val)
+            else:
+                continue
         config_file.close()
         self.redirect('/')
 
