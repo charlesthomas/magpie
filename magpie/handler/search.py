@@ -1,4 +1,3 @@
-import logging
 from os import path
 from re import sub
 from sh import find, grep, ErrorReturnCode_1
@@ -11,25 +10,26 @@ from base import BaseHandler
 class SearchHandler(BaseHandler):
     @authenticated
     def get(self):
-        query = unquote(self.get_argument('q'))
+        query = unquote(self.get_argument('q', ''))
+        if query == '':
+            self.redirect('/')
         try:
             results = str(grep('-R', '--exclude-dir', '.git', query,
                                self.settings.repo))
         except ErrorReturnCode_1 as e:
             results = ''
 
-        # TODO filter out duplicates if the filename is already in the search results
-        # TODO this doesn't exclude the .git folder
         try:
             results += str(find(self.settings.repo, '-type', 'f', '-name',
-                                '*' + query + '*'))
+                                '*' + query + '*', '-not', '(', '-path',
+                                '%s/%s/*' % (self.settings.repo, '.git') ))
         except ErrorReturnCode_1 as e:
             pass
 
         results = results.replace(self.settings.repo, '').split('\n')[:-1]
         formatted_results = []
         for result in results:
-            if 'Binary file' in result:
+            if 'Binary file' in result or result == '':
                 continue
 
             # TODO this doesn't play well with colons in filenames

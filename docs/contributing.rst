@@ -4,8 +4,16 @@ Contributing
 
 Thanks!
 -------
-Thanks to [looper](https://github.com/looperhacks) for adding the [home
-directory config functionality](https://github.com/charlesthomas/magpie/pull/5).
+Thanks to:
+
+* tony-o for beginning the auto-save feature (`#20`_), fixing the .git search
+  problem (`#21`_), and cleaning up the base template (`#22`_).
+
+* Erwyn for fixing the write/reload race condition (`#15`_)
+
+* tomleo for fixing the home dir config bug (`#10`_)
+
+* looper for adding the home directory config functionality (`#5`_)
 
 Bug Fixes / Minor Changes
 -------------------------
@@ -69,6 +77,12 @@ Documentation
 Hopefully this documentation is good enough to get people using magpie, but
 documentation can always be more thorough.
 
+.. _#20: https://github.com/charlesthomas/magpie/pull/20
+.. _#21: https://github.com/charlesthomas/magpie/pull/21
+.. _#22: https://github.com/charlesthomas/magpie/pull/22
+.. _#15: https://github.com/charlesthomas/magpie/pull/15
+.. _#10: https://github.com/charlesthomas/magpie/pull/10
+.. _#5: https://github.com/charlesthomas/magpie/pull/5
 .. _todo.md: https://github.com/charlesthomas/todo.md
 .. _magpie's todo.md: https://github.com/charlesthomas/magpie/blob/master/todo.md
 .. _OCR: https://en.wikipedia.org/wiki/Optical_character_recognition

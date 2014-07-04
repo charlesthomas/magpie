@@ -2,21 +2,41 @@
 {% block title %}config{% end block %}
 
 {% block body %}
-<form method=POST>
-<table border=0>
-<tr><th>Repo:</th><td>
-<input type=text name=repo placeholder=" {{ config['repo'] or "/path/to/repo/" }}"
-tabindex=1>
-</td></tr><tr><th>Port:</th><td>
-<input type=text name=port placeholder=" {{ config['port'] or "8080" }}"
-tabindex=2>
-</td></tr><tr><th>Username:</th><td>
-<input type=text name=username
-placeholder=" {{ config['username'] or "username" }}" tabindex=3>
-</td></tr><tr><th>Password:</th><td>
-<input type=password name=pwdhash placeholder=" password" tabindex=4>
-</td></tr><tr><td>
-<input type=submit value=Save class='btn btn-primary' tabindex=5>
-</td></tr></table>
+<form method="POST" role="form">
+  <div class="form-group">
+    <label class="control-label" for="repo">Repository</label>
+    <input type="text" name="repo" value="{{ config['repo'] }}" placeholder="/path/to/repo/" tabindex="1" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label class="control-label" for="port">Port</label>
+    <input type="text" name="port" value=" {{ config['port'] or "8080" }}" placeholder="Port" tabindex="2" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label class="control-label" for="username">Username</label>
+    <input type="text" name="username" value="{{ config['username'] }}" placeholder="Username" tabindex="3" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label class="control-label" for="pwdhash">Password</label>
+    <input type="password" name="pwdhash" placeholder="Password" tabindex="4" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label>
+      <input type="checkbox" name="autosave"{% if config.get('autosave', 'False') == 'True' %} checked="on"{% end if %} /> Autosave Notes - <span class=small>Saves notes every 5 seconds in edit mode.</span>
+    </label>
+  </div>
+  <input type="hidden" name="save" value="Save" />
+  <button type="submit" class="btn btn-primary" tabindex="6">Save</button>
+  <hr>
+  <div class=lead>Advanced Settings</div>
+  <div class="form-group">
+    <label>
+      <input type="checkbox" name="testing"{% if config.get('testing', 'False') == 'True' %} checked="on"{% end if %} /> Test Mode - <span class="small">Enables logging, you probably want to leave this off.</span>
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      <input type="checkbox" name="listen_localhost_only"{% if config.get('listen_localhost_only', 'False') == 'True' %} checked="on"{% end if %} /> Localhost Only - <span class="small">Prevents access to magpie from other computers on the network if enabled.</span>
+    </label>
+  </div>
 </form>
 {% end block %}

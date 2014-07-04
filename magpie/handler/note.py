@@ -9,6 +9,17 @@ from tornado.web import authenticated
 from base import BaseHandler
 
 class NoteHandler(BaseHandler):
+    def _star(self, notebook_name, note_name, star):
+        starred = self.get_starred()
+        full_name = '%s/%s' % (notebook_name, note_name)
+        if star == 'set' and full_name not in starred:
+            starred.append(full_name)
+            self.set_cookie('starred_notes', ','.join(starred))
+        elif star == 'unset' and full_name in starred:
+            starred.remove(full_name)
+            self.set_cookie('starred_notes', ','.join(starred))
+        self.redirect('/%s/%s' % (notebook_name, note_name))
+
     def _delete(self, notebook_name, note_name, confirmed=False):
         path = join(self.application.repo.working_dir, notebook_name, note_name)
         dot_path = join(self.application.repo.working_dir, notebook_name, '.' + note_name)
@@ -23,34 +34,38 @@ class NoteHandler(BaseHandler):
                         note_name=note_name)
 
     def _edit(self, notebook_name, note_name, note_contents=None,
-              confirmed=False, toggle=False):
+              confirmed=False, toggle=-1):
         path = join(self.application.repo.working_dir, notebook_name, note_name)
+
         if not confirmed:
             note_contents = open(path).read()
             self.render('note.html', notebook_name=notebook_name,
                         note_name=note_name, note_contents=note_contents,
-                        edit=True)
+                        edit=True, autosave=self.settings['autosave'])
         else:
-            if toggle:
+            if toggle > -1:
                 f = open(path)
                 tmp = []
-                # TODO () in the text seems to break this
-                search_string = r'(\[.\])\s(%s)' % note_contents
+                search_string = r'^(\s*?)(\[.\])\s(.*)$'
+                index = 0
                 for line in f.readlines():
                     regex = search(search_string, line)
                     if regex is not None:
-                        old = regex.group(1)
-                        if old == '[x]':
-                            new = '[ ]'
-                        else:
-                            new = '[x]'
-                        line = "%s %s\n" % (new, regex.group(2))
+                        if int(index) == int(toggle):
+                            old = regex.group(2)
+                            if old == '[x]':
+                                new = '[ ]'
+                            else:
+                                new = '[x]'
+                            line = "%s%s %s\n" % \
+                            (regex.group(1), new, regex.group(3))
+                        index = index + 1
                     tmp.append(line)
                 f.close()
                 note_contents = ''.join(tmp)
 
             f = open(path, 'w')
-            f.write(note_contents)
+            f.write(note_contents.encode('utf8'))
             f.close()
 
             self.application.repo.index.add([path])
@@ -71,6 +86,7 @@ class NoteHandler(BaseHandler):
 
     def _view_plaintext(self, notebook_name, note_name, highlight=None,
                         dot=False):
+
         if dot:
             path = join(self.application.repo.working_dir, notebook_name, '.' + note_name)
         else:
@@ -92,13 +108,16 @@ class NoteHandler(BaseHandler):
 
     @authenticated
     def get(self, notebook_name, note_name):
-        notebook_name = notebook_name.replace('+', ' ')
-        note_name = note_name.replace('+', ' ')
+        note_name = self._encode_notename(note_name)
         action = self.get_argument('a', 'view')
         if action == 'delete':
             self._delete(notebook_name, note_name, confirmed=False)
         elif action == 'edit':
             self._edit(notebook_name, note_name, confirmed=False)
+        elif action == 'star':
+            self._star(notebook_name, note_name, star='set')
+        elif action == 'unstar':
+            self._star(notebook_name, note_name, star='unset')
         else:
             path = join(self.application.repo.working_dir, notebook_name, note_name)
             dot_path = join(self.application.repo.working_dir, notebook_name, '.' + note_name)
@@ -125,12 +144,11 @@ class NoteHandler(BaseHandler):
 
     @authenticated
     def post(self, notebook_name, note_name):
-        notebook_name = notebook_name.replace('+', ' ')
-        note_name = note_name.replace('+', ' ')
+        note_name = self._encode_notename(note_name)
         action = self.get_argument('a', 'view')
         if bool(self.get_argument('save', False)):
             note = self.get_argument('note')
-            toggle = self.get_argument('toggle', False)
+            toggle = self.get_argument('toggle', -1)
             self._edit(notebook_name=notebook_name, note_name=note_name,
                        note_contents=note, confirmed=True, toggle=toggle)
         elif bool(self.get_argument('delete', False)):

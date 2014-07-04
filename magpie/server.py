@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import logging
 from os import path
 from random import choice
 from string import letters, digits
@@ -10,8 +9,8 @@ from tornado.ioloop import IOLoop
 from tornado.options import define, options, parse_config_file
 from tornado.web import Application
 
-from magpie.config import config_path
-from magpie.handler import urls
+from config import config_path
+from handler import urls
 
 class AttrDict(dict):
     def __getattr__(self, key):
@@ -35,6 +34,8 @@ define('testing', default=False, type=bool)
 define('repo', default=None, type=str)
 define('username', default=None, type=str)
 define('pwdhash', default=None, type=str)
+define('listen_localhost_only', default=True, type=bool)
+define('autosave', default=False, type=bool)
 parse_config_file(config_path.web)
 
 if options.testing:
@@ -47,12 +48,16 @@ server.settings.username = options.username
 server.settings.pwdhash = options.pwdhash
 server.settings.session = _rand_str()
 server.settings.config_path = config_path
+server.settings.autosave = options.autosave
 
 def main():
     server.git = git.bake(_cwd=server.settings.repo)
     server.repo = None
     server.config_problems = []
-    server.listen(options.port, 'localhost')
+    if options.listen_localhost_only:
+        server.listen(options.port, 'localhost')
+    else:
+        server.listen(options.port)
     autoreload.start()
     autoreload.watch(config_path.web)
     IOLoop.instance().start()

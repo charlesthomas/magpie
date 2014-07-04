@@ -15,10 +15,12 @@ Pre-requisites
 
 (outside of PyPI):
 
-* [libmagic](https://pypi.python.org/pypi/filemagic/1.6)
-* Python
+* Python 2.7
 * Pip/Easy Install
 * Git
+* `libmagic`_ (OS X specific issue; it's already installed on most Linux
+  distros)
+* cygwin (Windows only requirement; see `issue #4`_)
 
 Installing magpie
 -----------------
@@ -147,6 +149,8 @@ Image Attribution
 =================
 Logo/favicon courtesy of `Kieran Palmer`_, as licensed under CC BY-SA 2.0 Generic.
 
+.. _libmagic: https://pypi.python.org/pypi/filemagic/1.6
+.. _issue #4: https://github.com/charlesthomas/magpie/issues/4
 .. _Github: https://help.github.com/articles/create-a-repo
 .. _Bitbucket: https://confluence.atlassian.com/display/BITBUCKET/Create+an+Account+and+a+Git+Repo
 .. _magpie documentation: https://magpie-notes.readthedocs.org/en/latest/

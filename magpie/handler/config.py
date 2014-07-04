@@ -7,18 +7,20 @@ from base import BaseHandler
 
 class ConfigHandler(BaseHandler):
     ALLOWED = {'testing': bool, 'port': int, 'pwdhash': str, 'repo': str,
-               'username': str}
+               'username': str, 'autosave': bool, 'listen_localhost_only': bool}
     @authenticated
     def get(self):
         self.render('config.html', config=self._fetch_existing_config())
 
     @authenticated
     def post(self):
-        # TODO need confirm password field?
         old = self._fetch_existing_config()
         new = dict()
         for key in self.ALLOWED.keys():
-            val = self.get_argument(key, None)
+            if self.ALLOWED[key] == bool:
+                val = self.get_argument(key, False)
+            else:
+                val = self.get_argument(key, None)
             if val is None or val == '':
                 new[key] = old[key]
             elif key == 'pwdhash':
