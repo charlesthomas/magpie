@@ -52,6 +52,8 @@ server.settings.autosave = options.autosave
 
 def main():
     server.git = git.bake(_cwd=server.settings.repo)
+    server.repo = None
+    server.config_problems = []
     if options.listen_localhost_only:
         server.listen(options.port, 'localhost')
     else:
