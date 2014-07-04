@@ -1,3 +1,4 @@
+import os
 from os.path import exists, join
 from re import search
 
@@ -24,9 +25,21 @@ class NoteHandler(BaseHandler):
         path = join(self.application.repo.working_dir, notebook_name, note_name)
         dot_path = join(self.application.repo.working_dir, notebook_name, '.' + note_name)
         if confirmed:
-            self.application.repo.index.remove([path])
+            try:
+                self.application.repo.index.remove([path])
+            except:
+                raise
+            else:
+                os.remove(path)
+
             if exists(dot_path):
-                self.application.repo.index.remove([dot_path])
+                try:
+                    self.application.repo.index.remove([dot_path])
+                except:
+                    raise
+                else:
+                    os.remove(dot_path)
+
             self.application.repo.index.commit('removing %s' % path)
             self.redirect('/' + notebook_name)
         else:
