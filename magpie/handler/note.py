@@ -121,6 +121,10 @@ class NoteHandler(BaseHandler):
 
     @authenticated
     def get(self, notebook_name, note_name):
+
+        if self.application.repo is None:
+            self.redirect("/")
+
         note_name = self._encode_notename(note_name)
         action = self.get_argument('a', 'view')
         if action == 'delete':
