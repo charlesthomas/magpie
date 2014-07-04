@@ -15,13 +15,13 @@ Home
     Evernote replacement which renders Markdown, is backed by git, and is built
     on Python.
     </p>
-    {% if config_problem is not None %}
-      <p class=bg-{{ config_problem['type'] }}>
-      {{ config_problem['message'] }}
+    {% for problem in config_problems %}
+      <p class=bg-{{ problem['type'] }}>
+      {{ problem['message'] }}
       <br>
       <a href=/config>Click here to change your settings.</a>
       </p>
-    {% end if %}
+    {% end for  %}
   </div>
   <p class=small>
   <a href="http://www.kpword.net/" target="_blank" rel="nofollow">Image

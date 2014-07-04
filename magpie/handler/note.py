@@ -1,3 +1,4 @@
+import os
 from os.path import exists, join
 from re import search
 
@@ -21,13 +22,25 @@ class NoteHandler(BaseHandler):
         self.redirect('/%s/%s' % (notebook_name, note_name))
 
     def _delete(self, notebook_name, note_name, confirmed=False):
-        path = join(self.settings.repo, notebook_name, note_name)
-        dot_path = join(self.settings.repo, notebook_name, '.' + note_name)
+        path = join(self.application.repo.working_dir, notebook_name, note_name)
+        dot_path = join(self.application.repo.working_dir, notebook_name, '.' + note_name)
         if confirmed:
-            self.application.git.rm(path)
+            try:
+                self.application.repo.index.remove([path])
+            except:
+                raise
+            else:
+                os.remove(path)
+
             if exists(dot_path):
-                self.application.git.rm(dot_path)
-            self.application.git.commit('-m', 'removing %s' % path)
+                try:
+                    self.application.repo.index.remove([dot_path])
+                except:
+                    raise
+                else:
+                    os.remove(dot_path)
+
+            self.application.repo.index.commit('removing %s' % path)
             self.redirect('/' + notebook_name)
         else:
             self.render('delete.html', notebook_name=notebook_name,
@@ -35,8 +48,8 @@ class NoteHandler(BaseHandler):
 
     def _edit(self, notebook_name, note_name, note_contents=None,
               confirmed=False, toggle=-1):
+        path = join(self.application.repo.working_dir, notebook_name, note_name)
 
-        path = join(self.settings.repo, notebook_name, note_name)
         if not confirmed:
             note_contents = open(path).read()
             self.render('note.html', notebook_name=notebook_name,
@@ -68,25 +81,29 @@ class NoteHandler(BaseHandler):
             f.write(note_contents.encode('utf8'))
             f.close()
 
-            self.application.git.add(path)
+            self.application.repo.index.add([path])
             try:
                 if note_contents == '':
                     message = 'creating %s' % path
                 else:
                     message = 'updating %s' % path
-                self.application.git.commit('-m', message)
-            except ErrorReturnCode_1 as e:
-                if 'nothing to commit' not in e.message:
-                    raise
+                self.application.repo.index.commit(message)
+            #except ErrorReturnCode_1 as e:
+                #if 'nothing to commit' not in e.message:
+                #    raise
+            #TODO: Figure out how to replace error logic above
+            except:
+                raise
+
             self.redirect(note_name)
 
     def _view_plaintext(self, notebook_name, note_name, highlight=None,
                         dot=False):
 
         if dot:
-            path = join(self.settings.repo, notebook_name, '.' + note_name)
+            path = join(self.application.repo.working_dir, notebook_name, '.' + note_name)
         else:
-            path = join(self.settings.repo, notebook_name, note_name)
+            path = join(self.application.repo.working_dir, notebook_name, note_name)
         note_contents = open(path).read()
         note_contents = markdown(note_contents)
         if highlight is not None:
@@ -96,7 +113,7 @@ class NoteHandler(BaseHandler):
                     edit=False, dot=dot)
 
     def _view_file(self, notebook_name, note_name):
-        path = join(self.settings.repo, notebook_name, note_name)
+        path = join(self.application.repo.working_dir, notebook_name, note_name)
         with open(path, 'rb') as f:
             self.set_header("Content-Disposition", "attachment; filename=%s" % \
                             note_name)
@@ -104,6 +121,10 @@ class NoteHandler(BaseHandler):
 
     @authenticated
     def get(self, notebook_name, note_name):
+
+        if self.application.repo is None:
+            self.redirect("/")
+
         note_name = self._encode_notename(note_name)
         action = self.get_argument('a', 'view')
         if action == 'delete':
@@ -115,8 +136,8 @@ class NoteHandler(BaseHandler):
         elif action == 'unstar':
             self._star(notebook_name, note_name, star='unset')
         else:
-            path = join(self.settings.repo, notebook_name, note_name)
-            dot_path = join(self.settings.repo, notebook_name, '.' + note_name)
+            path = join(self.application.repo.working_dir, notebook_name, note_name)
+            dot_path = join(self.application.repo.working_dir, notebook_name, '.' + note_name)
             highlight = self.get_argument('hl', None)
             with Magic() as m:
                 mime = m.id_filename(path)

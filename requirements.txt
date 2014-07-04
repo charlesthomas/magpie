@@ -9,6 +9,5 @@ filemagic==1.6
 markdown2==2.2.1
 py-bcrypt==0.4
 pyPdf==1.13
-sh==1.09
 tornado==3.2
 wsgiref==0.1.2
