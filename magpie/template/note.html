@@ -15,7 +15,7 @@
       var sindex = $(el).attr("zindex");
       var ostate = !$(el).is(":checked");
       $.post(
-         "{{ note_name }}"
+         "{{ url_escape(note_name) }}"
         ,data={
            note:   ''
           ,toggle: sindex
@@ -50,7 +50,7 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
         <script>
           var autosave = function(){
             $.ajax({
-               url:  "{{ note_name }}?a=edit"
+               url:  "{{ url_escape(note_name) }}?a=edit"
               ,type: "POST"
               ,data: {
                  save: "Save"
@@ -64,26 +64,26 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
   {% else %}
     <br>
     <button class='btn btn-primary'
-      {% if '%s/%s' % (notebook_name, note_name) in starred_notes %}
-          onclick="window.location='{{ note_name }}?a=unstar'">
+      {% if u'%s/%s' % (notebook_name, note_name) in starred_notes %}
+          onclick="window.location='{{ url_escape(note_name) }}?a=unstar'">
           <span class="glyphicon glyphicon-star"></span>
       {% else %}
-          onclick="window.location='{{ note_name }}?a=star'">
+          onclick="window.location='{{ url_escape(note_name) }}?a=star'">
           <span class="glyphicon glyphicon-star-empty"></span>
       {% end if %}
     </button>
     {% if dot %}
-      <button class="btn btn-primary" onclick="window.location='.{{ note_name }}?a=edit'">
+      <button class="btn btn-primary" onclick="window.location='.{{ url_escape(note_name) }}?a=edit'">
     {% else %}
-      <button class="btn btn-primary" onclick="window.location='{{ note_name }}?a=edit'">
+      <button class="btn btn-primary" onclick="window.location='{{ url_escape(note_name) }}?a=edit'">
     {% end if %}
     Edit</button>
-    <button class='btn btn-danger' onclick="window.location='{{ note_name }}?a=delete'">
+    <button class='btn btn-danger' onclick="window.location='{{ url_escape(note_name) }}?a=delete'">
     Delete</button>
     {% if dot %}
       <br>
       <br>
-      <button class="btn btn-primary" onclick="window.location='{{note_name}}?dl=True'">
+      <button class="btn btn-primary" onclick="window.location='{{url_escape(note_name)}}?dl=True'">
       <span class="glyphicon glyphicon-cloud-download"></span>
       Download Original
       <span class="glyphicon glyphicon-cloud-download"></span>
