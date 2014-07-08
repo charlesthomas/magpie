@@ -1,11 +1,12 @@
+from base64 import b64encode, b64decode
 from os.path import exists, join
 from re import search
+
 from magic import Magic
 from markdown2 import markdown
 from sh import ErrorReturnCode_1
 from tornado.web import authenticated
 from tornado.escape import url_escape
-from base64 import b64encode, b64decode
 
 from base import BaseHandler
 
@@ -22,8 +23,8 @@ class NoteHandler(BaseHandler):
             self.redirect('/%s/%s' % (url_escape(notebook_name).replace('#', '%23'), url_escape(note_name).replace('#', '%23')))
 
     def _delete(self, notebook_name, note_name, confirmed=False):
-        notebook_enc = self._encode_notename(notebook_name)
-        note_enc = self._encode_notename(note_name)
+        notebook_enc = self.encode_name(notebook_name)
+        note_enc = self.encode_name(note_name)
         path = join(self.settings.repo, notebook_enc, note_enc)
         dot_path = join(self.settings.repo, notebook_name, '.' + note_name)
         if confirmed:
@@ -42,8 +43,8 @@ class NoteHandler(BaseHandler):
     def _edit(self, notebook_name, note_name, note_contents=None,
               confirmed=False, toggle=-1):
 
-        notebook_enc = self._encode_notename(notebook_name)
-        note_enc = self._encode_notename(note_name)
+        notebook_enc = self.encode_name(notebook_name)
+        note_enc = self.encode_ename(note_name)
         path = join(self.settings.repo, notebook_enc, note_enc)
         if not confirmed:
             note_contents = open(path).read()
@@ -90,8 +91,8 @@ class NoteHandler(BaseHandler):
 
     def _view_plaintext(self, notebook_name, note_name, highlight=None,
                         dot=False):
-        notebook_enc = self._encode_notename(notebook_name)
-        note_enc = self._encode_notename(note_name)
+        notebook_enc = self.encode_name(notebook_name)
+        note_enc = self.encode_name(note_name)
         if dot:
             path = join(self.settings.repo, notebook_enc, '.' + note_enc)
         else:
@@ -99,7 +100,7 @@ class NoteHandler(BaseHandler):
         note_contents = open(path).read()
         note_contents = markdown(note_contents)
         if highlight is not None:
-            note_contents = self._highlight(note_contents, highlight)
+            note_contents = self.highlight(note_contents, highlight)
         self.render('note.html', notebook_name=notebook_name,
                     note_name=note_name, note_contents=note_contents,
                     edit=False, dot=dot)
@@ -113,8 +114,8 @@ class NoteHandler(BaseHandler):
 
     @authenticated
     def get(self, notebook_name, note_name):
-        notebook_enc = self._encode_notename(notebook_name)
-        note_enc = self._encode_notename(note_name)
+        notebook_enc = self.encode_name(notebook_name)
+        note_enc = self.encode_name(note_name)
         action = self.get_argument('a', 'view')
         if action == 'delete':
             self._delete(notebook_name, note_name, confirmed=False)

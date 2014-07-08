@@ -39,6 +39,6 @@ class SearchHandler(BaseHandler):
                 filename = path.join(path.dirname(filename),
                                      path.basename(filename)[1:])
             string = ''.join(stuff[1:])
-            string = self._highlight(string, query)
+            string = self.highlight(string, query)
             formatted_results.append({'filename': filename, 'string': string})
         self.render('search.html', query=query, results=formatted_results)
