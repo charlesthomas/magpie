@@ -44,7 +44,7 @@ class NoteHandler(BaseHandler):
               confirmed=False, toggle=-1):
 
         notebook_enc = self.encode_name(notebook_name)
-        note_enc = self.encode_ename(note_name)
+        note_enc = self.encode_name(note_name)
         path = join(self.settings.repo, notebook_enc, note_enc)
         if not confirmed:
             note_contents = open(path).read()
