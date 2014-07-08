@@ -33,6 +33,8 @@ define('port', default='8080', type=int)
 define('address', default='localhost', type=str)
 define('testing', default=False, type=bool)
 define('repo', default=None, type=str)
+define('repo_user', default=None, type=str)
+define('repo_mail', default=None, type=str)
 define('username', default=None, type=str)
 define('pwdhash', default=None, type=str)
 define('listen_localhost_only', default=True, type=bool)
@@ -45,6 +47,8 @@ if options.testing:
 server = Application(urls, **app_config)
 server.settings = AttrDict(server.settings)
 server.settings.repo = options.repo
+server.settings.repo_user = options.repo_user
+server.settings.repo_mail = options.repo_mail 
 server.settings.username = options.username
 server.settings.pwdhash = options.pwdhash
 server.settings.session = _rand_str()

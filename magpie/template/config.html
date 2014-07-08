@@ -7,17 +7,25 @@
     <label class="control-label" for="repo">Repository</label>
     <input type="text" name="repo" value="{{ config['repo'] }}" placeholder="/path/to/repo/" tabindex="1" class="form-control" />
   </div>
+    <div class="form-group">
+    <label class="control-label" for="repo_user">Repository User</label>
+    <input type="text" name="repo_user" value="{{ config['repo_user'] }}" placeholder="User Name" tabindex="2" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label class="control-label" for="repo_mail">Repository E-mail</label>
+    <input type="text" name="repo_email" value="{{ config['repo_email'] }}" placeholder="user@example.org" tabindex="3" class="form-control" />
+  </div>
   <div class="form-group">
     <label class="control-label" for="port">Port</label>
-    <input type="text" name="port" value=" {{ config['port'] or "8080" }}" placeholder="Port" tabindex="2" class="form-control" />
+    <input type="text" name="port" value=" {{ config['port'] or "8080" }}" placeholder="Port" tabindex="4" class="form-control" />
   </div>
   <div class="form-group">
     <label class="control-label" for="username">Username</label>
-    <input type="text" name="username" value="{{ config['username'] }}" placeholder="Username" tabindex="3" class="form-control" />
+    <input type="text" name="username" value="{{ config['username'] }}" placeholder="Username" tabindex="5" class="form-control" />
   </div>
   <div class="form-group">
     <label class="control-label" for="pwdhash">Password</label>
-    <input type="password" name="pwdhash" placeholder="Password" tabindex="4" class="form-control" />
+    <input type="password" name="pwdhash" placeholder="Password" tabindex="6" class="form-control" />
   </div>
   <div class="form-group">
     <label>
@@ -25,7 +33,7 @@
     </label>
   </div>
   <input type="hidden" name="save" value="Save" />
-  <button type="submit" class="btn btn-primary" tabindex="6">Save</button>
+  <button type="submit" class="btn btn-primary" tabindex="7">Save</button>
   <hr>
   <div class=lead>Advanced Settings</div>
   <div class="form-group">
