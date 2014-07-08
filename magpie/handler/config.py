@@ -7,7 +7,7 @@ from base import BaseHandler
 
 class ConfigHandler(BaseHandler):
     ALLOWED = {'testing': bool, 'port': int, 'pwdhash': str, 'repo': str,
-               'username': str, 'autosave': bool, 'listen_localhost_only': bool}
+               'username': str, 'autosave': bool, 'address': str}
     @authenticated
     def get(self):
         self.render('config.html', config=self._fetch_existing_config())

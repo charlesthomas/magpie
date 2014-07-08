@@ -35,7 +35,6 @@ define('testing', default=False, type=bool)
 define('repo', default=None, type=str)
 define('username', default=None, type=str)
 define('pwdhash', default=None, type=str)
-define('listen_localhost_only', default=True, type=bool)
 define('autosave', default=False, type=bool)
 parse_config_file(config_path.web)
 
@@ -50,11 +49,10 @@ server.settings.pwdhash = options.pwdhash
 server.settings.session = _rand_str()
 server.settings.config_path = config_path
 server.settings.autosave = options.autosave
-server.settings.address = options.address
 
 def main():
     server.git = git.bake(_cwd=server.settings.repo)
-    server.listen(options.port, server.settings.address)
+    server.listen(options.port, options.address)
     autoreload.start()
     autoreload.watch(config_path.web)
     IOLoop.instance().start()
