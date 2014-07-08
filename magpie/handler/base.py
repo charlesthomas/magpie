@@ -1,6 +1,5 @@
 from base64 import b64encode, b64decode
 from os import listdir, path
-from urllib import quote_plus, unquote_plus
 
 from tornado.web import RequestHandler
 
@@ -28,7 +27,7 @@ class BaseHandler(RequestHandler):
         return sorted([self.decode_name(nb) for nb in \
                        listdir(self.settings.repo) if nb != ''])
 
-    def _notes_list(self, notebook_name, starred_notes):
+    def _notes_list(self, notebook_name):
         notes_path = path.join(self.settings.repo,
                                self.encode_name(notebook_name))
 
@@ -39,12 +38,12 @@ class BaseHandler(RequestHandler):
 
         while all_notes:
             note = all_notes.pop()
-            if u'%s/%s' % (notebook_name, note) in starred_notes:
+            if u'%s/%s' % (notebook_name, note) in self.starred_notes:
                 starred.append(note)
             else:
                 unstarred.append(note)
 
-        return sorted(starred_notes) + sorted(unstarred_notes)
+        return sorted(starred) + sorted(unstarred)
 
     def highlight(self, text, highlight):
         return text.replace(highlight,
@@ -59,10 +58,10 @@ class BaseHandler(RequestHandler):
         return self.get_cookie('session', '') == self.settings.session
 
     def encode_name(self, name):
-        return quote_plus(name.replace('+', ' ').encode('utf8'), ' -_')
+        return name.replace('+', ' ').encode('utf8')
 
     def decode_name(self, name):
-        return unquote_plus(name.encode('utf8')).replace('+', ' ')
+        return name.encode('utf8').replace('+', ' ')
 
     def get_starred(self):
         starred_list = self.get_cookie('starred_notes')
