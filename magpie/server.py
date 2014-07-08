@@ -30,6 +30,7 @@ app_config = dict(static_path=static_path,
                   login_url='/login')
 
 define('port', default='8080', type=int)
+define('address', default='localhost', type=str)
 define('testing', default=False, type=bool)
 define('repo', default=None, type=str)
 define('username', default=None, type=str)
@@ -49,13 +50,11 @@ server.settings.pwdhash = options.pwdhash
 server.settings.session = _rand_str()
 server.settings.config_path = config_path
 server.settings.autosave = options.autosave
+server.settings.address = options.address
 
 def main():
     server.git = git.bake(_cwd=server.settings.repo)
-    if options.listen_localhost_only:
-        server.listen(options.port, 'localhost')
-    else:
-        server.listen(options.port)
+    server.listen(options.port, server.settings.address)
     autoreload.start()
     autoreload.watch(config_path.web)
     IOLoop.instance().start()
