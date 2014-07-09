@@ -1,4 +1,5 @@
 language: python
+install: "pip install -r requirements.txt"
 script: python setup.py test
 python:
     - "2.7"
