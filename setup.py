@@ -38,6 +38,7 @@ setup(
     packages=PACKAGES,
     package_data=PACKAGE_DATA,
     scripts=SCRIPTS,
+    test_suite='tests',
     entry_points='''
     [console_scripts]
     magpie = magpie.server:main

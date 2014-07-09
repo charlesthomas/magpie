@@ -21,37 +21,47 @@ class AttrDict(dict):
 def _rand_str(length=64):
     return ''.join([choice(letters + digits) for i in range(0, length)])
 
-root = path.dirname(__file__)
-static_path = path.join(root, 'static')
-template_path = path.join(root, 'template')
+def make_app(config=None):
+    root = path.dirname(__file__)
+    static_path = path.join(root, 'static')
+    template_path = path.join(root, 'template')
 
-app_config = dict(static_path=static_path,
-                  template_path=template_path,
-                  login_url='/login')
+    app_config = dict(static_path=static_path,
+                      template_path=template_path,
+                      login_url='/login')
 
-define('port', default='8080', type=int)
-define('address', default='localhost', type=str)
-define('testing', default=False, type=bool)
-define('repo', default=None, type=str)
-define('username', default=None, type=str)
-define('pwdhash', default=None, type=str)
-define('autosave', default=False, type=bool)
-parse_config_file(config_path.web)
+    define('port', default='8080', type=int)
+    define('address', default='localhost', type=str)
+    define('testing', default=False, type=bool)
+    define('repo', default=None, type=str)
+    define('username', default=None, type=str)
+    define('pwdhash', default=None, type=str)
+    define('autosave', default=False, type=bool)
 
-if options.testing:
-    app_config.update(debug=True)
+    if config is not None:
+        # This should only ever be used for testing
+        parse_config_file(config)
+    else:
+        parse_config_file(config_path.web)
 
-server = Application(urls, **app_config)
-server.settings = AttrDict(server.settings)
-server.settings.repo = options.repo
-server.settings.username = options.username
-server.settings.pwdhash = options.pwdhash
-server.settings.session = _rand_str()
-server.settings.config_path = config_path
-server.settings.autosave = options.autosave
+    if options.testing:
+        app_config.update(debug=True)
+
+    server = Application(urls, **app_config)
+    server.settings = AttrDict(server.settings)
+    server.settings.repo = options.repo
+    server.settings.username = options.username
+    server.settings.pwdhash = options.pwdhash
+    server.settings.session = _rand_str()
+    server.settings.config_path = config_path
+    server.settings.autosave = options.autosave
+
+    server.git = git.bake(_cwd=server.settings.repo)
+
+    return server
 
 def main():
-    server.git = git.bake(_cwd=server.settings.repo)
+    server = make_app()
     server.listen(options.port, options.address)
     autoreload.start()
     autoreload.watch(config_path.web)
