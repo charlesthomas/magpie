@@ -26,4 +26,7 @@ class BaseTest(AsyncHTTPTestCase):
 
     def fetch(self, url, allow_errors=False):
         self.http_client.fetch(self.get_url(url), self.stop)
-        return self.wait()
+        res = self.wait()
+        if not allow_errors:
+            self.assertEqual(200, int(res.code))
+        return res
