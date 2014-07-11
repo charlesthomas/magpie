@@ -7,7 +7,8 @@ Thanks!
 Thanks to:
 
 * tony-o for beginning the auto-save feature (`#20`_), fixing the .git search
-  problem (`#21`_), and cleaning up the base template (`#22`_).
+  problem (`#21`_), cleaning up the base template (`#22`_), and adding ünicode 
+  support.
 
 * Erwyn for fixing the write/reload race condition (`#15`_)
 
