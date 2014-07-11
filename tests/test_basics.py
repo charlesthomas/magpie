@@ -1,3 +1,5 @@
+# coding=UTF-8
+
 from os import makedirs, path, rmdir
 
 from base import BaseTest
@@ -25,3 +27,18 @@ class Test(BaseTest):
         notebook = self.fetch('/notebook+name')
         self.assertNotEqual(home.body, notebook.body)
         rmdir(path.join(app.settings.repo, 'notebook name'))
+
+    def test_unicode_notebooks(self):
+        app = self.get_app()
+        try:
+            makedirs(path.join(app.settings.repo, u'übernöteböök'))
+        except OSError as e:
+            if e.strerror == 'File exists':
+                pass
+            else:
+                raise
+
+        home = self.fetch('/')
+        notebook = self.fetch(u'/übernöteböök')
+        self.assertNoteEqual(home.body, notebook.body)
+        rmdir(path.join(app.settings.repo, u'übernöteböök'))
