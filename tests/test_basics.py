@@ -1,10 +1,24 @@
 # coding=UTF-8
 
 from os import makedirs, path, rmdir
+from shutil import rmtree
 
 from base import BaseTest
 
 class Test(BaseTest):
+    @classmethod
+    def setUpClass(cls):
+        cls.path = path.join('/tmp', 'magpie_testing_git_repo')
+        try:
+            makedirs(cls.path)
+        except OSError as e:
+            if e.strerror != 'File exists':
+                raise
+
+    @classmethod
+    def tearDownClass(cls):
+        rmtree(cls.path)
+
     def test_proof_of_concept(self):
         res = self.fetch('/')
 
@@ -18,27 +32,27 @@ class Test(BaseTest):
         try:
             makedirs(path.join(app.settings.repo, 'notebook name'))
         except OSError as e:
-            if e.strerror == 'File exists':
-                pass
-            else:
+            if e.strerror != 'File exists':
                 raise
 
         home = self.fetch('/')
         notebook = self.fetch('/notebook+name')
-        self.assertNotEqual(home.body, notebook.body)
-        rmdir(path.join(app.settings.repo, 'notebook name'))
+        try:
+            self.assertNotEqual(home.body, notebook.body)
+        finally:
+            rmdir(path.join(app.settings.repo, 'notebook name'))
 
     def test_unicode_notebooks(self):
         app = self.get_app()
         try:
             makedirs(path.join(app.settings.repo, u'übernöteböök'))
         except OSError as e:
-            if e.strerror == 'File exists':
-                pass
-            else:
+            if e.strerror != 'File exists':
                 raise
 
-        home = self.fetch('/')
-        notebook = self.fetch(u'/übernöteböök')
-        self.assertNoteEqual(home.body, notebook.body)
-        rmdir(path.join(app.settings.repo, u'übernöteböök'))
+        try:
+            home = self.fetch('/')
+            notebook = self.fetch(u'/übernöteböök')
+            self.assertNoteEqual(home.body, notebook.body)
+        finally:
+            rmtree(path.join(app.settings.repo, u'übernöteböök'))
