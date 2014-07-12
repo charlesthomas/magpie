@@ -38,7 +38,9 @@ class Test(BaseTest):
         home = self.fetch('/')
         notebook = self.fetch('/notebook+name')
         try:
-            self.assertNotEqual(home.body, notebook.body)
+            self.assertNotEqual(home.body, notebook.body,
+                                msg=("It looks like notebook w/space in name "
+                                     "can't be opened"))
         finally:
             rmdir(path.join(app.settings.repo, 'notebook name'))
 
