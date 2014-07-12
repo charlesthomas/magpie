@@ -1,24 +1,10 @@
 # coding=UTF-8
-
 from os import makedirs, path, rmdir
 from shutil import rmtree
 
 from base import BaseTest
 
 class Test(BaseTest):
-    @classmethod
-    def setUpClass(cls):
-        cls.path = path.join('/tmp', 'magpie_testing_git_repo')
-        try:
-            makedirs(cls.path)
-        except OSError as e:
-            if e.strerror != 'File exists':
-                raise
-
-    @classmethod
-    def tearDownClass(cls):
-        rmtree(cls.path)
-
     def test_proof_of_concept(self):
         res = self.fetch('/')
 
