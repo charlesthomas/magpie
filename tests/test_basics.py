@@ -33,7 +33,7 @@ class Test(BaseTest):
 
     def test_unicode_notebooks(self):
         app = self.get_app()
-        dirname = u'übernöteböök'.encode('ascii', errors='xmlcharrefreplace')
+        dirname = u'übernöteböök'
         try:
             makedirs(path.join(app.settings.repo, dirname))
         except OSError as e:
@@ -42,7 +42,7 @@ class Test(BaseTest):
 
         try:
             home = self.get('/')
-            notebook = self.get(u'/übernöteböök')
+            notebook = self.get('/' + quote(dirname.encode('utf8')))
             self.assertNotEqual(home.body, notebook.body)
         finally:
             rmtree(path.join(app.settings.repo, dirname))
