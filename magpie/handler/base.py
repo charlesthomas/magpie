@@ -38,7 +38,7 @@ class BaseHandler(RequestHandler):
         unstarred = []
 
         while all_notes:
-            note = all_notes.pop()
+            note = self.decode_name(all_notes.pop())
             if u'%s/%s' % (notebook_name, note) in self.starred_notes:
                 starred.append(note)
             else:
