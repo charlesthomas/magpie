@@ -66,10 +66,10 @@ class BaseHandler(RequestHandler):
         
 
     def _xmlunescape(self, value):
-        return unichr(int(value.group(1)))
+        return chr(int(value.group(1)))
 
     def decode_name(self, name):
-        return re.sub(r'&#(\d+);', lambda m: self._xmlunescape(m), name)#.encode('utf8') 
+        return re.sub(r'&#(\d+);', lambda m: self._xmlunescape(m), name) 
 
     def get_starred(self):
         starred_list = self.get_cookie('starred_notes')
