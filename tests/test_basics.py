@@ -6,11 +6,11 @@ from base import BaseTest
 
 class Test(BaseTest):
     def test_proof_of_concept(self):
-        res = self.fetch('/')
+        res = self.get('/')
 
     def test_bad_notebook_redirects_home(self):
-        home = self.fetch('/')
-        dne = self.fetch('/this+notebook+doesnt+exist')
+        home = self.get('/')
+        dne = self.get('/this+notebook+doesnt+exist')
         self.assertEqual(home.body, dne.body)
 
     def test_spaces_ok_in_notebook_name(self):
@@ -21,8 +21,8 @@ class Test(BaseTest):
             if e.strerror != 'File exists':
                 raise
 
-        home = self.fetch('/')
-        notebook = self.fetch('/notebook+name')
+        home = self.get('/')
+        notebook = self.get('/notebook+name')
         try:
             self.assertNotEqual(home.body, notebook.body,
                                 msg=("It looks like notebook w/space in name "
@@ -39,8 +39,8 @@ class Test(BaseTest):
                 raise
 
         try:
-            home = self.fetch('/')
-            notebook = self.fetch(u'/übernöteböök')
-            self.assertNoteEqual(home.body, notebook.body)
+            home = self.get('/')
+            notebook = self.get(u'/übernöteböök')
+            self.assertNotEqual(home.body, notebook.body)
         finally:
             rmtree(path.join(app.settings.repo, u'übernöteböök'))
