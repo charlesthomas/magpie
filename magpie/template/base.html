@@ -85,9 +85,9 @@
 
 {# iterate through existing notes #}
 {% for note in notes %}
-        <li {% if unicode(note.decode('utf8')) == note_name %}class="active"{% end if %}>
+        <li {% if unicode(note) == note_name %}class="active"{% end if %}>
             <a href="/{{ url_escape(notebook_name) }}/{{ url_escape(note) }}">
-            {% if u'%s/%s' % (notebook_name, note.decode('utf8').replace(' ', '+')) in starred_notes %}
+            {% if u'%s/%s' % (notebook_name, note.replace(' ', '+')) in starred_notes %}
               <span class='glyphicon glyphicon-star'></span>
             {% else %}
               <span class='glyphicon glyphicon-star-empty'></span>

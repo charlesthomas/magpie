@@ -58,10 +58,10 @@ class BaseHandler(RequestHandler):
         return self.get_cookie('session', '') == self.settings.session
 
     def encode_name(self, name):
-        return name.replace('+', ' ').encode('utf8')
+        return name.replace('+', ' ')
 
     def decode_name(self, name):
-        return name.encode('utf8').replace('+', ' ')
+        return name.replace('+', ' ')
 
     def get_starred(self):
         starred_list = self.get_cookie('starred_notes')

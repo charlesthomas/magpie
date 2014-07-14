@@ -116,6 +116,7 @@ class NoteHandler(BaseHandler):
     def get(self, notebook_name, note_name):
         notebook_enc = self.encode_name(notebook_name)
         note_enc = self.encode_name(note_name)
+
         action = self.get_argument('a', 'view')
         if action == 'delete':
             self._delete(notebook_name, note_name, confirmed=False)
@@ -130,24 +131,28 @@ class NoteHandler(BaseHandler):
             dot_path = join(self.settings.repo, notebook_enc, '.' + note_enc)
             highlight = self.get_argument('hl', None)
             with Magic() as m:
-                mime = m.id_filename(path)
-                if 'text' in mime or 'empty' in mime:
-                    self._view_plaintext(notebook_name=notebook_name,
-                                         note_name=note_name,
-                                         highlight=highlight)
-                elif exists(dot_path):
-                    download = self.get_argument('dl', False)
-                    if download:
-                        self._view_file(notebook_name=notebook_name,
-                                        note_name=note_name)
-                    else:
+
+                # Open the file since m.id_filename() does not accept utf8 paths, not even 
+                # when using path.decode('utf8')
+                with open(path) as f:
+                    mime = m.id_buffer(f.read())
+                    if 'text' in mime or 'empty' in mime:
                         self._view_plaintext(notebook_name=notebook_name,
                                              note_name=note_name,
-                                             highlight=highlight, dot=True)
+                                             highlight=highlight)
+                    elif exists(dot_path):
+                        download = self.get_argument('dl', False)
+                        if download:
+                            self._view_file(notebook_name=notebook_name,
+                                            note_name=note_name)
+                        else:
+                            self._view_plaintext(notebook_name=notebook_name,
+                                                 note_name=note_name,
+                                                 highlight=highlight, dot=True)
 
-                else:
-                    self._view_file(notebook_name=notebook_name,
-                                    note_name=note_name)
+                    else:
+                        self._view_file(notebook_name=notebook_name,
+                                        note_name=note_name)
 
     @authenticated
     def post(self, notebook_name, note_name):
