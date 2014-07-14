@@ -32,9 +32,9 @@ class Test(BaseTest):
         self.touch(note_name_spaces)
 
         # magpie 500s on bad notes
-        self.fetch(self.notebook_url + note_name_pluses)
+        self.get(self.notebook_url + note_name_pluses)
 
     def test_unicode_note_names(self):
         note_name = u'übernöte'
         self.touch(note_name)
-        self.fetch(self.notebook_url + note_name)
+        self.get(self.notebook_url + note_name)

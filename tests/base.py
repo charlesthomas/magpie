@@ -1,6 +1,7 @@
 import logging
 from os import makedirs, path
 from shutil import rmtree
+from urllib import urlencode
 
 from tornado.testing import AsyncHTTPTestCase
 from tornado.web import Application
@@ -38,8 +39,17 @@ class BaseTest(AsyncHTTPTestCase):
                                      'default.cfg'))
         return APP
 
-    def fetch(self, url, allow_errors=False):
+    def get(self, url, allow_errors=False):
         self.http_client.fetch(self.get_url(url), self.stop)
+        res = self.wait()
+        if not allow_errors:
+            self.assertEqual(200, int(res.code))
+        return res
+
+    def post(self, url, allow_errors=False, **kwargs):
+        self.http_client.fetch(self.get_url(url), method='POST',
+                               body=urlencode(kwargs),
+                               callback=self.stop)
         res = self.wait()
         if not allow_errors:
             self.assertEqual(200, int(res.code))
