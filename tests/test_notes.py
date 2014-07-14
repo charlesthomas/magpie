@@ -2,6 +2,7 @@
 
 from os import makedirs, path
 from shutil import rmtree
+from urllib import quote
 
 from base import BaseTest
 
@@ -36,5 +37,5 @@ class Test(BaseTest):
 
     def test_unicode_note_names(self):
         note_name = u'übernöte'
-        self.touch(note_name)
-        self.fetch(self.notebook_url + note_name)
+        self.touch(note_name.encode('ascii', errors='xmlcharrefreplace'))
+        self.fetch(self.notebook_url + quote(note_name.encode('utf8')))

@@ -1,6 +1,7 @@
 # coding=UTF-8
 from os import makedirs, path, rmdir
 from shutil import rmtree
+from urllib import quote
 
 from base import BaseTest
 
@@ -32,15 +33,16 @@ class Test(BaseTest):
 
     def test_unicode_notebooks(self):
         app = self.get_app()
+        dirname = u'übernöteböök'.encode('ascii', errors='xmlcharrefreplace')
         try:
-            makedirs(path.join(app.settings.repo, u'übernöteböök'))
+            makedirs(path.join(app.settings.repo, dirname))
         except OSError as e:
             if e.strerror != 'File exists':
                 raise
 
         try:
             home = self.fetch('/')
-            notebook = self.fetch(u'/übernöteböök')
-            self.assertNoteEqual(home.body, notebook.body)
+            notebook = self.fetch('/' + quote(dirname))
+            self.assertNotEqual(home.body, notebook.body)
         finally:
-            rmtree(path.join(app.settings.repo, u'übernöteböök'))
+            rmtree(path.join(app.settings.repo, dirname))

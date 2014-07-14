@@ -1,4 +1,4 @@
-from base64 import b64encode, b64decode
+import re
 from os import listdir, path
 
 from tornado.web import RequestHandler
@@ -17,6 +17,7 @@ class BaseHandler(RequestHandler):
 
         kwargs['notebooks'] = self._notebooks_list(kwargs.get('hide_notebooks',
                                                               False))
+        #encode notebook names for display:
         super(BaseHandler, self).render(template, **kwargs)
 
     def _notebooks_list(self, hide_notebooks=False):
@@ -31,7 +32,7 @@ class BaseHandler(RequestHandler):
         notes_path = path.join(self.settings.repo,
                                self.encode_name(notebook_name))
 
-        all_notes = [self.decode_name(n) for n in listdir(notes_path) if not \
+        all_notes = [n for n in listdir(notes_path) if not \
                      n.startswith('.')]
         starred = []
         unstarred = []
@@ -58,13 +59,20 @@ class BaseHandler(RequestHandler):
         return self.get_cookie('session', '') == self.settings.session
 
     def encode_name(self, name):
-        return name.replace('+', ' ').encode('utf8')
+        return re.sub(r'[:\|\\\/\?\*"]', lambda m: self._xmlescape(m), name.encode('ascii', errors='xmlcharrefreplace').replace('+', ' '))
+
+    def _xmlescape(self, value):
+        return '&#' + str(ord(value.group())) + ';'
+        
+
+    def _xmlunescape(self, value):
+        return unichr(int(value.group(1)))
 
     def decode_name(self, name):
-        return name.encode('utf8').replace('+', ' ')
+        return re.sub(r'&#(\d+);', lambda m: self._xmlunescape(m), name)#.encode('utf8') 
 
     def get_starred(self):
         starred_list = self.get_cookie('starred_notes')
         if starred_list is None:
             return []
-        return b64decode(starred_list).decode('utf8').replace('+', ' ').split(',')
+        return starred_list
