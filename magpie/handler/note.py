@@ -35,7 +35,7 @@ class NoteHandler(BaseHandler):
 
             self._star(notebook_name, note_name, 'unset', False)
 
-            self.redirect('/' + notebook_name.replace('#', '%23'))
+            self.redirect('/' + notebook_enc.replace('#', '%23'))
         else:
             self.render('delete.html', notebook_name=notebook_name,
                         note_name=note_name)
@@ -87,7 +87,7 @@ class NoteHandler(BaseHandler):
             except ErrorReturnCode_1 as e:
                 if 'nothing to commit' not in e.message:
                     raise
-            self.redirect(note_name.replace('#', '%23'))
+            self.redirect(note_enc.replace('#', '%23'))
 
     def _view_plaintext(self, notebook_name, note_name, highlight=None,
                         dot=False):
