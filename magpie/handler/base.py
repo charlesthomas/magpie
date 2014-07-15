@@ -18,7 +18,6 @@ class BaseHandler(RequestHandler):
 
         kwargs['notebooks'] = self._notebooks_list(kwargs.get('hide_notebooks',
                                                               False))
-        #encode notebook names for display:
         super(BaseHandler, self).render(template, **kwargs)
 
     def _notebooks_list(self, hide_notebooks=False):
@@ -76,5 +75,4 @@ class BaseHandler(RequestHandler):
         starred_list = self.get_cookie('starred_notes')
         if starred_list is None:
             return []
-        print repr(b64decode(starred_list).decode('utf8').split(','))
         return b64decode(starred_list).decode('utf8').split(',')
