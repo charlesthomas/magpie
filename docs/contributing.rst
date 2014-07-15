@@ -32,6 +32,12 @@ In order to use magpie right now, you have to know enough about git to init the
 repo, and set the user name and email. It would be nice if magpie was smart
 enough to do this through the web application.
 
+Note history
+=========
+It should be possible to show the history of a note, and diff the changes between
+notes versions, something like how redmine handles it on file versions:
+http://www.redmine.org/projects/redmine/repository
+
 Web Scraper
 ===========
 Evernote has a Javascript bookmarklet that will scrape a webpage and add it as a
@@ -42,6 +48,10 @@ OCR
 Evernote's `OCR`_ is *really* good. I looked into Python projects that would
 allow me to do OCR in magpie, and I didn't find anything that seemed both
 feature complete and easy to use.
+
+A good option would be to use tessaract, https://code.google.com/p/tesseract-ocr/ 
+but that will require that as an external dependency, rather than some
+pure python-implementation.
 
 Other document scrapers
 =======================
@@ -58,6 +68,9 @@ example::
 In the above example, magpie will render the .file.pdf plaintext file when you
 click on file.pdf in the left-hand side notes menu.
 
+OCR should be done on parts of the PDF which does not have text in it, such as 
+image parts or scanned PDFs.
+
 Utils Config Tool
 =================
 The pdf scraper and the script for turning emails into notes are called magpie
@@ -69,9 +82,9 @@ added by someone.
 
 Testing
 -------
-No tests exist for magpie yet, but some probably should. I've used `Travis-CI`_
-for other projects and would recommend starting by setting up a `.travis.yaml`_
-file.
+There are some tests available for magpie, and tests are run by Travis on
+each commit to master. See the current state here:
+https://travis-ci.org/charlesthomas/magpie
 
 Documentation
 -------------
