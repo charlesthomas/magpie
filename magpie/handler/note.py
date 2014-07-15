@@ -114,8 +114,8 @@ class NoteHandler(BaseHandler):
 
     @authenticated
     def get(self, notebook_name, note_name):
-        notebook_enc = self.encode_name(notebook_name)
-        note_enc = self.encode_name(note_name)
+        notebook_name = self.encode_name(notebook_name)
+        note_name = self.encode_name(note_name)
 
         action = self.get_argument('a', 'view')
         if action == 'delete':
@@ -127,13 +127,13 @@ class NoteHandler(BaseHandler):
         elif action == 'unstar':
             self._star(notebook_name, note_name, star='unset')
         else:
-            path = join(self.settings.repo, notebook_enc, note_enc)
-            dot_path = join(self.settings.repo, notebook_enc, '.' + note_enc)
+            path = join(self.settings.repo, notebook_name, note_name)
+            dot_path = join(self.settings.repo, notebook_name, '.' + note_name)
             highlight = self.get_argument('hl', None)
             with Magic() as m:
 
-                # Open the file since m.id_filename() does not accept utf8 paths, not even 
-                # when using path.decode('utf8')
+                # Open the file since m.id_filename() does not accept utf8
+                # paths, not even when using path.decode('utf8')
                 with open(path) as f:
                     mime = m.id_buffer(f.read())
                     if 'text' in mime or 'empty' in mime:
@@ -156,6 +156,9 @@ class NoteHandler(BaseHandler):
 
     @authenticated
     def post(self, notebook_name, note_name):
+        notebook_name = self.encode_name(notebook_name)
+        note_name = self.encode_name(note_name)
+
         action = self.get_argument('a', 'view')
         if bool(self.get_argument('save', False)):
             note = self.get_argument('note')
