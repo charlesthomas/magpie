@@ -20,5 +20,6 @@ class LoginHandler(BaseHandler):
             self.redirect('/login?error=' + quote("Username/password "
                                                   "incorrect!"))
         else:
-            self.set_cookie('session', self.settings.session)
+            self.set_cookie('session', self.settings.session,
+                            expires=2667692112)
             self.redirect(self.get_argument('next', '/'))

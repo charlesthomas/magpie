@@ -2,7 +2,8 @@ from os import path
 
 class ConfigPath(object):
     def __init__(self):
-        self.config_paths = [path.join(path.expanduser('~'), '.magpie'),
+        self.config_paths = [path.abspath(path.curdir),
+                             path.join(path.expanduser('~'), '.magpie'),
                              path.dirname(__file__)]
 
     def __getattr__(self, key):

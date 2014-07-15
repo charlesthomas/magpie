@@ -1,3 +1,4 @@
+import re
 from base64 import b64encode, b64decode
 from os import listdir, path
 
@@ -31,13 +32,13 @@ class BaseHandler(RequestHandler):
         notes_path = path.join(self.settings.repo,
                                self.encode_name(notebook_name))
 
-        all_notes = [self.decode_name(n) for n in listdir(notes_path) if not \
+        all_notes = [n for n in listdir(notes_path) if not \
                      n.startswith('.')]
         starred = []
         unstarred = []
 
         while all_notes:
-            note = all_notes.pop()
+            note = self.decode_name(all_notes.pop())
             if u'%s/%s' % (notebook_name, note) in self.starred_notes:
                 starred.append(note)
             else:
@@ -58,13 +59,20 @@ class BaseHandler(RequestHandler):
         return self.get_cookie('session', '') == self.settings.session
 
     def encode_name(self, name):
-        return name.replace('+', ' ').encode('utf8')
+        return re.sub(r'[:\|\\\/\?\*"]', lambda m: self._xmlescape(m), name.replace('+', ' '))
+
+    def _xmlescape(self, value):
+        return '&#' + str(ord(value.group())) + ';'
+        
+
+    def _xmlunescape(self, value):
+        return chr(int(value.group(1)))
 
     def decode_name(self, name):
-        return name.encode('utf8').replace('+', ' ')
+        return re.sub(r'&#(\d+);', lambda m: self._xmlunescape(m), name) 
 
     def get_starred(self):
         starred_list = self.get_cookie('starred_notes')
         if starred_list is None:
             return []
-        return b64decode(starred_list).decode('utf8').replace('+', ' ').split(',')
+        return b64decode(starred_list).decode('utf8').split(',')
