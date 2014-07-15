@@ -40,7 +40,7 @@
       <!-- iterate though existing notebooks -->
 {% for notebook in notebooks %}
   {% if notebook != '.git' %}
-        <li {% if notebook_name == unicode(notebook.decode('utf8')) %}class="active"{% end if %}>
+        <li {% if notebook_name == notebook %}class="active"{% end if %}>
           <a href="/{{ url_escape(notebook) }}">
             {{ notebook }}
           </a>
@@ -85,9 +85,9 @@
 
 {# iterate through existing notes #}
 {% for note in notes %}
-        <li {% if unicode(note.decode('utf8')) == note_name %}class="active"{% end if %}>
+        <li {% if note == note_name %}class="active"{% end if %}>
             <a href="/{{ url_escape(notebook_name) }}/{{ url_escape(note) }}">
-            {% if u'%s/%s' % (notebook_name, note.decode('utf8').replace(' ', '+')) in starred_notes %}
+            {% if '%s/%s' % (notebook_name, note) in starred_notes %}
               <span class='glyphicon glyphicon-star'></span>
             {% else %}
               <span class='glyphicon glyphicon-star-empty'></span>
@@ -120,7 +120,7 @@
         });
       };
       var new_note = function(self){
-        var name = '/{{ url_escape(notebook_name) }}/' + $("#new_note_name").val().replace(/#/g, '%23');
+        var name = '/{{ url_escape(notebook_name) }}/' + encodeURIComponent($("#new_note_name").val()).replace(/#/g, '%23');
         $.post(name, data = {
            save: true
           ,note: ''

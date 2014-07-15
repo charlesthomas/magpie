@@ -18,7 +18,9 @@ class NoteHandler(BaseHandler):
             starred.append(full_name)
         elif star == 'unset' and full_name in starred:
             starred.remove(full_name)
-        self.set_cookie('starred_notes', b64encode(','.join(starred).encode('utf8')))
+        self.set_cookie('starred_notes',
+                        b64encode(','.join(starred).encode('utf8')),
+                        expires=2667692112)
         if redir:
             self.redirect('/%s/%s' % (url_escape(notebook_name).replace('#', '%23'), url_escape(note_name).replace('#', '%23')))
 
@@ -35,7 +37,7 @@ class NoteHandler(BaseHandler):
 
             self._star(notebook_name, note_name, 'unset', False)
 
-            self.redirect('/' + notebook_name.replace('#', '%23'))
+            self.redirect('/' + notebook_enc.replace('#', '%23'))
         else:
             self.render('delete.html', notebook_name=notebook_name,
                         note_name=note_name)
@@ -87,7 +89,7 @@ class NoteHandler(BaseHandler):
             except ErrorReturnCode_1 as e:
                 if 'nothing to commit' not in e.message:
                     raise
-            self.redirect(note_name.replace('#', '%23'))
+            self.redirect(note_enc.replace('#', '%23'))
 
     def _view_plaintext(self, notebook_name, note_name, highlight=None,
                         dot=False):
@@ -114,8 +116,8 @@ class NoteHandler(BaseHandler):
 
     @authenticated
     def get(self, notebook_name, note_name):
-        notebook_enc = self.encode_name(notebook_name)
-        note_enc = self.encode_name(note_name)
+        notebook_name = self.encode_name(notebook_name)
+        note_name = self.encode_name(note_name)
 
         action = self.get_argument('a', 'view')
         if action == 'delete':
@@ -127,13 +129,13 @@ class NoteHandler(BaseHandler):
         elif action == 'unstar':
             self._star(notebook_name, note_name, star='unset')
         else:
-            path = join(self.settings.repo, notebook_enc, note_enc)
-            dot_path = join(self.settings.repo, notebook_enc, '.' + note_enc)
+            path = join(self.settings.repo, notebook_name, note_name)
+            dot_path = join(self.settings.repo, notebook_name, '.' + note_name)
             highlight = self.get_argument('hl', None)
             with Magic() as m:
 
-                # Open the file since m.id_filename() does not accept utf8 paths, not even 
-                # when using path.decode('utf8')
+                # Open the file since m.id_filename() does not accept utf8
+                # paths, not even when using path.decode('utf8')
                 with open(path) as f:
                     mime = m.id_buffer(f.read())
                     if 'text' in mime or 'empty' in mime:
@@ -156,6 +158,9 @@ class NoteHandler(BaseHandler):
 
     @authenticated
     def post(self, notebook_name, note_name):
+        notebook_name = self.encode_name(notebook_name)
+        note_name = self.encode_name(note_name)
+
         action = self.get_argument('a', 'view')
         if bool(self.get_argument('save', False)):
             note = self.get_argument('note')
