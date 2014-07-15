@@ -1,4 +1,5 @@
 import re
+from base64 import b64encode, b64decode
 from os import listdir, path
 
 from tornado.web import RequestHandler
@@ -66,13 +67,14 @@ class BaseHandler(RequestHandler):
         
 
     def _xmlunescape(self, value):
-        return unichr(int(value.group(1)))
+        return chr(int(value.group(1)))
 
     def decode_name(self, name):
-        return re.sub(r'&#(\d+);', lambda m: self._xmlunescape(m), name)#.encode('utf8') 
+        return re.sub(r'&#(\d+);', lambda m: self._xmlunescape(m), name) 
 
     def get_starred(self):
         starred_list = self.get_cookie('starred_notes')
         if starred_list is None:
             return []
-        return starred_list
+        print repr(b64decode(starred_list).decode('utf8').split(','))
+        return b64decode(starred_list).decode('utf8').split(',')

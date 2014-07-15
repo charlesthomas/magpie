@@ -165,4 +165,4 @@ class NoteHandler(BaseHandler):
         elif bool(self.get_argument('delete', False)):
             self._delete(notebook_name, note_name, confirmed=True)
         else:
-            self.redirect(note_name.replace('#', '%23'))
+            self.redirect(self.encode_name(note_name).replace('#', '%23'))
