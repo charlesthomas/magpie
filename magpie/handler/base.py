@@ -1,4 +1,5 @@
 import re
+from base64 import b64encode, b64decode
 from os import listdir, path
 
 from tornado.web import RequestHandler
@@ -75,4 +76,5 @@ class BaseHandler(RequestHandler):
         starred_list = self.get_cookie('starred_notes')
         if starred_list is None:
             return []
-        return starred_list
+        print repr(b64decode(starred_list).decode('utf8').split(','))
+        return b64decode(starred_list).decode('utf8').split(',')

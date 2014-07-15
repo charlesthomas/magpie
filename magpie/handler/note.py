@@ -13,7 +13,7 @@ from base import BaseHandler
 class NoteHandler(BaseHandler):
     def _star(self, notebook_name, note_name, star, redir=True):
         starred = self.get_starred()
-        full_name = u'%s/%s' % (self.encodename(notebook_name), self.encodename(note_name))
+        full_name = u'%s/%s' % (notebook_name, note_name)
         if star == 'set' and full_name not in starred:
             starred.append(full_name)
         elif star == 'unset' and full_name in starred:
@@ -165,4 +165,4 @@ class NoteHandler(BaseHandler):
         elif bool(self.get_argument('delete', False)):
             self._delete(notebook_name, note_name, confirmed=True)
         else:
-            self.redirect(note_name.replace('#', '%23'))
+            self.redirect(self.encode_name(note_name).replace('#', '%23'))
