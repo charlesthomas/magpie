@@ -7,96 +7,106 @@
       {% block title %}{% end block %} :: magpie
     </title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-    <link rel="icon" type="image/jpeg" href="{{ static_url('magpie.jpg') }}" />
+    <link rel="stylesheet" href="{{ static_url('local.css') }}" />
+    <link rel="icon" type="image/png" href="{{ static_url('magpie.png') }}" />
   </head>
   <body {% block bodytag %}{% end block %}>
-    <br>
-    <ul class="nav nav-tabs">
-      <li>
-        <a href="/config" class=config>
-          <span class="glyphicon glyphicon-wrench"></span>
-        </a>
-      </li>
-      <li>
-        <a href="/">
-          <span class="glyphicon glyphicon-home"></span>
-        </a>
-      </li>
-      <!-- new notebook button exposes new notebook form -->
-      <li>
-        <a href="#" onclick="$('#new_notebook_form').removeClass('hidden')">
-          + New Notebook +
-        </a>
-      </li>
-      <!-- hidden new notebook form -->
-      <li class="hidden" id="new_notebook_form">
-        <a href="#">
-          <input type="text" name="new_notebook_name" id="new_notebook_name" />
-          <input onclick="new_notebook(this);" type="button" class="btn btn-primary" value="Create" />
-          <input type="button" class="btn btn-danger" value="Cancel" onclick="uitoggler(this)" />
-        </a>
-      </li>
-
-      <!-- iterate though existing notebooks -->
-{% for notebook in notebooks %}
-  {% if notebook != '.git' %}
-        <li {% if notebook_name == notebook %}class="active"{% end if %}>
-          <a href="/{{ url_escape(notebook) }}">
-            {{ notebook }}
+    <div class="navbar navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle Navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+{#          <a class="navbar-brand" href="#">magpie</a> #}
+          <a href="/config" class="navbar-brand config">
+            <span class="glyphicon glyphicon-wrench"></span>
           </a>
-        </li>
-  {% end if %}
-{% end for %}
-      </ul>
-      <br>
-      <div class="col-sm-2">
-        <ul class="nav nav-pills nav-stacked">
-        <!-- search -->
-        <li>
-          <form method="GET" action="/search">
-            <div class="form-group">
-              <input type="search" name="q" id="search" size="15"
-              placeholder=" search" tabindex="10">
-              <button class="btn btn-link">
-                <span class="glyphicon glyphicon-search">
-                </span>
-              </button>
-            </div>
-          </form>
-        </li>
-
+          <a href="/" class="navbar-brand">
+            <span class="glyphicon glyphicon-home"></span>
+          </a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Notebooks <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                {# new notebook button exposes new notebook form #}
+                <li>
+                  <a href="#" onclick="$('#new_notebook_form')[$('#new_notebook_form').hasClass('hidden') ? 'removeClass' : 'addClass']('hidden'); arguments[0].stopPropagation();">
+                    + New Notebook +
+                  </a>
+                </li>
+                {# hidden new notebook form #}
+                <li class="hidden" id="new_notebook_form">
+                  <a href="#">
+                    <input type="text" name="new_notebook_name" class="btn-block" id="new_notebook_name" onclick="arguments[0].stopPropagation();" />
+                    <input onclick="new_notebook(this);" type="button" class="btn btn-block btn-primary" value="Create" />
+                    <input type="button" class="btn btn-block btn-danger" value="Cancel" onclick="uitoggler(this)" />
+                  </a>
+                </li>
+                {# iterate though existing notebooks #}
+                {% for notebook in notebooks %}
+                  {% if notebook != '.git' %}
+                        <li {% if notebook_name == notebook %}class="active"{% end if %}>
+                          <a href="/{{ url_escape(notebook) }}">
+                            {{ notebook }}
+                          </a>
+                        </li>
+                  {% end if %}
+                {% end for %}
+              </ul>
+            </li>
 {% if notebook_name != u'' %}
-        <!-- new note button exposes new note form -->
-        <li>
-          <a href="#" onclick="$('#new_note_form').removeClass('hidden');">
-            + New Note +
-          </a>
-        </li>
-        <!-- hidden note form -->
-        <li class="hidden" id="new_note_form">
-          <a href="#">
-            <input type="text" name="new_note_name" id="new_note_name" />
-            <br><br>
-            <input type="button" class="btn btn-primary" value="Create" onclick="new_note(this);" />
-            <input type="button" class="btn btn-danger" value="Cancel" id="cancel" onclick="uitoggler(this);">
-          </a>
-        </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Notes <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a href="#" onclick="$('#new_note_form')[$('#new_note_form').hasClass('hidden') ? 'removeClass' : 'addClass']('hidden'); arguments[0].stopPropagation();">
+                    + New Note +
+                  </a>
+                </li>
+                <li class="hidden" id="new_note_form">
+                  <a href="#">
+                    <input type="text" class="btn-block" name="new_note_name" id="new_note_name" onclick="arguments[0].stopPropagation();" />
+                    <input type="button" class="btn btn-block btn-primary" value="Create" onclick="new_note(this);" />
+                    <input type="button" class="btn btn-block btn-danger" value="Cancel" id="cancel" onclick="uitoggler(this);">
+                  </a>
+                </li>
+                {% for note in notes %}
+                        <li {% if note == note_name %}class="active"{% end if %}>
+                            <a href="/{{ url_escape(notebook_name) }}/{{ url_escape(note) }}">
+                            {% if '%s/%s' % (notebook_name, note) in starred_notes %}
+                              <span class='glyphicon glyphicon-star'></span>
+                            {% else %}
+                              <span class='glyphicon glyphicon-star-empty'></span>
+                            {% end if %}
+                            {{ note }}
+                          </a>
+                        </li>
+                {% end for %}
+              </ul>
+ 
+            </li>
 {% end if %}
+            {# SEARCH #}
+            <li>
+              <form method="GET" action="/search" class="navbar-form">
+                <div class="form-group">
+                  <input type="search" name="q" id="search" size="15"
+                  placeholder=" search" tabindex="10">
+                  <button class="btn">
+                    <span class="glyphicon glyphicon-search"></span>
+                  </button>
+                </div>
+              </form>
+            </li>
 
-{# iterate through existing notes #}
-{% for note in notes %}
-        <li {% if note == note_name %}class="active"{% end if %}>
-            <a href="/{{ url_escape(notebook_name) }}/{{ url_escape(note) }}">
-            {% if '%s/%s' % (notebook_name, note) in starred_notes %}
-              <span class='glyphicon glyphicon-star'></span>
-            {% else %}
-              <span class='glyphicon glyphicon-star-empty'></span>
-            {% end if %}
-            {{ note }}
-          </a>
-        </li>
-{% end for %}
-      </ul>
+          </ul>
+        </div>
+      </div>
     </div>
     <div class="container">
       <div class="row">
