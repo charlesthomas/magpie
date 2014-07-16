@@ -2,12 +2,23 @@
 Contributing
 ============
 
+magpie Mailing List
+-------------------
+
+If you're interested in contributing, consider signing up for `magpie's mailing
+list`_.
+
 Thanks!
 -------
 Thanks to:
 
+* erickr for fixing searching for notes w/unicode (`#40`) and helping with other
+  unicode issues (`#42`).
+
+* matthewi for making the listen address more configurable (`#37`_).
+
 * tony-o for beginning the auto-save feature (`#20`_), fixing the .git search
-  problem (`#21`_), cleaning up the base template (`#22`_), and adding ünicode 
+  problem (`#21`_), cleaning up the base template (`#22`_), and adding ünicode
   support.
 
 * Erwyn for fixing the write/reload race condition (`#15`_)
@@ -35,8 +46,8 @@ enough to do this through the web application.
 Note history
 =========
 It should be possible to show the history of a note, and diff the changes between
-notes versions, something like how redmine handles it on file versions:
-http://www.redmine.org/projects/redmine/repository
+notes versions, something like how `redmine handles it`_ on file versions.
+
 
 Web Scraper
 ===========
@@ -49,7 +60,7 @@ Evernote's `OCR`_ is *really* good. I looked into Python projects that would
 allow me to do OCR in magpie, and I didn't find anything that seemed both
 feature complete and easy to use.
 
-A good option would be to use tessaract, https://code.google.com/p/tesseract-ocr/ 
+A good option might be to use `tesseract`_,
 but that will require that as an external dependency, rather than some
 pure python-implementation.
 
@@ -68,7 +79,7 @@ example::
 In the above example, magpie will render the .file.pdf plaintext file when you
 click on file.pdf in the left-hand side notes menu.
 
-OCR should be done on parts of the PDF which does not have text in it, such as 
+OCR should be done on parts of the PDF which does not have text in it, such as
 image parts or scanned PDFs.
 
 Utils Config Tool
@@ -82,15 +93,19 @@ added by someone.
 
 Testing
 -------
-There are some tests available for magpie, and tests are run by Travis on
-each commit to master. See the current state here:
-https://travis-ci.org/charlesthomas/magpie
+`Some rudimentary tests exist on travis-ci`_, but more tests are always better.
+Submitting pull requests will automatically trigger travis to run magpie's tests
+against your pull request.
 
 Documentation
 -------------
 Hopefully this documentation is good enough to get people using magpie, but
 documentation can always be more thorough.
 
+.. _magpie's mailing list: https://groups.google.com/forum/#!forum/magpie-notes
+.. _#40: https://github.com/charlesthomas/magpie/pull/40
+.. _#42: https://github.com/charlesthomas/magpie/pull/42
+.. _#37: https://github.com/charlesthomas/magpie/pull/37
 .. _#20: https://github.com/charlesthomas/magpie/pull/20
 .. _#21: https://github.com/charlesthomas/magpie/pull/21
 .. _#22: https://github.com/charlesthomas/magpie/pull/22
@@ -99,6 +114,7 @@ documentation can always be more thorough.
 .. _#5: https://github.com/charlesthomas/magpie/pull/5
 .. _todo.md: https://github.com/charlesthomas/todo.md
 .. _magpie's todo.md: https://github.com/charlesthomas/magpie/blob/master/todo.md
+.. _redmine handles it: http://www.redmine.org/projects/redmine/repository
 .. _OCR: https://en.wikipedia.org/wiki/Optical_character_recognition
-.. _Travis-CI: https://travis-ci.org/
-.. _.travis.yaml: http://docs.travis-ci.com/user/languages/python/
+.. _tesseract: https://code.google.com/p/tesseract-ocr/
+.. _Some rudimentary tests exist on travis-ci: https://travis-ci.org/charlesthomas/magpie

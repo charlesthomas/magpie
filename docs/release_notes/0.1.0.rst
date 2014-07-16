@@ -1,0 +1,69 @@
+============
+magpie 0.1.0
+============
+
+Thanks!
+=======
+First and foremost, thanks to everyone who helped build this release. You can
+see `the list of contributors here`_.
+
+New Features
+============
+
+Star / Unstar Notes
+-------------------
+Starring a note will put it at the top of the list of notes in the right side
+menu. Starred notes are sorted alphabetically. Notes that haven't been starred
+are also sorted alphabetically, but appear underneath the sorted list of starred
+notes.
+
+Starred notes are stored in cookies, so if you use more than one device to
+access magpie, and you don't sync your browser data, starred notes won't move
+with you.
+
+Choose Listening Address
+------------------------
+In magpie's config, you can now specify what address magpie listens on, rather
+than just localhost only, or all addresses. To listen on all address now, set
+the IP to 0.0.0.0.
+
+Unicode Notebook / Note Names
+-----------------------------
+You can now create notes and notebooks with unicode in their names.
+Unfortunately, there appears to be a bug with colons in filenames.
+
+Config Locations
+----------------
+In addition to the location inside the magpie install, and ~/.magpie, if you
+have a config file in the directory you launch magpie from, magpie will read
+from that config file, instead of the other two. The order of preference is:
+
+* . (current working directory when you launched magpie)
+* ~/.magpie
+* /<path to magpie install>/config/
+
+Bug Fixes
+=========
+
+Unicode Search
+--------------
+You can now search for unicode strings w/o 500 errors.
+
+Can't launch magpie / Sphinx error
+----------------------------------
+`Sphinx was causing problems for some people.`_ Since it is only a requirement
+for building the documentation, it was removed from ``requirements.txt``, so it
+should no longer be an issue (magpie will no longer try to install it when you
+``pip install magpie``).
+
+Potential / Known Bugs
+----------------------
+* As noted above, magpie doesn't seem to like colons in notebook names or note
+  names.
+
+* Neither of the utils has been updated with unicode support. They may or may
+  not continue to work. Please open an issue if you are using either of them,
+  and 0.1.0 breaks something for you.
+
+.. _the list of contributors here: https://github.com/charlesthomas/magpie/blob/master/docs/contributing.rst#thanks
+.. _Sphinx was causing problems for some people.: https://github.com/charlesthomas/magpie/issues/12

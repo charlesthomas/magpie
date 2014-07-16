@@ -93,6 +93,8 @@ Useful Links
 * `magpie documentation`_
 * `magpie on Github`_
 * `magpie in PyPI`_
+* `magpie blog`_
+* `magpie mailing list`_
 * `Contributing`_
 * `To Do`_
 
@@ -156,6 +158,8 @@ Logo/favicon courtesy of `Kieran Palmer`_, as licensed under CC BY-SA 2.0 Generi
 .. _magpie documentation: https://magpie-notes.readthedocs.org/en/latest/
 .. _magpie on Github: https://github.com/charlesthomas/magpie/
 .. _magpie in PyPI: https://pypi.python.org/pypi/magpie/
+.. _magpie blog: http://magpie-notes.tumblr.com
+.. _magpie mailing list: https://groups.google.com/forum/#!forum/magpie-notes
 .. _Contributing: https://github.com/charlesthomas/magpie/blob/master/docs/contributing.rst
 .. _To Do: https://github.com/charlesthomas/magpie/blob/master/todo.md
 .. _Evernote: https://evernote.com

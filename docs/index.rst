@@ -7,3 +7,4 @@
     utils
     utils/emailing_notes
     utils/pdf_scraper
+    release_notes
