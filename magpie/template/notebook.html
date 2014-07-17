@@ -6,3 +6,8 @@
   {{ notebook_name }}
 {% end if %}
 {% end block %}
+{% block body %}
+  <ol class="breadcrumb">
+    <li><a href="/{{ url_escape(notebook_name) }}">{{ notebook_name }}</a></li>
+  </ol>
+{% end block %}

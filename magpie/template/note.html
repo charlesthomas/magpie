@@ -38,6 +38,11 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
 {% end block %}
 
 {% block body %}
+  <ol class="breadcrumb">
+    <li><a href="/{{ url_escape(notebook_name) }}">{{ notebook_name }}</a></li>
+    <li><a href="/{{ url_escape(notebook_name) }}/{{ url_escape(note_name) }}">{{ note_name }}</a></li>
+  </ol>
+
   {% if edit %}
     <br>
     <button class="btn btn-primary visible-xs" onclick="$('.row-offcanvas').toggleClass('active');">Notes</button>
