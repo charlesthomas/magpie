@@ -25,6 +25,13 @@
     </label>
     <span class=help-block>Saves notes every 5 seconds in edit mode.</span>
   </div>
+  <div class="form-group">
+    <label>
+      <input type="checkbox" name="wysiwyg"{% if config.get('wysiwyg', 'False') == 'True' %} checked="on"{% end if %} /> Use WYSWIWYG Editor (Experimental)
+    </label>
+    <span class=help-block>Defaults to using the WYSIWYG editor.</span>
+  </div>
+  <input type="hidden" name="save" value="Save" />
   <input type="hidden" name="save" value="Save" />
   <button type="submit" class="btn btn-primary" tabindex="6">Save</button>
   <hr>
