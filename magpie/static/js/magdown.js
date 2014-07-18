@@ -1,4 +1,4 @@
-//$(document).ready(function(){
+$(document).ready(function(){
   $(".editable").hallo({
     plugins: {
       'halloformat': {},
@@ -43,7 +43,8 @@
   });
   updateHtml($("textarea").html());
 
-  $(document).swipe({
+/*
+  $("*").swipe({
     swipe: function(e,dir){
       if(dir === "left"){
         $(".row-offcanvas").removeClass("active");
@@ -51,7 +52,8 @@
         $(".row-offcanvas").addClass("active");
       }
     }
-    ,threshold: 20
+    ,threshold: 38
   });
+*/
 
-//});
+});

@@ -78,7 +78,7 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
     {% end if %}
   {% else %}
     <br>
-    <button class="btn btn-primary visible-xs" onclick="$('.row-offcanvas').toggleClass('active');">&lt; Notes</button>
+    <button class="btn btn-primary visible-xs" onclick="$('.row-offcanvas').toggleClass('active');">&lt; Notes</button>&nbsp;
     <button class='btn btn-primary'
       {% if u'%s/%s' % (notebook_name, note_name) in starred_notes %}
           onclick="window.location='{{ url_escape(note_name) }}?a=unstar'">
