@@ -9,9 +9,9 @@
     <link rel="icon" type="image/png" href="{{ static_url('img/magpie.png') }}" />
 {% try %}
   {% if wysiwyg and edit %}
-    <link rel="stylesheet" href="{{ static_url('css/font-awesome.css') }}" />
-    <link rel="stylesheet" href="{{ static_url('css/jquery-ui-1.8.16.custom.css') }}" />
-    <link rel="stylesheet" href="{{ static_url('css/hallo.css') }}" />
+    <link rel="stylesheet" href="{{ static_url('js/hallo/examples/fontawesome/css/font-awesome.css') }}" />
+    <link rel="stylesheet" href="{{ static_url('js/hallo/examples/hallo.css') }}" />
+    <link rel="stylesheet" href="{{ static_url('js/hallo/examples/jquery-ui-bootstrap/css/custom-theme/jquery-ui-1.8.16.custom.css') }}" />
   {% end if %}
 {% except %}
 {% end %}
@@ -147,16 +147,17 @@
 
  
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="{{ static_url('js/jquery.swipe.min.js') }}"></script>
+    <script src="{{ static_url('js/hallo/lib/jquery/jquery.min.js') }}"></script>
+    <script src="{{ static_url('js/touchswipe/jquery.touchSwipe.min.js') }}"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 {% try %}
   {% if wysiwyg and edit %}
-    <script src="{{ static_url('js/jquery-ui.js') }}"></script>
-    <script src="{{ static_url('js/rangy-core.js') }}"></script>
-    <script src="{{ static_url('js/hallo.js') }}"></script>
-    <script src="{{ static_url('js/showdown.js') }}"></script>
-    <script src="{{ static_url('js/to-markdown.js') }}"></script>
+    <script src="{{ static_url('js/hallo/lib/jquery-ui/jquery-ui.js') }}"></script>
+    <script src="{{ static_url('js/hallo/lib/jquery-htmlclean/jquery.htmlClean.js') }}"></script>
+    <script src="{{ static_url('js/hallo/lib/rangy/rangy-core.js') }}"></script>
+    <script src="{{ static_url('js/hallo/dist/hallo.js') }}"></script>
+    <script src="{{ static_url('js/showdown/compressed/showdown.js') }}"></script>
+    <script src="{{ static_url('js/to-markdown/src/to-markdown.js') }}"></script>
     <script src="{{ static_url('js/magdown.js') }}"></script>
   {% end if %}
 {% except %}
@@ -189,8 +190,8 @@
             $(".row-offcanvas").addClass("active");
           }
         }
-        ,threshold: 30
-    });
+        ,threshold: 20
+      });
     </script>
     {% block js %}
     {% end block %}
