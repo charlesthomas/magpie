@@ -7,7 +7,7 @@
       var checkbox_regex = /\[([x| ])\](.*)<\/p>/g;
       var replace_html   = "<label><input type=checkbox onchange=\"toggle(this)\" zindex=\"$$INDEX$$\"$$CHECKED$$>$$TEXT$$</label>";
       var index          = 0;
-      $(el).html($(el).html().replace(checkbox_regex, function(a,b,c){
+      $(el).html(($(el).html() ? $(el).html() : '').replace(checkbox_regex, function(a,b,c){
         return replace_html.replace("$$INDEX$$", index++).replace("$$TEXT$$", c).replace("$$CHECKED$$", b == " " ? "" : " checked=\"true\"");
       }));
     }
@@ -52,8 +52,12 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
     <br>
     <br>
     {% if wysiwyg %}
-      <div contenteditable="true">
-        {{ note_contents }}
+        {# xhtml_escape(note_contents) #}
+      <div  class="editable">
+        <p>test</p>
+        <h5>test</h5>
+
+
       </div>
     {% end if %}
     <textarea cols=100 rows=25 name=note tabindex=1{% if wysiwyg %} class="hidden"{% end if %}>{{ note_contents }}</textarea>

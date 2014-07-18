@@ -1,11 +1,10 @@
-$(document).ready(function(){
-  $("*[contenteditable='true']").hallo({
+//$(document).ready(function(){
+  $(".editable").hallo({
     plugins: {
       'halloformat': {},
       'halloblock': {},
       'hallojustify': {},
       'hallolists': {},
-      //'hallolink': {},
       'halloreundo': {}
     },
     editable: true,
@@ -32,15 +31,27 @@ $(document).ready(function(){
   };
 
   var updateHtml = function(content) {
-    if (markdownize($("*[contenteditable='true']").html()) == content) {
+    if (markdownize($(".editable").html()) == content) {
       return;
     }
     var html = htmlize(content);
-    $("*[contenteditable='true']").html(html); 
+    $(".editable").html(html); 
   };
 
-  $("*[contenteditable='true']").bind('hallomodified', function(event, data) {
+  $(".editable").bind('hallomodified', function(event, data) {
     showSource(data.content);
   });
   updateHtml($("textarea").html());
-});
+
+  $(document).swipe({
+    swipe: function(e,dir){
+      if(dir === "left"){
+        $(".row-offcanvas").removeClass("active");
+      }else if($(".visible-xs").is(":visible") && dir === "right"){
+        $(".row-offcanvas").addClass("active");
+      }
+    }
+    ,threshold: 20
+  });
+
+//});
