@@ -7,3 +7,4 @@ pyPdf==1.13
 sh==1.09
 tornado==3.2
 wsgiref==0.1.2
+dulwich==0.9.7
