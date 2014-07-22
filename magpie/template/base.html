@@ -81,6 +81,7 @@
       </ul>
     </div>
     <div class="container">
+{% if notebook_name != u'' %}
       <div class="row row-offcanvas row-offcanvas-left">
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" role="navigation">
           <div class="well sidebar-nav">
@@ -107,10 +108,14 @@
           </div>
         </div>
         <div class="col-xs-12 col-sm-9">
+{% end if %}
           {% block body %}
           {% end block %}
+
+{% if notebook_name != u'' %}
         </div>
       </div>
+{% end if %}
     </div>
     <div class="modal fade" id="newnote">
       <div class="modal-dialog">
