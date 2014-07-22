@@ -20,7 +20,7 @@ class NoteHandler(BaseHandler):
             starred.remove(full_name)
         self.set_cookie('starred_notes',
                         b64encode(','.join(starred).encode('utf8')),
-                        expires=2667692112)
+                        expires_days=365)
         if redir:
             self.redirect('/%s/%s' % (url_escape(notebook_name).replace('#', '%23'), url_escape(note_name).replace('#', '%23')))
 

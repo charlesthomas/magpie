@@ -3,6 +3,8 @@ from os import makedirs, path
 from shutil import rmtree
 from urllib import urlencode
 
+from dulwich.errors import NotGitRepository
+from dulwich.repo import Repo
 from tornado.testing import AsyncHTTPTestCase
 from tornado.web import Application
 
@@ -16,11 +18,12 @@ class BaseTest(AsyncHTTPTestCase):
     @classmethod
     def setUpClass(cls):
         cls.path = path.join('/tmp', 'magpie_testing_git_repo')
-        try:
+        if not path.exists(cls.path):
             makedirs(cls.path)
-        except OSError as e:
-            if e.strerror != 'File exists':
-                raise
+        try:
+            cls.repo = Repo(cls.path)
+        except NotGitRepository:
+            cls.repo = Repo.init(cls.path)
 
     @classmethod
     def tearDownClass(cls):
