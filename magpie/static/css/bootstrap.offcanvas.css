@@ -57,4 +57,7 @@ body {
     top: 0;
     width: 90%; /* 6 columns */
   }
+  html, body {
+    height: 100%;
+  }
 }
