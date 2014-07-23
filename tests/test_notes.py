@@ -17,6 +17,7 @@ class Test(BaseTest):
 
     def tearDown(self):
         rmtree(path.join(self.notebook_path))
+        super(Test, self).tearDown()
 
     def touch(self, note, notebook=None):
         if notebook is None:
