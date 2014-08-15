@@ -48,12 +48,16 @@ class NoteHandler(BaseHandler):
         notebook_enc = self.encode_name(notebook_name)
         note_enc = self.encode_name(note_name)
         path = join(self.settings.repo, notebook_enc, note_enc)
+
         if not confirmed:
             note_contents = open(path).read()
             self.render('note.html', notebook_name=notebook_name,
                         note_name=note_name, note_contents=note_contents,
                         edit=True, autosave=self.settings['autosave'])
         else:
+
+            # Handle toggleing of checkboxes, go through all lines of the note to
+            # find checkbox markers [ ] and toggle them with an x
             if toggle > -1:
                 f = open(path)
                 tmp = []
@@ -75,20 +79,25 @@ class NoteHandler(BaseHandler):
                 f.close()
                 note_contents = ''.join(tmp)
 
-            f = open(path, 'w')
-            f.write(note_contents.encode('utf8'))
-            f.close()
+            # Check if the posted note contents are different from what is in the file
+            f_r = open(path, 'r')
+            if f_r.read()!=note_contents:
+                f_w = open(path, 'w')
+                f_w.write(note_contents.encode('utf8'))
+                f_w.close()
 
-            self.application.git.add(path)
-            try:
-                if note_contents == '':
-                    message = 'creating %s' % path
-                else:
-                    message = 'updating %s' % path
-                self.application.git.commit('-m', message)
-            except ErrorReturnCode_1 as e:
-                if 'nothing to commit' not in e.message:
-                    raise
+                self.application.git.add(path)
+                try:
+                    if note_contents == '':
+                        message = 'creating %s' % path
+                    else:
+                        message = 'updating %s' % path
+                    self.application.git.commit('-m', message)
+                except ErrorReturnCode_1 as e:
+                    if 'nothing to commit' not in e.message:
+                        raise
+            f_r.close();
+
             self.redirect(note_enc.replace('#', '%23'))
 
     def _view_plaintext(self, notebook_name, note_name, highlight=None,
