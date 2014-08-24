@@ -6,108 +6,176 @@
     <title>
       {% block title %}{% end block %} :: magpie
     </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" href="{{ static_url('img/magpie.png') }}" />
+{% try %}
+  {% if wysiwyg and edit %}
+    <link rel="stylesheet" href="{{ static_url('js/hallo/examples/fontawesome/css/font-awesome.css') }}" />
+    <link rel="stylesheet" href="{{ static_url('js/hallo/examples/hallo.css') }}" />
+    <link rel="stylesheet" href="{{ static_url('js/hallo/examples/jquery-ui-bootstrap/css/custom-theme/jquery-ui-1.8.16.custom.css') }}" />
+  {% end if %}
+{% except %}
+{% end %}
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-    <link rel="icon" type="image/jpeg" href="{{ static_url('magpie.jpg') }}" />
+    <link rel="stylesheet" href="{{ static_url('css/bootstrap.offcanvas.css') }}" />
+    <link rel="stylesheet" href="{{ static_url('css/local.css') }}" />
   </head>
   <body {% block bodytag %}{% end block %}>
-    <br>
-    <ul class="nav nav-tabs">
-      <li>
-        <a href="/config" class=config>
-          <span class="glyphicon glyphicon-wrench"></span>
-        </a>
-      </li>
-      <li>
-        <a href="/">
-          <span class="glyphicon glyphicon-home"></span>
-        </a>
-      </li>
-      <!-- new notebook button exposes new notebook form -->
-      <li>
-        <a href="#" onclick="$('#new_notebook_form').removeClass('hidden')">
-          + New Notebook +
-        </a>
-      </li>
-      <!-- hidden new notebook form -->
-      <li class="hidden" id="new_notebook_form">
-        <a href="#">
-          <input type="text" name="new_notebook_name" id="new_notebook_name" />
-          <input onclick="new_notebook(this);" type="button" class="btn btn-primary" value="Create" />
-          <input type="button" class="btn btn-danger" value="Cancel" onclick="uitoggler(this)" />
-        </a>
-      </li>
+    <div class="navbar navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle Navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+{#          <a class="navbar-brand" href="#">magpie</a> #}
+          <a href="/config" class="navbar-brand config">
+            <span class="glyphicon glyphicon-wrench"></span>
+          </a>
+          <a href="/" class="navbar-brand">
+            <span class="glyphicon glyphicon-home"></span>
+          </a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            {# SEARCH #}
+            <li>
+              <form method="GET" action="/search" class="navbar-form">
+                <div class="form-group">
+                  <input type="search" name="q" id="search" size="15"
+                  placeholder=" search" tabindex="10">
+                  <button class="btn">
+                    <span class="glyphicon glyphicon-search"></span>
+                  </button>
+                </div>
+              </form>
+            </li>
 
-      <!-- iterate though existing notebooks -->
-{% for notebook in notebooks %}
-  {% if notebook != '.git' %}
-        <li {% if notebook_name == notebook %}class="active"{% end if %}>
-          <a href="/{{ url_escape(notebook) }}">
-            {{ notebook }}
-          </a>
-        </li>
-  {% end if %}
-{% end for %}
-      </ul>
-      <br>
-      <div class="col-sm-2">
-        <ul class="nav nav-pills nav-stacked">
-        <!-- search -->
-        <li>
-          <form method="GET" action="/search">
-            <div class="form-group">
-              <input type="search" name="q" id="search" size="15"
-              placeholder=" search" tabindex="10">
-              <button class="btn btn-link">
-                <span class="glyphicon glyphicon-search">
-                </span>
-              </button>
-            </div>
-          </form>
-        </li>
-
-{% if notebook_name != u'' %}
-        <!-- new note button exposes new note form -->
-        <li>
-          <a href="#" onclick="$('#new_note_form').removeClass('hidden');">
-            + New Note +
-          </a>
-        </li>
-        <!-- hidden note form -->
-        <li class="hidden" id="new_note_form">
-          <a href="#">
-            <input type="text" name="new_note_name" id="new_note_name" />
-            <br><br>
-            <input type="button" class="btn btn-primary" value="Create" onclick="new_note(this);" />
-            <input type="button" class="btn btn-danger" value="Cancel" id="cancel" onclick="uitoggler(this);">
-          </a>
-        </li>
-{% end if %}
-
-{# iterate through existing notes #}
-{% for note in notes %}
-        <li {% if note == note_name %}class="active"{% end if %}>
-            <a href="/{{ url_escape(notebook_name) }}/{{ url_escape(note) }}">
-            {% if '%s/%s' % (notebook_name, note) in starred_notes %}
-              <span class='glyphicon glyphicon-star'></span>
-            {% else %}
-              <span class='glyphicon glyphicon-star-empty'></span>
-            {% end if %}
-            {{ note }}
-          </a>
-        </li>
-{% end for %}
-      </ul>
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-10">
-          {% block body %}
-          {% end block %}
+          </ul>
         </div>
       </div>
     </div>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <div class="container extra-bottom-margin">
+      <ul class="nav nav-pills">
+        {% for notebook in notebooks %}
+          {% if notebook != '.git' %}
+                <li {% if notebook_name == notebook %}class="active"{% end if %}>
+                  <a href="/{{ url_escape(notebook) }}">
+                    {{ notebook }}
+                  </a>
+                </li>
+          {% end if %}
+        {% end for %}
+
+        <li>
+          <button class="btn btn-md btn-primary" data-toggle="modal" data-target="#newnotebook"> 
+            New Notebook+
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div class="container">
+{% if notebook_name != u'' %}
+      <div class="row row-offcanvas row-offcanvas-left">
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" role="navigation">
+          <div class="well sidebar-nav">
+            <ul class="nav">
+              <li><h3>Notes</h3></li>        
+              <li>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#newnote">
+                  New Note+
+                </button>
+              </li>
+              {% for note in notes %}
+                <li{% if note == note_name %} class="active"{% end if %}>
+                  <a href="/{{ url_escape(notebook_name) }}/{{ url_escape(note) }}">
+                    {% if '%s/%s' % (notebook_name, note) in starred_notes %}
+                      <span class='glyphicon glyphicon-star'></span>
+                    {% else %}
+                      <span class='glyphicon glyphicon-star-empty'></span>
+                    {% end if %}
+                    {{ note }}
+                  </a>
+                </li>
+              {% end for %}
+            </ul>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-9">
+{% end if %}
+          {% block body %}
+          {% end block %}
+
+{% if notebook_name != u'' %}
+        </div>
+      </div>
+{% end if %}
+    </div>
+    <div class="modal fade" id="newnote">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">New Note in Notebook: {{ notebook_name }}</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="new_note_name">Note Name</label>
+              <input type="text" name="new_note_name" class="btn-block" id="new_note_name" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input onclick="new_note(this);" type="button" class="btn btn-primary" value="Create" /> 
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="newnotebook">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">New Notebook</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="new_notebook_name">Notebook Name</label>
+                <input type="text" name="new_notebook_name" class="btn-block" id="new_notebook_name" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <input onclick="new_notebook(this);" type="button" class="btn btn-primary" value="Create" /> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+ 
+
+    <script src="{{ static_url('js/hallo/lib/jquery/jquery.min.js') }}"></script>
+    <script src="{{ static_url('js/touchswipe/jquery.touchSwipe.min.js') }}"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+{% try %}
+  {% if wysiwyg and edit %}
+    <script src="{{ static_url('js/hallo/lib/jquery-ui/jquery-ui.js') }}"></script>
+    <script src="{{ static_url('js/hallo/lib/jquery-htmlclean/jquery.htmlClean.js') }}"></script>
+    <script src="{{ static_url('js/hallo/lib/rangy/rangy-core.js') }}"></script>
+    <script src="{{ static_url('js/hallo/dist/hallo.js') }}"></script>
+    <script src="{{ static_url('js/showdown/compressed/showdown.js') }}"></script>
+    <script src="{{ static_url('js/to-markdown/src/to-markdown.js') }}"></script>
+    <script src="{{ static_url('js/magdown.js') }}"></script>
+  {% end if %}
+{% except %}
+{% end %}
     <script>
       //helpers
       var uitoggler = function(self){
@@ -128,7 +196,7 @@
           window.location = name;
         });
       };
-    </script>
+   </script>
     {% block js %}
     {% end block %}
   </body>

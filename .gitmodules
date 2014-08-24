@@ -1,0 +1,12 @@
+[submodule "magpie/static/js/hallo"]
+	path = magpie/static/js/hallo
+	url = https://github.com/bergie/hallo.git
+[submodule "magpie/static/js/showdown"]
+	path = magpie/static/js/showdown
+	url = https://github.com/coreyti/showdown.git
+[submodule "magpie/static/js/to-markdown"]
+	path = magpie/static/js/to-markdown
+	url = https://github.com/domchristie/to-markdown.git
+[submodule "magpie/static/js/touchswipe"]
+	path = magpie/static/js/touchswipe
+	url = https://github.com/mattbryson/TouchSwipe-Jquery-Plugin.git

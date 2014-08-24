@@ -52,7 +52,8 @@ class NoteHandler(BaseHandler):
             note_contents = open(path).read()
             self.render('note.html', notebook_name=notebook_name,
                         note_name=note_name, note_contents=note_contents,
-                        edit=True, autosave=self.settings['autosave'])
+                        edit=True, autosave=self.settings['autosave'], 
+                        wysiwyg=self.settings['wysiwyg'])
         else:
             if toggle > -1:
                 f = open(path)
@@ -105,7 +106,7 @@ class NoteHandler(BaseHandler):
             note_contents = self.highlight(note_contents, highlight)
         self.render('note.html', notebook_name=notebook_name,
                     note_name=note_name, note_contents=note_contents,
-                    edit=False, dot=dot)
+                    edit=False, dot=dot, wysiwyg=self.settings['wysiwyg'])
 
     def _view_file(self, notebook_name, note_name):
         path = join(self.settings.repo, notebook_name, note_name)

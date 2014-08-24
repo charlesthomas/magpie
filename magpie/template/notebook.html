@@ -6,3 +6,9 @@
   {{ notebook_name }}
 {% end if %}
 {% end block %}
+{% block body %}
+  <ol class="breadcrumb">
+    <li><a href="/{{ url_escape(notebook_name) }}">{{ notebook_name }}</a></li>
+  </ol>
+  <button class="btn btn-primary visible-xs" onclick="$('.row-offcanvas').toggleClass('active');">&lt; Notes</button>&nbsp;
+{% end block %}

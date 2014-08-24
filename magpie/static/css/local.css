@@ -1,0 +1,13 @@
+.jumbotron > img {
+  max-width: 100%;
+}
+.extra-bottom-margin {
+  margin-bottom: 1em;
+}
+
+textarea,
+div[contenteditable='true'] {
+  width: 100%;
+  min-height: 200px;
+  border: 1px solid #DDD;
+}
