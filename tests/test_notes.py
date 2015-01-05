@@ -49,3 +49,15 @@ class Test(BaseTest):
                         note='this is a test note')
         test_path = path.join(self.notebook_path, note_name)
         self.assertTrue(path.exists(test_path))
+
+    def test_create_latex_note(self):
+        note_name = 'test_latex_note'
+        note_content = '*test* _latex_ '
+        latex_content = '$a_1*\\foo$'
+        res = self.post(self.notebook_url + note_name,
+                        allow_errors=True,
+                        save=True,
+                        note=note_content + latex_content)
+        test_path = path.join(self.notebook_path, note_name)
+        self.assertTrue(note_content not in self.get(self.notebook_url + note_name).body)
+        self.assertTrue(latex_content in self.get(self.notebook_url + note_name).body)

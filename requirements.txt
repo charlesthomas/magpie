@@ -1,10 +1,12 @@
 argparse==1.2.1
 backports.ssl-match-hostname==3.4.0.2
+dulwich==0.9.7
 filemagic==1.6
 markdown2==2.2.1
+markdown2Mathjax==0.3.8
+nose==1.3.4
 py-bcrypt==0.4
 pyPdf==1.13
 sh==1.09
 tornado==3.2
 wsgiref==0.1.2
-dulwich==0.9.7

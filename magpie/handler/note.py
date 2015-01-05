@@ -4,6 +4,8 @@ from re import search
 
 from magic import Magic
 from markdown2 import markdown
+from markdown2Mathjax import sanitizeInput, reconstructMath
+
 from sh import ErrorReturnCode_1
 from tornado.web import authenticated
 from tornado.escape import url_escape
@@ -20,7 +22,7 @@ class NoteHandler(BaseHandler):
             starred.remove(full_name)
         self.set_cookie('starred_notes',
                         b64encode(','.join(starred).encode('utf8')),
-                        expires_days=365)
+                        expires=2667692112)
         if redir:
             self.redirect('/%s/%s' % (url_escape(notebook_name).replace('#', '%23'), url_escape(note_name).replace('#', '%23')))
 
@@ -52,8 +54,7 @@ class NoteHandler(BaseHandler):
             note_contents = open(path).read()
             self.render('note.html', notebook_name=notebook_name,
                         note_name=note_name, note_contents=note_contents,
-                        edit=True, autosave=self.settings['autosave'], 
-                        wysiwyg=self.settings['wysiwyg'])
+                        edit=True, autosave=self.settings['autosave'])
         else:
             if toggle > -1:
                 f = open(path)
@@ -101,12 +102,14 @@ class NoteHandler(BaseHandler):
         else:
             path = join(self.settings.repo, notebook_enc, note_enc)
         note_contents = open(path).read()
+        note_contents, math_contents = sanitizeInput(note_contents)
         note_contents = markdown(note_contents)
+        note_contents = reconstructMath(note_contents, math_contents)
         if highlight is not None:
             note_contents = self.highlight(note_contents, highlight)
         self.render('note.html', notebook_name=notebook_name,
                     note_name=note_name, note_contents=note_contents,
-                    edit=False, dot=dot, wysiwyg=self.settings['wysiwyg'])
+                    edit=False, dot=dot)
 
     def _view_file(self, notebook_name, note_name):
         path = join(self.settings.repo, notebook_name, note_name)
