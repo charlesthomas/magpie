@@ -23,15 +23,13 @@ def _rand_str(length=64):
 
 def make_app(config=None):
     root = path.dirname(__file__)
-    static_path = path.join(root, 'static')
-    template_path = path.join(root, 'template')
-
-    app_config = dict(static_path=static_path,
-                      template_path=template_path,
-                      login_url='/login')
 
     define('port', default='8080', type=int)
     define('address', default='localhost', type=str)
+    define('custom_static', default='', type=str)
+    define('custom_template', default='', type=str)
+    define('enable_custom_static', default=False, type=bool)
+    define('enable_custom_template', default=False, type=bool)
     define('testing', default=False, type=bool)
     define('repo', default=None, type=str)
     define('username', default=None, type=str)
@@ -44,6 +42,20 @@ def make_app(config=None):
         parse_config_file(config)
     else:
         parse_config_file(config_path.web)
+
+    if options.enable_custom_static:
+        static_path = options.custom_static or path.join(root, 'static')
+    else:
+        static_path = path.join(root, 'static')
+
+    if options.enable_custom_template:
+        template_path = options.custom_template or path.join(root, 'template')
+    else:
+        template_path = path.join(root, 'template')
+
+    app_config = dict(static_path=static_path,
+                      template_path=template_path,
+                      login_url='/login')
 
     if options.testing:
         app_config.update(debug=True)
