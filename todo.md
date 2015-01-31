@@ -1,8 +1,4 @@
 ## To Do
-### ``magpie/handler/search.py``
-(line 35) this doesn't play well with colons in filenames
-
-
 ### ``utils/email_notes.py``
 (line 43) there seems to be a bug where other notes in other notebooks can be deleted
 

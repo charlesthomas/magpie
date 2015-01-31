@@ -47,9 +47,9 @@ class BaseHandler(RequestHandler):
         return sorted(starred) + sorted(unstarred)
 
     def highlight(self, text, highlight):
-        return text.replace(highlight.encode('utf8'),
-                            "<font style=background-color:yellow>%s</font>" % \
-                            highlight.encode('utf8'))
+        return re.sub( highlight.encode('utf8'), 
+            lambda m: "<font style=background-color:yellow>" + m.group() \
+            + "</font>", text, flags=re.IGNORECASE)
 
     def get_current_user(self):
         if self.settings.username is None and self.settings.pwdhash is None \
