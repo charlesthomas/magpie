@@ -26,7 +26,8 @@ class BaseHandler(RequestHandler):
             return []
 
         return sorted([self.decode_name(nb) for nb in \
-                       listdir(self.settings.repo) if nb != ''])
+                       listdir(self.settings.repo) \
+                       if (nb != '' and path.isdir(path.join(self.settings.repo, nb)) ) ])
 
     def _notes_list(self, notebook_name):
         notes_path = path.join(self.settings.repo,
