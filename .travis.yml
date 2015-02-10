@@ -1,4 +1,6 @@
 language: python
+before_install:
+  - git config --global user.name 'TravisCI'
 install: "pip install -r requirements.txt"
 script: python setup.py test
 python:
