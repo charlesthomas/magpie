@@ -32,7 +32,7 @@ class ConfigHandler(BaseHandler):
             elif self.ALLOWED[key] == bool:
                 new[key] = bool(val)
         config_file = open(self.settings.config_path.web, 'w')
-        for key, val in new.items():
+        for key, val in sorted(new.items()):
             if self.ALLOWED[key] == str:
                 config_file.write("%s='%s'\n" % (key, val))
             else:

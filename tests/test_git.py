@@ -1,4 +1,4 @@
-from os import path
+from os import path, linesep
 
 from sh import git
 
@@ -16,7 +16,7 @@ class Test(BaseTest):
             res = self.post('/' + self.notebook_name)
 
     def fetch_log(self):
-        return self.git.log('-p', '-n', '1', '--no-color').split('\r\n')
+        return self.git.log('-p', '-n', '1', '--no-color').split(linesep)
 
     def test_creating_note_commits_to_git(self):
         note_name = 'new_note'
