@@ -46,6 +46,28 @@
   </div>
   <div class="form-group">
     <label>
+      <input type="checkbox" name="enable_custom_static"{% if config.get('enable_custom_static', 'False') == 'True' %} checked="on"{% end if %} />
+        Enable custom static path
+    </label>
+  </div>
+  <div class="form-group">
+    <label class=control-label for=custom_static>Custom Static Path</label>
+      <input type="text" class=form-control name="custom_static" value="{{ config['custom_static'] }}" placeholder="Custom Static Path"/> 
+      <span class=help-block>Static assets will be served from this path, instead of the default static assets.</span>
+  </div>
+  <div class="form-group">
+    <label>
+      <input type="checkbox" name="enable_custom_template"{% if config.get('enable_custom_template', 'False') == 'True' %} checked="on"{% end if %} />
+        Enable custom template path
+    </label>
+  </div>
+  <div class="form-group">
+    <label class=control-label for=custom_template>Custom Template Path</label>
+      <input type="text" class=form-control name="custom_template" value="{{ config['custom_template'] }}" placeholder="Custom Template Path"/> 
+      <span class=help-block>Templates will be served from this path, instead of the default templates.</span>
+  </div>
+  <div class="form-group">
+    <label>
       <input type="checkbox" name="testing"{% if config.get('testing', 'False') == 'True' %} checked="on"{% end if %} /> Test Mode
     </label>
     <span class="help-block">Enables logging, you probably want to leave this off.</span>
