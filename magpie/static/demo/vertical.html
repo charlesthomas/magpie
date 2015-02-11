@@ -47,6 +47,13 @@
       {
         padding: 1em 0 1em 21.8em;
       }
+      #notes,
+      #notebooks,
+      #body
+      {
+        transform: translate3d(0,0,0);
+        transition: width .35s, left .35s, padding-left .35s;
+      }
       @media (max-width: 768px) {
         #notebooks 
         {
@@ -60,12 +67,6 @@
           overflow: hidden;
           width: 1em;
           left: 1em;
-        }
-        #notes,
-        #notebooks 
-        {
-          transform: translate3d(0,0,0);
-          transition: width .5s, left .5s;
         }
         #notebooks > ol > li,
         #notes     > ol > li 
