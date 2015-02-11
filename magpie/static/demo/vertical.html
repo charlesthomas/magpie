@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
     <style>
       body
       {
@@ -46,7 +47,7 @@
       {
         padding: 1em 0 1em 21.8em;
       }
-      @media (max-width: 640px) {
+      @media (max-width: 365px) {
         #notebooks 
         {
           font-size: 1em;
@@ -199,7 +200,7 @@
         var notebooks = document.getElementById("notebooks").getElementsByTagName("li");
         var notes = document.getElementById("notes").getElementsByTagName("ol");
         var open = function(){
-          if(document.body.offsetWidth >= 640){
+          if(document.body.offsetWidth >= 375){
             return 0;
           }
           for(var i in divs){
