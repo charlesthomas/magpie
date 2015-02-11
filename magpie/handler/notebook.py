@@ -3,7 +3,7 @@ from os import listdir, makedirs, path
 from tornado.web import authenticated
 
 from base import BaseHandler
-
+from pprint import pprint
 class NotebookHandler(BaseHandler):
     @authenticated
     def get(self, notebook_name):
@@ -15,7 +15,12 @@ class NotebookHandler(BaseHandler):
             self.redirect('/')
         else:
             notebook_path = path.join(self.settings.repo, notebook_name)
+            #notebook_contents = []
+            #for fil in listdir(notebook_path):
+            #    if not fil.startswith('.'):
+            #        notebook_contents.append(fil)
             notebook_contents = listdir(notebook_path)
+            pprint(notebook_contents)
             if '.git' in notebook_contents:
                 notebook_contents.remove('.git')
             self.render('notebook.html', notebook_name=notebook_name,
