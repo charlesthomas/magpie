@@ -27,6 +27,7 @@
         height: 100%;
         width: 8em;
         overflow-y: auto;
+        left: 0;
       }
       #notes
       {
@@ -43,7 +44,51 @@
       }
       #body 
       {
-        padding: 1em 21.8em;
+        padding: 1em 0 1em 21.8em;
+      }
+      @media (max-width: 768px) {
+        #notebooks 
+        {
+          font-size: 1em;
+          overflow: hidden;
+          width: 1em;
+        }
+        #notes
+        {
+          font-size: 1em;
+          overflow: hidden;
+          width: 1em;
+          left: 1em;
+        }
+        #notes,
+        #notebooks 
+        {
+          transform: translate3d(0,0,0);
+          transition: width .5s, left .5s;
+        }
+        #notebooks > ol > li,
+        #notes     > ol > li 
+        {
+          overflow: hidden;
+          white-space: nowrap;
+        }
+        #notebooks.slide, 
+        #notes.slide 
+        {
+          width: 8em;
+        }
+        #notes.slide
+        {
+          left: 8em;
+        }
+        #body 
+        {
+          padding-left: 3em;
+        }
+        #body.slide 
+        {
+          padding-left: 17em;
+        }
       }
       #notebooks > ol,
       #notes     > ol
@@ -150,30 +195,64 @@
     </div>
     <script>
       (function(){
+        var divs = [document.getElementById("notebooks"), document.getElementById("notes"), document.getElementById("body")];
         var notebooks = document.getElementById("notebooks").getElementsByTagName("li");
         var notes = document.getElementById("notes").getElementsByTagName("ol");
-        //accordian the notes
+        var open = function(){
+          if(document.body.offsetWidth >= 768){
+            return 0;
+          }
+          for(var i in divs){
+            if(divs[i].className.match(/(\s|^)slide(\s|$)/g)){
+              //they're open
+              return 0;
+            }
+            divs[i].className += " slide";
+          }
+          return 1;
+        };
+        var close = function(){
+          for(var i in divs){
+            divs[i].className = divs[i].className.replace(/(\s|^)slide(\s|$)/g, "");
+          }
+        };
+        for(var i in divs){
+          divs[i].ontouch = divs[i].onclick = function(e){
+            if(!open()){
+              close();
+            }
+            e.stopPropagation();
+          };
+        }
         for(var j in notes){
           (function(ol){
             try {
               var elems = ol.getElementsByTagName("li");
               for(var i in elems){
                 elems[i].onclick = elems[i].ontouch = function(e){
+                  e.stopPropagation();
+                  if(open()){
+                    return;
+                  }
                   document.getElementById("body").innerHTML = "You're now viewing notebook: \"<i>" + document.getElementById("notebooks").getElementsByClassName("active")[0].textContent + "</i>\" and note \"<i>" + this.textContent + "</i>\"";
                   for(var i in elems){
                     try {
                       elems[i].className = elems[i].className.replace(/(\s|^)active(\s|$)/g, "");
                     } catch(e) { }
                   }
+                  close();
                   this.className += " active";
                 };
               }
             } catch(e) { }
           })(notes[j]);
         }
-        //accordian the notebooks
         for(var i in notebooks){
           notebooks[i].onclick = notebooks[i].ontouch = function(e){
+            e.stopPropagation();
+            if(open()){
+              return;
+            }
             //show the right notes
             for(var i in notes){ 
               try {
