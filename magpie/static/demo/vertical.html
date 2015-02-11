@@ -47,7 +47,7 @@
       {
         padding: 1em 0 1em 21.8em;
       }
-      @media (max-width: 645px) {
+      @media (max-width: 768px) {
         #notebooks 
         {
           font-size: 1em;
@@ -200,7 +200,7 @@
         var notebooks = document.getElementById("notebooks").getElementsByTagName("li");
         var notes = document.getElementById("notes").getElementsByTagName("ol");
         var open = function(){
-          if(document.body.offsetWidth >= 415){
+          if(document.body.offsetWidth >= 768){
             return 0;
           }
           for(var i in divs){
