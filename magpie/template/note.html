@@ -38,19 +38,11 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
 {% end block %}
 
 {% block body %}
-  <ol class="breadcrumb">
-    <li><a href="/{{ url_escape(notebook_name) }}">{{ notebook_name }}</a></li>
-    <li><a href="/{{ url_escape(notebook_name) }}/{{ url_escape(note_name) }}">{{ note_name }}</a></li>
-  </ol>
-
   {% if edit %}
-    <br>
     <button class="btn btn-primary visible-xs" onclick="$('.row-offcanvas').toggleClass('active');">Notes</button>
     <form method=POST>
     <input type=submit class="btn btn-success" value=Save name=save>
     <input type=submit class="btn btn-danger" value=Cancel name=cancel>
-    <br>
-    <br>
     {% if wysiwyg %}
         {# xhtml_escape(note_contents) #}
       <div  class="editable">
@@ -78,14 +70,13 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
     {% end if %}
   {% else %}
     <br>
-    <button class="btn btn-primary visible-xs" onclick="$('.row-offcanvas').toggleClass('active');">&lt; Notes</button>&nbsp;
     <button class='btn btn-primary'
       {% if u'%s/%s' % (notebook_name, note_name) in starred_notes %}
           onclick="window.location='{{ url_escape(note_name) }}?a=unstar'">
-          <span class="glyphicon glyphicon-star"></span>
+          <i class="fa fa-star"></i>
       {% else %}
           onclick="window.location='{{ url_escape(note_name) }}?a=star'">
-          <span class="glyphicon glyphicon-star-empty"></span>
+          <i class="fa fa-star-o"></i>
       {% end if %}
     </button>
     {% if dot %}

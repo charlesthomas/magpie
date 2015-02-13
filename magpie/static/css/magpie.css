@@ -1,0 +1,190 @@
+/* Tony O'Dell */
+body
+{
+  webkit-box-sizing: border-box;
+  moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-family: 'Noto Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #000;
+}
+h1,h2,h3,h4,h5 
+{
+  font-family: 'Bree Serif';
+  text-transform: lowercase;
+  line-height: 1.5;
+  margin: 0;
+}
+textarea
+{
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 1em;
+  color: #000;
+}
+#notebooks > ol > li > a,
+#notes     > ol > li > a
+{
+  color: #000;
+  font-family: 'Noto Sans', sans-serif;
+  text-decoration: none;
+}
+#header 
+{
+  font-family: 'Bree Serif';
+  font-size: 1.8em;
+  line-height: 2;
+  margin: -.5em -.5em 0 -.5em;
+  padding: 0 1em;
+  border-bottom: 2px solid rgba(127,127,127,.5);
+}
+#notebooks
+{
+  font-size: 1em;
+  line-height: 4;
+  padding: 2em;
+  background: #8FB2A2;
+  color: #000;
+  position: fixed;
+  height: 100%;
+  width: 10em;
+  overflow-y: auto;
+  left: 0;
+}
+#notes
+{
+  font-size: 1em;
+  line-height: 4;
+  padding: 2em;
+  background: #C7BBA3;
+  color: #000;
+  position: fixed;
+  left: 14em;
+  height: 100%;
+  width: 9em;
+  overflow-y: auto;
+}
+#body 
+{
+  padding: 1em 0 1em 0;
+  left: 28em;
+  right: 1em;
+  position: absolute;
+}
+#content
+{
+  font-size: 1.2em;
+}
+#notes,
+#notebooks,
+#body
+{
+  transform: translate3d(0,0,0);
+  transition: width .35s, left .35s;
+}
+#notebooks > ol,
+#notes     > ol
+{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#notes > ol > li,
+#notebooks > ol > li
+{
+  padding: 0 0 0 0;
+}
+#notebooks > ol > li, 
+#notes > ol > li 
+{
+  border-right: 1em solid rgba(127,127,127,.4);
+  margin-right: -2em;
+}
+#notebooks > ol > li.active 
+{
+  border-right: 1em solid #F5582C;
+}
+#notes > ol > li.active 
+{
+  border-right: 1em solid #DE9828;
+}
+@media (max-width: 768px) {
+  #notebooks 
+  {
+    font-size: 1em;
+    overflow: hidden;
+    width: 1em;
+  }
+  #notes
+  {
+    font-size: 1em;
+    overflow: hidden;
+    width: 1em;
+    left: 1em;
+  }
+  #notebooks,
+  #notes
+  {
+    margin: 0;
+    padding: 0;
+  }
+  #notebooks > *, 
+  #notes > *,
+  #notes > ol.active
+  {
+    display: none; 
+  }
+  #notebooks.slide > *, 
+  #notes.slide > *,
+  #notes.slide > ol.active
+  {
+    display: inherit; 
+  }
+  #notebooks.slide,
+  #notes.slide
+  {
+    padding: 1em; 
+  }
+  #notebooks > ol > li,
+  #notes     > ol > li 
+  {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  #notebooks > ol > li 
+  {
+    margin-right: 1em;
+  }
+  #notes > ol > li 
+  {
+    margin-right: -1em;
+  }
+  #notebooks.slide, 
+  #notes.slide 
+  {
+    width: 12em;
+  }
+  #notes.slide 
+  {
+    width: 10em;
+  }
+  #notes.slide
+  {
+    left: 12em;
+  }
+  #body 
+  {
+    left: 3em;
+  }
+  #body.slide 
+  {
+    left: 17em;
+  }
+}
+
+
+.hidden
+{
+  display: none;
+}
