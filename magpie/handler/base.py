@@ -10,17 +10,20 @@ class BaseHandler(RequestHandler):
         kwargs.update(starred_notes=self.starred_notes)
 
         notebooks = self._notebooks_list(kwargs.get('hide_notebooks', False))
-        notebook_name = kwargs.get('notebook_name', None)
-        if notebooks[0] == '.git':
-            notebooks.pop(0)
-        if notebook_name is None:
-            notebook_name = notebooks[0]
-            kwargs['notebook_name'] = notebooks[0]
+        notebook_name = kwargs.get('notebook_name', '')
+        if len(notebooks) > 0:
+            if notebooks[0] == '.git':
+                notebooks.pop(0)
+            if notebook_name is None:
+                notebook_name = notebooks[0]
+                kwargs['notebook_name'] = notebooks[0]
+        else:
+            kwargs['notebook_name'] = ''
         kwargs['notebooks'] = notebooks
         
         notes = self._notes_list(notebook_name)
         kwargs['notes'] = notes
-        kwargs['note_name'] = kwargs.get('note_name', notes[0]);
+        kwargs['note_name'] = kwargs.get('note_name', notes[0] if len(notes) > 0 else '');
 
         super(BaseHandler, self).render(template, **kwargs)
 
@@ -36,8 +39,9 @@ class BaseHandler(RequestHandler):
         notes_path = path.join(self.settings.repo,
                                self.encode_name(notebook_name))
 
+        
         all_notes = [n for n in listdir(notes_path) if not \
-                     n.startswith('.')]
+                     n.startswith('.')] if path.isdir(notes_path) else []
         starred = []
         unstarred = []
 
