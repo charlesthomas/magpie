@@ -44,7 +44,7 @@ textarea
   font-size: 1em;
   line-height: 4;
   padding: 2em;
-  background: #8FB2A2;
+  background: #274952;
   color: #000;
   position: fixed;
   height: 100%;
@@ -56,14 +56,15 @@ textarea
 {
   font-size: 1em;
   line-height: 4;
-  padding: 2em;
-  background: #C7BBA3;
+  padding: 0;
+  background: #FFF;
   color: #000;
   position: fixed;
   left: 14em;
   height: 100%;
   width: 9em;
   overflow-y: auto;
+  border-right: 2px solid rgba(200,200,200,.2);
 }
 #body 
 {
@@ -90,24 +91,23 @@ textarea
   padding: 0;
   list-style: none;
 }
-#notes > ol > li,
 #notebooks > ol > li
 {
-  padding: 0 0 0 0;
+  line-height: 2.5em; 
 }
-#notebooks > ol > li, 
-#notes > ol > li 
+#notebooks *,
+#notebooks > ol > li > a
 {
-  border-right: 1em solid rgba(127,127,127,.4);
-  margin-right: -2em;
+  color: #FFF;
 }
-#notebooks > ol > li.active 
+#notes > ol > li
 {
-  border-right: 1em solid #F5582C;
+  padding: 0 0 0 2em;
+  border-top: 2px solid rgba(200,200,200,.2);
 }
-#notes > ol > li.active 
+#notes > ol > li:last-child
 {
-  border-right: 1em solid #DE9828;
+  border-bottom: 2px solid rgba(200,200,200,.2);
 }
 @media (max-width: 768px) {
   #notebooks 
@@ -187,4 +187,35 @@ textarea
 .hidden
 {
   display: none;
+}
+
+#searchbox 
+{
+  position: relative;
+  font-size: 2em;
+  line-height: 2.5em;
+  height: 2em;
+}
+#searchbox > * 
+{
+  font-size: 1em;
+  line-height: 2em;
+}
+#searchbox > input 
+{
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  border: 0;
+  background: transparent;
+  padding-left: 1.3em;
+  color: #000;
+}
+
+#searchbox > i 
+{
+  position: absolute;
+  padding-left: .2em;
 }

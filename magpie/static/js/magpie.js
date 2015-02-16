@@ -19,11 +19,15 @@
 
 
   /* MENU STUFF */
+  var drag = false;
   var divs = [document.getElementById("notebooks"), document.getElementById("notes"), document.getElementById("body")];
   var notebooks = document.getElementById("notebooks").getElementsByTagName("li");
   var notes = document.getElementById("notes").getElementsByTagName("ol");
-  var open = function(){
+  var open = function(e){
     if(document.body.offsetWidth >= 768){
+      if(e == document.getElementById("notes")){
+        drag = true; 
+      }
       return 0;
     }
     for(var i in divs){
@@ -40,9 +44,65 @@
       divs[i].className = divs[i].className.replace(/(\s|^)slide(\s|$)/g, "");
     }
   };
+  var newwidth = function(ele, eve){
+    return eve.clientX - ele.offsetLeft - (ele.offsetWidth-parseInt(getComputedStyle(ele)['width']));
+  };
+  var setbody = function(){
+    var nb = document.getElementById("notebooks");
+    var n = document.getElementById("notes");
+      document.getElementById("body").style.left = 
+        parseInt(nb.style.width) + 
+        parseInt(n.style.width) + 
+        nb.offsetWidth - parseInt(getComputedStyle(nb)['width']) +
+        n.offsetWidth - parseInt(getComputedStyle(n)['width']) +
+        parseInt(getComputedStyle(document.getElementById("body"))['font-size']) + 
+        "px";
+  };
+  if(localStorage){
+    var notebookw = localStorage.getItem("styles_notebookpane_width");
+    var notew = localStorage.getItem("styles_notepane_width");
+    var nb = document.getElementById("notebooks");
+    var n = document.getElementById("notes");
+
+    if(notebookw){ 
+      nb.style.width = notebookw;
+      var pad = nb.offsetWidth - parseInt(getComputedStyle(nb)['width']);
+      n.style.left = pad + parseInt(notebookw) + "px";
+    }
+    if(notew){ 
+      document.getElementById("notes").style.width = notew;
+    }
+    setbody();
+  }
+  document.getElementById("search").onmousedown = function(e){ e.stopPropagation(); };
+  document.getElementById("notes").onmousemove = function(e){
+    if(drag){
+      var w = newwidth(this,e);
+      this.style.width = w + 'px'; 
+      setbody();
+      if(localStorage){
+        localStorage.setItem("styles_notepane_width", w + "px");
+      }
+    }
+  };
+  document.getElementById("notebooks").onmousemove = function(e){
+    if(drag){
+      var w = newwidth(this,e);
+      var pad = this.offsetWidth - parseInt(getComputedStyle(this)['width']) - 2;
+      var nb = document.getElementById("notebooks");
+      var n = document.getElementById("notes");
+      this.style.width = w + 'px'; 
+      n.style.left = pad + w + "px";
+      setbody();
+      if(localStorage){
+        localStorage.setItem("styles_notebookpane_width", w + "px");
+      }
+    }
+  };
   for(var i in divs){
+    divs[i].onmouseup = function(e){ drag = false; };
     divs[i].ontouchstart = divs[i].onmousedown = function(e){
-      if(!open()){
+      if(!open(this)){
         close();
       }
       e.stopPropagation();
@@ -57,7 +117,7 @@
             if(elems[i].getAttribute("data-available") != "0"){
               elems[i].onmousedown = elems[i].ontouchstart = function(e){
                 e.stopPropagation();
-                if(open()){
+                if(open(this)){
                   return;
                 }
                 for(var i in elems){
@@ -79,7 +139,7 @@
       if(notebooks[i].getAttribute("data-available") != "0"){
         notebooks[i].onmousedown = notebooks[i].ontouchstart = function(e){
           e.stopPropagation();
-          if(open()){
+          if(open(this)){
             return;
           }
           //show the right notes
