@@ -17,6 +17,8 @@ class BaseHandler(RequestHandler):
             if notebook_name is None:
                 notebook_name = notebooks[0]
                 kwargs['notebook_name'] = notebooks[0]
+            else:
+                kwargs['notebook_name'] = notebook_name
         else:
             kwargs['notebook_name'] = ''
         kwargs['notebooks'] = notebooks
