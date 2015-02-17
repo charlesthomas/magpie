@@ -75,7 +75,7 @@
     setbody();
   }
   document.getElementById("search").onmousedown = function(e){ e.stopPropagation(); };
-  document.body.onmouseup = function(e){
+  document.body.onmouseup = window.onmouseup = function(e){
     drag = false;
   };
   document.body.onmousemove = function(e){
@@ -84,8 +84,8 @@
     }
   };
   document.getElementById("notes").onmousemove = function(e){
-    if(drag){
-      var n = document.getElementById("notes");
+    var n = document.getElementById("notes");
+    if(drag == n.onmousemove){
       var w = newwidth(n,e);
       n.style.width = w + 'px'; 
       setbody();
@@ -95,9 +95,9 @@
     }
   };
   document.getElementById("notebooks").onmousemove = function(e){
-    if(drag){
-      var nb = document.getElementById("notebooks");
-      var n = document.getElementById("notes");
+    var nb = document.getElementById("notebooks");
+    var n = document.getElementById("notes");
+    if(drag == nb.onmousemove){
       var w = newwidth(nb,e);
       var pad = nb.offsetWidth - parseInt(getComputedStyle(nb)['width']) - 2;
       nb.style.width = w + 'px'; 

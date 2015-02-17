@@ -206,11 +206,11 @@ textarea
   position: absolute;
   left: 0;
   top: 0;
-  right: 0;
+  width: 99%;
   bottom: 0;
   border: 0;
   background: transparent;
-  padding-left: 1.3em;
+  text-indent: 1.3em;
   color: #000;
 }
 
