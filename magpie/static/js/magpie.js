@@ -25,8 +25,8 @@
   var notes = document.getElementById("notes").getElementsByTagName("ol");
   var open = function(e){
     if(document.body.offsetWidth >= 768){
-      if(e == document.getElementById("notes")){
-        drag = true; 
+      if(e == document.getElementById("notes") || e == document.getElementById("notebooks")){
+        drag = e.onmousemove;
       }
       return 0;
     }
@@ -75,10 +75,19 @@
     setbody();
   }
   document.getElementById("search").onmousedown = function(e){ e.stopPropagation(); };
+  document.body.onmouseup = function(e){
+    drag = false;
+  };
+  document.body.onmousemove = function(e){
+    if(drag){
+      drag(e);
+    }
+  };
   document.getElementById("notes").onmousemove = function(e){
     if(drag){
-      var w = newwidth(this,e);
-      this.style.width = w + 'px'; 
+      var n = document.getElementById("notes");
+      var w = newwidth(n,e);
+      n.style.width = w + 'px'; 
       setbody();
       if(localStorage){
         localStorage.setItem("styles_notepane_width", w + "px");
@@ -87,11 +96,11 @@
   };
   document.getElementById("notebooks").onmousemove = function(e){
     if(drag){
-      var w = newwidth(this,e);
-      var pad = this.offsetWidth - parseInt(getComputedStyle(this)['width']) - 2;
       var nb = document.getElementById("notebooks");
       var n = document.getElementById("notes");
-      this.style.width = w + 'px'; 
+      var w = newwidth(nb,e);
+      var pad = nb.offsetWidth - parseInt(getComputedStyle(nb)['width']) - 2;
+      nb.style.width = w + 'px'; 
       n.style.left = pad + w + "px";
       setbody();
       if(localStorage){
