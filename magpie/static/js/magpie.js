@@ -3,14 +3,31 @@
   /* MODALS */
   var modals = document.getElementsByClassName("modal");
   var togglers = document.querySelectorAll("[data-toggle='modal']");
+  var closers = document.querySelectorAll("[data-dismiss='modal']");
+  var tflag = true;
+  for(var i in closers){
+    closers[i].ontouchstart = closers[i].onclick = function(){
+      for(var i in modals){
+        try{
+          if(modals[i].className.indexOf("hidden") == -1){
+            modals[i].className += " hidden";
+          }
+        } catch(e) { }
+      }
+    }
+  }
   for(var i in togglers){
     togglers[i].ontouchstart = togglers[i].onmousedown = function(){
-      var id = this.getAttribute("data-modal");
+      var id = this.getAttribute("data-target");
       for(var i in modals){
-        if(modals[i].getAttribute("id") == id){
-          modals[i].className = modals[i].className.replace(/(\s|^)hidden(\s|$)/g, "");
-          return;
-        }
+        try{
+          console.log(modals[i].getAttribute("id"), id);
+          if(modals[i].getAttribute("id") == id){
+            tflag = false;
+            modals[i].className = modals[i].className.replace(/(\s|^)hidden(\s|$)/, "");
+            return;
+          }
+        } catch(e) { }
       }
     };
   }

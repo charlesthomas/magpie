@@ -51,11 +51,6 @@
     <div id="notebooks">
       <h2>Notebooks</h2>
       <ol>
-        <li data-available="0">
-          <span data-toggle="modal" data-target="#newnotebook">
-            New notebook
-          </span>
-        </li>
         {% for notebook in notebooks %}
           {% if notebook != '.git' %}
                 <li {% if notebook_name == notebook %}class="active"{% end if %}>
@@ -65,13 +60,11 @@
                 </li>
           {% end if %}
         {% end for %}
-      <!--  <li>
-          <button class="btn btn-md btn-primary" data-toggle="modal" data-target="#newnotebook"> 
-            New Notebook+
-          </button>
+        <li data-available="0">
+          <span data-toggle="modal" data-target="newnotebook">
+            <i class="fa fa-plus-circle"></i> New notebook
+          </span>
         </li>
-      </ul>
-      !-->
       </ol>
     </div>
     <div id="notes">
@@ -88,22 +81,27 @@
        !-->
 {% if notebook_name != u'' %}
       <ol>
-              {% for note in notes %}
-                <li{% if note == note_name %} class="active"{% end if %}>
-                  <a href="/{{ url_escape(notebook_name) }}/{{ url_escape(note) }}">
-                    {% if u'%s/%s' % (notebook_name, note) in starred_notes %}
-                      <span class='glyphicon glyphicon-star'></span>
-                    {% else %}
-                      <span class='glyphicon glyphicon-star-empty'></span>
-                    {% end if %}
-                    {{ note }}
-                  </a>
-                </li>
-              {% end for %}
+        {% for note in notes %}
+          <li{% if note == note_name %} class="active"{% end if %}>
+            <a href="/{{ url_escape(notebook_name) }}/{{ url_escape(note) }}">
+              {% if u'%s/%s' % (notebook_name, note) in starred_notes %}
+                <i class='fa fa-star'></i>
+              {% else %}
+                <i class='fa fa-star-o'></i>
+              {% end if %}
+              {{ note }}
+            </a>
+          </li>
+        {% end for %}
+        <li data-available="0">
+          <span data-toggle="modal" data-target="newnote">
+            <i class="fa fa-plus-circle"></i> New note
+          </span>
+        </li>
       </ol>
 {% end if %}
     </div>
-    <div class="modal fade" id="newnote">
+    <div class="modal hidden" id="newnote">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -117,13 +115,13 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             <input onclick="new_note(this);" type="button" class="btn btn-primary" value="Create" /> 
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="modal fade" id="newnotebook">
+    <div class="modal hidden" id="newnotebook">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -137,8 +135,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               <input onclick="new_notebook(this);" type="button" class="btn btn-primary" value="Create" /> 
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
           </div>
         </div>

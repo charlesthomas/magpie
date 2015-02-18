@@ -44,7 +44,7 @@ textarea
   font-size: 1em;
   line-height: 4;
   padding: 2em;
-  background: #274952;
+  background: #1F3A42;//274952;
   color: #000;
   position: fixed;
   height: 100%;
@@ -218,4 +218,112 @@ textarea
 {
   position: absolute;
   padding-left: .2em;
+}
+
+.modal:before
+{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background: rgba(0,0,0,.5);
+}
+
+.modal-dialog
+{
+  background:#FFF;
+  border-radius: 3px;
+  box-shadow 6px 6px #000;
+  width: 30%;
+  position: absolute;
+  bottom: 50%;
+  left: 35%;
+  font-size: 1.5em;
+}
+.modal-header,
+.modal-body
+{
+  padding: .25em 1em;
+  border-bottom: 2px solid #efefef;
+}
+.modal-footer
+{
+  padding: .25em 1em;
+}
+.modal-header > h4 
+{
+  float: left;
+}
+.modal-header > button
+{
+  float: right;
+}
+.modal-header:after,
+.modal-footer:after
+{
+  clear: both;
+  content: "";
+  display: block;
+}
+.modal-footer > .btn 
+{
+  float: right;
+}
+
+#notebooks ol > li > a:before 
+{
+  content: ' ';
+  display: inline-block;
+  height: .6em;
+  width: .6em;
+  margin-bottom: -.15em;
+  border-radius: 1em;
+  background:rgba(255,255,255,.25);
+  border: 3px solid rgba(255,255,255,.75);
+  -webkit-box-shadow: 0 0 3px 0px rgba(255,255,255,0.25);
+  -moz-box-shadow: 0 0 3px 0px rgba(255,255,255,0.25);
+  box-shadow: 0 0 3px 0px rgba(255,255,255,0.5);
+}
+
+#notebooks ol > li:nth-child(5n) > a:before
+{
+  background:rgba(170,255,0,.25);
+  border: 3px solid rgba(170,255,0,.75);
+  -webkit-box-shadow: 0 0 3px 0px rgba(170,255,0,0.25);
+  -moz-box-shadow: 0 0 3px 0px rgba(170,255,0,0.25);
+  box-shadow: 0 0 3px 0px rgba(170,255,0,0.5);
+}
+#notebooks ol > li:nth-child(1n) > a:before
+{
+  background:rgba(255,170,0,.25);
+  border: 3px solid rgba(255,170,0,.75);
+  -webkit-box-shadow: 0 0 3px 0px rgba(255,170,0,0.25);
+  -moz-box-shadow: 0 0 3px 0px rgba(255,170,0,0.25);
+  box-shadow: 0 0 3px 0px rgba(255,170,0,0.5);
+}
+#notebooks ol > li:nth-child(2n) > a:before
+{
+  background:rgba(255,0,170,.25);
+  border: 3px solid rgba(255,0,170,.75);
+  -webkit-box-shadow: 0 0 3px 0px rgba(255,0,170,0.25);
+  -moz-box-shadow: 0 0 3px 0px rgba(255,0,170,0.25);
+  box-shadow: 0 0 3px 0px rgba(255,0,170,0.5);
+}
+#notebooks ol > li:nth-child(3n) > a:before
+{
+  background:rgba(170,0,255,.25);
+  border: 3px solid rgba(170,0,255,.75);
+  -webkit-box-shadow: 0 0 3px 0px rgba(170,0,255,0.25);
+  -moz-box-shadow: 0 0 3px 0px rgba(170,0,255,0.25);
+  box-shadow: 0 0 3px 0px rgba(170,0,255,0.5);
+}
+#notebooks ol > li:nth-child(4n) > a:before
+{
+  background:rgba(0,170,255,.25);
+  border: 3px solid rgba(0,170,255,.75);
+  -webkit-box-shadow: 0 0 3px 0px rgba(0,170,255,0.25);
+  -moz-box-shadow: 0 0 3px 0px rgba(0,170,255,0.25);
+  box-shadow: 0 0 3px 0px rgba(0,170,255,0.5);
 }
