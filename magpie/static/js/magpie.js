@@ -16,12 +16,16 @@
       }
     }
   }
+  window.onkeyup = function(e){
+    if(e.keyCode == 27){
+      closers[0].onclick();
+    }
+  };
   for(var i in togglers){
     togglers[i].ontouchstart = togglers[i].onmousedown = function(){
       var id = this.getAttribute("data-target");
       for(var i in modals){
         try{
-          console.log(modals[i].getAttribute("id"), id);
           if(modals[i].getAttribute("id") == id){
             tflag = false;
             modals[i].className = modals[i].className.replace(/(\s|^)hidden(\s|$)/, "");
@@ -31,8 +35,6 @@
       }
     };
   }
-  console.log(modals);
-  console.warn(togglers);
 
 
   /* MENU STUFF */
