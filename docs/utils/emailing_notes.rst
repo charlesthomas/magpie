@@ -29,7 +29,7 @@ In that file, you can set the following options:
 * repo: This is the git repo where your notes live (almost certainly should be
   the same path you specified when configuring the web application)
 * use_ssl: Do you want to connect securely to your IMAP server (recommended)
-  default_notebook: You can specify which notebook an email will be saved to in
+* default_notebook: You can specify which notebook an email will be saved to in
   the subject line of the email (see "Subject Syntax" below). If you don't
   specify that in the subject, your notes will default to this notebook.
 
