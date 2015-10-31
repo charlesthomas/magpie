@@ -56,6 +56,7 @@ class NoteHandler(BaseHandler):
             self.render('note.html', notebook_name=notebook_name,
                         note_name=note_name, note_contents=note_contents,
                         edit=True, autosave=self.settings['autosave'], 
+                        autosave_interval=self.settings['autosave_interval'],
                         wysiwyg=self.settings['wysiwyg'])
         else:
             if toggle > -1:

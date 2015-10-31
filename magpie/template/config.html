@@ -26,7 +26,7 @@
     <label>
       <input type="checkbox" name="autosave"{% if config.get('autosave', 'False') == 'True' %} checked="on"{% end if %} /> Autosave Notes
     </label>
-    <span class=help-block>Saves notes every 5 seconds in edit mode.</span>
+    <span class=help-block>Saves notes every <input type="number" name="autosave_interval" value="{{ config['autosave_interval'] or "5" }}" min="5" /> seconds in edit mode.</span>
   </div>
   <div class="form-group">
     <label>
