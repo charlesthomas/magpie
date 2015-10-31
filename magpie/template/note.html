@@ -78,14 +78,19 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
     {% if autosave %}
         <script>
           var autosave = function(){
-            $.ajax({
-               url:  "{{ url_escape(note_name) }}?a=edit"
-              ,type: "POST"
-              ,data: {
-                 save: "Save"
-                ,note: $("textarea").val()
-              }
-            });
+            if (dirty) {
+              $.ajax({
+                 url:  "{{ url_escape(note_name) }}?a=edit"
+                ,type: "POST"
+                ,data: {
+                   save: "Save"
+                  ,note: $("textarea").val()
+                }
+                ,success: function(data, textStatus, jqXHR) {
+                   setDirty(false);
+                }
+              });
+            }
           };
           setInterval(autosave, 5000);
         </script>
