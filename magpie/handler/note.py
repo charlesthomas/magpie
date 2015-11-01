@@ -176,7 +176,7 @@ class NoteHandler(BaseHandler):
         if bool(self.get_argument('save', False)):
             note = self.get_argument('note')
             toggle = self.get_argument('toggle', -1)
-            note_name_rename = self.get_argument('note_name_rename')
+            note_name_rename = self.get_argument('note_name_rename', None)
             self._edit(notebook_name=notebook_name, note_name=note_name,
                        note_contents=note, confirmed=True, toggle=toggle, note_name_rename=note_name_rename)
         elif bool(self.get_argument('delete', False)):
