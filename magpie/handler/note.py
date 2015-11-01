@@ -43,11 +43,14 @@ class NoteHandler(BaseHandler):
                         note_name=note_name)
 
     def _edit(self, notebook_name, note_name, note_contents=None,
-              confirmed=False, toggle=-1):
+              confirmed=False, toggle=-1, note_name_rename=None):
 
         notebook_enc = self.encode_name(notebook_name)
         note_enc = self.encode_name(note_name)
         path = join(self.settings.repo, notebook_enc, note_enc)
+        if note_name_rename:
+            rename_note_enc = self.encode_name(note_name_rename)
+            rename_path = join(self.settings.repo, notebook_enc, rename_note_enc)
         if not confirmed:
             note_contents = open(path).read()
             self.render('note.html', notebook_name=notebook_name,
@@ -90,6 +93,13 @@ class NoteHandler(BaseHandler):
             except ErrorReturnCode_1 as e:
                 if 'nothing to commit' not in e.message:
                     raise
+            if note_name_rename and note_name_rename != note_name:
+                # rename note
+                message = 'moving %s to %s' % (path, rename_path)
+                # TODO: don't force; do something more graceful
+                self.application.git.mv('-f', path, rename_path)
+                self.application.git.commit('-m', message)
+                note_enc = rename_note_enc
             self.redirect(note_enc.replace('#', '%23'))
 
     def _view_plaintext(self, notebook_name, note_name, highlight=None,
@@ -166,8 +176,9 @@ class NoteHandler(BaseHandler):
         if bool(self.get_argument('save', False)):
             note = self.get_argument('note')
             toggle = self.get_argument('toggle', -1)
+            note_name_rename = self.get_argument('note_name_rename')
             self._edit(notebook_name=notebook_name, note_name=note_name,
-                       note_contents=note, confirmed=True, toggle=toggle)
+                       note_contents=note, confirmed=True, toggle=toggle, note_name_rename=note_name_rename)
         elif bool(self.get_argument('delete', False)):
             self._delete(notebook_name, note_name, confirmed=True)
         else:
