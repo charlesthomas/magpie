@@ -37,6 +37,7 @@ def make_app(config=None):
     define('username', default=None, type=str)
     define('pwdhash', default=None, type=str)
     define('autosave', default=False, type=bool)
+    define('autosave_interval', default='5', type=int)
     define('wysiwyg', default=False, type=bool)
 
     if config is not None:
@@ -56,6 +57,7 @@ def make_app(config=None):
     server.settings.session = _rand_str()
     server.settings.config_path = config_path
     server.settings.autosave = options.autosave
+    server.settings.autosave_interval = options.autosave_interval
     server.settings.wysiwyg = options.wysiwyg
 
     server.git = git.bake(_cwd=server.settings.repo)
