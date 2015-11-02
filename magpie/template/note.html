@@ -47,6 +47,9 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
     <br>
     <button class="btn btn-primary visible-xs" onclick="$('.row-offcanvas').toggleClass('active');">Notes</button>
     <form method=POST>
+    <input type="text" name="note_name_rename" value="{{ note_name }}" >
+    <br>
+    <br>
     <input type=submit class="btn btn-success" value=Save name=save>
     <input type=submit class="btn btn-danger" value=Cancel name=cancel>
     <br>

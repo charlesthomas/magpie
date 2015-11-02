@@ -8,7 +8,7 @@ class Test(BaseTest):
     def setUp(self):
         super(Test, self).setUp()
 
-        self.git = git.bake(_cwd=self.path)
+        self.git = git.bake(_cwd=self.path, _tty_out=False)
         self.notebook_name = 'git_tests'
 
         # make notebook
@@ -59,3 +59,30 @@ class Test(BaseTest):
         self.assertTrue('removing %s' % full_path in log[4])
         self.assertTrue(log[12].startswith('-%s' % note_text),
                         msg=log[12])
+
+    def test_renaming_note_renames_in_git(self):
+        note_name = 'mv_note_src'
+        note_dest_name = 'mv_note_dest'
+        note_text = 'this should be renamed in git'
+
+        # make note
+        res = self.post('/%s/%s' % (self.notebook_name, note_name),
+                        save=True,
+                        note=note_text)
+
+        # rename note
+        res = self.post('/%s/%s' % (self.notebook_name, note_name),
+                        save=True,
+                        confirmed=True,
+                        note=note_text,
+                        note_name_rename=note_dest_name)
+
+        log = self.fetch_log()
+        full_src_path = path.join(self.path, self.notebook_name, note_name)
+        full_dest_path = path.join(self.path, self.notebook_name, note_dest_name)
+        self.assertTrue('moving %s to %s' % (full_src_path, full_dest_path) in log[4])
+        # expecting content inserted into one and removed from the other
+        self.assertTrue(log[12].startswith('+%s' % note_text),
+                        msg="Expecting '%s' to start with '+'" % log[12])
+        self.assertTrue(log[20].startswith('-%s' % note_text),
+                        msg="Expecting '%s' to start with '-'" % log[20])
