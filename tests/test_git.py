@@ -8,7 +8,7 @@ class Test(BaseTest):
     def setUp(self):
         super(Test, self).setUp()
 
-        self.git = git.bake(_cwd=self.path)
+        self.git = git.bake(_cwd=self.path, _tty_out=False)
         self.notebook_name = 'git_tests'
 
         # make notebook
