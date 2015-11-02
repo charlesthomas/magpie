@@ -30,6 +30,20 @@
         $("#savefail").removeClass("hidden");
       });
     }
+    var dirty = false;
+    function setDirty(val) {
+      if (dirty != val) {
+        // on change
+        dirty = val;
+        if (dirty) {
+          // on dirty
+          document.title = "*" + document.title
+        } else {
+          // on clean
+          document.title = document.title.substr(1)
+        }
+      }
+    }
   </script>
 {% end block %}
 
@@ -63,18 +77,23 @@ onload="checkbox_replace(document.getElementById('rendered_note'))";
 
       </div>
     {% end if %}
-    <textarea cols=100 rows=25 name=note tabindex=1{% if wysiwyg %} class="hidden"{% end if %}>{{ note_contents }}</textarea>
+    <textarea cols=100 rows=25 name=note tabindex=1{% if wysiwyg %} class="hidden"{% end if %} oninput="setDirty(true);">{{ note_contents }}</textarea>
     {% if autosave %}
         <script>
           var autosave = function(){
-            $.ajax({
-               url:  "{{ url_escape(note_name) }}?a=edit"
-              ,type: "POST"
-              ,data: {
-                 save: "Save"
-                ,note: $("textarea").val()
-              }
-            });
+            if (dirty) {
+              $.ajax({
+                 url:  "{{ url_escape(note_name) }}?a=edit"
+                ,type: "POST"
+                ,data: {
+                   save: "Save"
+                  ,note: $("textarea").val()
+                }
+                ,success: function(data, textStatus, jqXHR) {
+                   setDirty(false);
+                }
+              });
+            }
           };
           setInterval(autosave, 5000);
         </script>
