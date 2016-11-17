@@ -2,6 +2,12 @@
 magpie
 ======
 
+Security Notice
+===============
+**Magpie is no longer under active development.**
+There has been a `disclosure`_ of a bug that exposes the
+*entire filesystem* through Magpie.
+
 .. image:: https://dl.dropboxusercontent.com/u/402325/dontdelete/magpie.jpg
 
 magpie: [ma]rkdown, [g]it, [pie]thon
